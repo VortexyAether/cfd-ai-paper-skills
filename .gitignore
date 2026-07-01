@@ -1,6 +1,7 @@
 # Local agent/runtime state
 .omo/
 .tars/
+.codegraph
 
 # Python
 __pycache__/
