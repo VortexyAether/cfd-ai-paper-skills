@@ -2,6 +2,36 @@
 
 Agent skills for writing, reviewing, and hardening CFD-AI and scientific-ML papers with claim-evidence discipline.
 
+## Pipeline Visualization
+
+This package is built around reviewer-driven writing, not one-shot prose polishing.
+
+```mermaid
+flowchart TD
+    A[Draft or evidence packet] --> B[Source-scope contract]
+    B --> R[Reviewer\nFatal/Major rejection risks]
+    B --> E[Evidence auditor\nclaim -> evidence/TODO]
+    B --> X[Experiment planner\nvalidation, baselines, diagnostics]
+    B --> F[Figure/table editor\nclaim-linked artifacts]
+    R --> M[Orchestrator merge ledger]
+    E --> M
+    X --> M
+    F --> M
+    M --> P1[Prose editor\ncycle 1 rewrite]
+    P1 --> G1[Gatekeeper\nreview 1]
+    G1 -->|wording or structure fixable| P2[Prose editor\ncycle 2 revision]
+    P2 --> G2[Gatekeeper\nreview 2]
+    G1 -->|clean or evidence required| Z[Final text + residual-risk table]
+    G2 --> Z
+    Z --> N[Next experiments, tables, figures]
+```
+
+Default loop limits:
+
+- abstracts: max 2 edit-review cycles;
+- longer sections/full drafts: max 3 edit-review cycles;
+- stop early when remaining blockers require new evidence rather than wording.
+
 ## What This Is
 
 This repository is a skill package for coding and research agents that work on manuscripts, reviews, LaTeX drafts, experiment plans, reproducibility audits, and reviewer responses in CFD-AI / SciML.
@@ -35,36 +65,6 @@ This package pushes the agent to ask the questions reviewers ask:
 | LaTeX/PDF production | Produce build-ready LaTeX when requested and keep compile/build notes explicit. |
 | Review-paper taxonomy | Organize related work by workflow role, validation axis, and evidence level rather than citation order. |
 | Benchmark-aware validation | Separate random splits from held-out time, Reynolds number, geometry, mesh, BC/IC, and coupled-solver validation. |
-
-## Pipeline Visualization
-
-This package is built around reviewer-driven writing, not one-shot prose polishing.
-
-```mermaid
-flowchart TD
-    A[Draft or evidence packet] --> B[Source-scope contract]
-    B --> R[Reviewer\nFatal/Major rejection risks]
-    B --> E[Evidence auditor\nclaim -> evidence/TODO]
-    B --> X[Experiment planner\nvalidation, baselines, diagnostics]
-    B --> F[Figure/table editor\nclaim-linked artifacts]
-    R --> M[Orchestrator merge ledger]
-    E --> M
-    X --> M
-    F --> M
-    M --> P1[Prose editor\ncycle 1 rewrite]
-    P1 --> G1[Gatekeeper\nreview 1]
-    G1 -->|wording or structure fixable| P2[Prose editor\ncycle 2 revision]
-    P2 --> G2[Gatekeeper\nreview 2]
-    G1 -->|clean or evidence required| Z[Final text + residual-risk table]
-    G2 --> Z
-    Z --> N[Next experiments, tables, figures]
-```
-
-Default loop limits:
-
-- abstracts: max 2 edit-review cycles;
-- longer sections/full drafts: max 3 edit-review cycles;
-- stop early when remaining blockers require new evidence rather than wording.
 
 ## Installation And Quickstart
 
