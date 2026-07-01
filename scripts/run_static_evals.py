@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import argparse
 from pathlib import Path
 from typing import Final
 
@@ -36,6 +37,11 @@ class StaticEvalError(AssertionError):
 def require(condition: bool, message: str) -> None:
     if not condition:
         raise StaticEvalError(message)
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Run deterministic static eval checks.")
+    return parser.parse_args()
 
 
 def parse_simple_yaml_list(path: Path, allowed_keys: frozenset[str]) -> list[dict[str, str]]:
@@ -162,7 +168,9 @@ def task_skills(task_path: Path) -> list[str]:
     for line in task_path.read_text(encoding="utf-8").splitlines():
         stripped = line.strip()
         if stripped.startswith("## "):
-            in_section = stripped.lower() == "## skill under test"
+            in_section = stripped.lower() in ("## skill under test", "## skills under test")
+            continue
+        if in_section and stripped.endswith(":"):
             continue
         if in_section and stripped.startswith("- `") and stripped.endswith("`"):
             skills.append(stripped.removeprefix("- `").removesuffix("`"))
@@ -177,6 +185,7 @@ def run_all() -> tuple[int, int, int]:
 
 
 def main() -> int:
+    parse_args()
     trigger_count, schema_count, run_count = run_all()
     print(f"trigger_tests: {trigger_count}")
     print(f"schema_tests: {schema_count}")

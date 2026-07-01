@@ -24,6 +24,7 @@ RISKY_PHRASES: Final = (
     "physical consistency", "real-time", "state-of-the-art", "deployment-ready",
     "deployable", "general CFD acceleration", "3D turbulence", "three-dimensional",
     "PIV", "conservation", "Navier--Stokes residual", "Navier-Stokes residual",
+    "solve turbulence", "solves turbulence", "solved turbulence", "solved CFD",
 )
 SAFE_CONTEXT_MARKERS: Final = (
     "TODO", "unsupported", "not claim", "not claimed", "do not claim", "limitation",
@@ -35,6 +36,10 @@ TREND_REQUIRED_SECTIONS: Final = (
     "Introduction", "Taxonomy", "Validation", "Reproducibility", "Reviewer",
     "Research agenda", "Conclusion",
 )
+BENCHMARK_LANDSCAPE_REQUIRED_SECTIONS: Final = (
+    "Introduction", "Benchmark", "Validation", "Reproducibility", "Failure", "Research agenda", "Conclusion",
+)
+BENCHMARK_CHOICES: Final = ("full-manuscript", "trend-review", "closure-review", "benchmark-landscape-review")
 FULL_TERMS: Final = (
     "vorticity", "Re_D", "downsampling", "bicubic", "U-Net", "spectrum", "PDF",
     "shear-layer", "relative $L_2$",
@@ -43,6 +48,20 @@ TREND_TERMS: Final = (
     "geometry", "mesh", "neural operator", "graph", "workflow", "validation",
     "boundary", "uncertainty", "reproducibility",
 )
+CLOSURE_TERMS: Final = (
+    "closure", "RANS", "LES", "a priori", "a posteriori", "invariance",
+    "coupled", "uncertainty", "verifiability",
+)
+BENCHMARK_LANDSCAPE_TERMS: Final = (
+    "dataset", "benchmark", "split", "validation", "reproducibility", "failure", "surrogate", "PDEBench", "DeepXDE",
+)
+BenchmarkProfile = tuple[tuple[str, ...], tuple[str, ...], int, int, str]
+BENCHMARK_PROFILES: Final[dict[str, BenchmarkProfile]] = {
+    "full-manuscript": (FULL_REQUIRED_SECTIONS, FULL_TERMS, 2, 1, "claim-evidence markers"),
+    "trend-review": (TREND_REQUIRED_SECTIONS, TREND_TERMS, 3, 2, "reviewer-trap markers"),
+    "closure-review": (TREND_REQUIRED_SECTIONS, CLOSURE_TERMS, 3, 2, "reviewer-trap markers"),
+    "benchmark-landscape-review": (BENCHMARK_LANDSCAPE_REQUIRED_SECTIONS, BENCHMARK_LANDSCAPE_TERMS, 3, 2, "reviewer-trap markers"),
+}
 
 
 @dataclass(frozen=True)
@@ -80,7 +99,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--benchmark",
         required=True,
-        choices=("full-manuscript", "trend-review"),
+        choices=BENCHMARK_CHOICES,
         help="Benchmark profile to evaluate.",
     )
     parser.add_argument("--out", type=Path, help="Optional markdown report path.")
@@ -150,15 +169,16 @@ def compile_with_tectonic(path: Path, enabled: bool) -> CompileResult:
     return CompileResult(status="fail", detail="tectonic failed: " + " | ".join(tail))
 
 
-def benchmark_profile(benchmark: str) -> tuple[tuple[str, ...], tuple[str, ...], int, int, str]:
-    if benchmark == "full-manuscript":
-        return FULL_REQUIRED_SECTIONS, FULL_TERMS, 2, 1, "claim-evidence markers"
-    return TREND_REQUIRED_SECTIONS, TREND_TERMS, 3, 2, "reviewer-trap markers"
+def benchmark_profile(benchmark: str) -> BenchmarkProfile:
+    try:
+        return BENCHMARK_PROFILES[benchmark]
+    except KeyError as error:
+        raise ValueError(f"unknown benchmark profile: {benchmark}") from error
 
 
 def build_findings(text: str, benchmark: str, tex_path: Path) -> list[Finding]:
     figure_count = environment_count(text, "figure")
-    table_count = environment_count(text, "table") + environment_count(text, "tabular")
+    table_count = max(environment_count(text, "table"), environment_count(text, "tabular"))
     sections, terms, minimum_figures, minimum_tables, marker_detail = benchmark_profile(benchmark)
     required_section_hits = [name for name in sections if has_section_like(text, name)]
     term_hits = [term for term in terms if contains_term(text, term)]
@@ -183,7 +203,7 @@ def build_findings(text: str, benchmark: str, tex_path: Path) -> list[Finding]:
         Finding(
             "Table count",
             table_count >= minimum_tables,
-            f"{table_count} table/tabular markers found; benchmark minimum is {minimum_tables}.",
+            f"{table_count} table-like environments found; benchmark minimum is {minimum_tables}.",
         ),
         Finding(
             "Bibliography/TODO",
@@ -268,7 +288,6 @@ def main() -> int:
         args.out.write_text(report, encoding="utf-8")
     else:
         print(report)
-    findings = build_findings(text, str(args.benchmark), tex_path)
     return 0
 
 

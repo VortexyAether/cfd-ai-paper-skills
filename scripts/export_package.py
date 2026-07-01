@@ -19,7 +19,7 @@ from typing import Final
 
 ROOT: Final = Path(__file__).resolve().parents[1]
 DIST: Final = ROOT / "dist"
-VERSION: Final = "v0.5"
+VERSION: Final = "v0.6"
 ARCHIVE_NAME: Final = f"cfd-ai-paper-skills-{VERSION}.tar.gz"
 TRANSIENT_DIRS: Final = frozenset(("__pycache__", ".tmp_pycache", "dist", ".git", ".omo", ".tars"))
 TRANSIENT_SUFFIXES: Final = (".synctex.gz",)
@@ -80,7 +80,7 @@ def render_manifest(files: list[PackageFile]) -> str:
         f"- Created: {datetime.now(timezone.utc).isoformat(timespec='seconds')}",
         f"- File count: {len(files)}",
         f"- Uncompressed bytes: {total_size}",
-        "- Archive: `dist/cfd-ai-paper-skills-v0.5.tar.gz`",
+        f"- Archive: `dist/{ARCHIVE_NAME}`",
         "",
         "## Included Files",
         "",
@@ -101,8 +101,8 @@ def render_install() -> str:
             "This archive is a source package for the CFD-AI paper skills package.",
             "",
             "```bash",
-            "tar -xzf cfd-ai-paper-skills-v0.5.tar.gz",
-            "cd cfd-ai-paper-skills-v0.5",
+            f"tar -xzf {ARCHIVE_NAME}",
+            f"cd cfd-ai-paper-skills-{VERSION}",
             "python3 scripts/validate_package.py",
             "python3 scripts/run_static_evals.py",
             "```",

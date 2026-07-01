@@ -1,6 +1,6 @@
 {
   "package": "cfd-ai-paper-skills",
-  "version": "0.4.0",
+  "version": "0.6.0",
   "evals": [
     {
       "id": "fukami-super-resolution-reconstruction",
@@ -25,6 +25,16 @@
     {
       "id": "vinuesa-related-work-positioning",
       "task": "evaluation/tasks/vinuesa-related-work-positioning.md",
+      "scorecard": "evaluation/scorecards/cfd-ai-skill-scorecard.md"
+    },
+    {
+      "id": "cfd-ai-closure-review-benchmark",
+      "task": "evaluation/tasks/cfd-ai-closure-review-benchmark.md",
+      "scorecard": "evaluation/scorecards/cfd-ai-skill-scorecard.md"
+    },
+    {
+      "id": "cfd-ai-benchmark-landscape-review",
+      "task": "evaluation/tasks/cfd-ai-benchmark-landscape-review.md",
       "scorecard": "evaluation/scorecards/cfd-ai-skill-scorecard.md"
     }
   ]

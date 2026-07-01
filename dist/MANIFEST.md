@@ -1,20 +1,28 @@
-# CFD-AI Paper Skills Package v0.5 Manifest
+# CFD-AI Paper Skills Package v0.6 Manifest
 
-- Created: 2026-07-01T04:54:44+00:00
-- File count: 118
-- Uncompressed bytes: 620185
-- Archive: `dist/cfd-ai-paper-skills-v0.5.tar.gz`
+- Created: 2026-07-01T05:42:06+00:00
+- File count: 130
+- Uncompressed bytes: 668104
+- Archive: `dist/cfd-ai-paper-skills-v0.6.tar.gz`
 
 ## Included Files
 
 | Path | Bytes |
 |---|---:|
+| `.gitignore` | 300 |
 | `AGENTS.md` | 1680 |
-| `README.md` | 7032 |
+| `CITATION.cff` | 562 |
+| `CONTRIBUTING.md` | 1404 |
+| `NOTICE.md` | 581 |
+| `README.md` | 10100 |
+| `docs/positioning.md` | 2816 |
+| `docs/quickstart-claude.md` | 2338 |
+| `docs/quickstart-codex.md` | 1950 |
+| `docs/tutorials.md` | 3175 |
 | `evaluation/ab-loop.md` | 1469 |
 | `evaluation/dumb-agent-evaluator-protocol.md` | 5343 |
 | `evaluation/dumb-agent.md` | 1259 |
-| `evaluation/evals.json` | 1074 |
+| `evaluation/evals.json` | 1474 |
 | `evaluation/evaluator-agent.md` | 1444 |
 | `evaluation/runs/2026-06-30-v04-brunton-taxonomy-reconstruction/dumb-output.md` | 833 |
 | `evaluation/runs/2026-06-30-v04-brunton-taxonomy-reconstruction/evaluator-scorecard.md` | 1173 |
@@ -57,8 +65,10 @@
 | `evaluation/runs/README.md` | 2342 |
 | `evaluation/schema-tests.yaml` | 1446 |
 | `evaluation/scorecards/cfd-ai-skill-scorecard.md` | 816 |
-| `evaluation/tasks/README.md` | 2263 |
+| `evaluation/tasks/README.md` | 2905 |
 | `evaluation/tasks/brunton-taxonomy-reconstruction.md` | 832 |
+| `evaluation/tasks/cfd-ai-benchmark-landscape-review.md` | 9370 |
+| `evaluation/tasks/cfd-ai-closure-review-benchmark.md` | 9481 |
 | `evaluation/tasks/cfd-ai-full-manuscript-generation-benchmark.md` | 9059 |
 | `evaluation/tasks/cfd-ai-trend-review-manuscript-benchmark.md` | 10367 |
 | `evaluation/tasks/fukami-super-resolution-reconstruction.md` | 984 |
@@ -73,6 +83,7 @@
 | `examples/generic-review-to-cfd-review.md` | 1686 |
 | `examples/weak-to-publishable-experiment-plan.md` | 1780 |
 | `references/benchmark-synthesis-v0.2.md` | 7286 |
+| `references/cfd-ai-benchmark-landscape.md` | 6256 |
 | `references/experiment-matrices.md` | 1873 |
 | `references/field-terminology-style-guide.md` | 16626 |
 | `references/figure-archetypes.md` | 1634 |
@@ -96,6 +107,7 @@
 | `references/gold-standard-bibliography-v0.4.md` | 4226 |
 | `references/gold-standard-paper-map.md` | 8022 |
 | `references/journal-expectations.md` | 1549 |
+| `references/related-projects-distillation.md` | 4262 |
 | `references/skill-benchmark-notes.md` | 2943 |
 | `rubrics/cfd-reproducibility-rubric.md` | 1556 |
 | `rubrics/claim-evidence-rubric.md` | 1485 |
@@ -103,9 +115,9 @@
 | `rubrics/sciml-experiment-rubric.md` | 1309 |
 | `rubrics/skill-quality-rubric.md` | 1273 |
 | `rubrics/vocabulary-style-rubric.md` | 2872 |
-| `scripts/evaluate_latex_output.py` | 10700 |
-| `scripts/export_package.py` | 5336 |
-| `scripts/run_static_evals.py` | 8155 |
+| `scripts/evaluate_latex_output.py` | 11747 |
+| `scripts/export_package.py` | 5310 |
+| `scripts/run_static_evals.py` | 8448 |
 | `scripts/summarize_package.py` | 1277 |
 | `scripts/validate_package.py` | 6272 |
 | `skills/cfd-ml-paper-reviewer/SKILL.md` | 6353 |

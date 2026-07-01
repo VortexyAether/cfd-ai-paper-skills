@@ -1,178 +1,204 @@
----
-title: CFD-AI Paper Skills Package
-created: 2026-06-30
-updated: 2026-07-01
-source: TARS
-status: v0.5
-tags:
-  - cfd-ai
-  - sciml
-  - paper-writing
-  - hermes-skills
----
+# CFD-AI Paper Skills
 
-# CFD-AI Paper Skills Package
+Agent skills for writing, reviewing, and hardening CFD-AI and scientific-ML papers with claim-evidence discipline.
 
-Purpose: build a Hermes/Codex-compatible skill package for people writing, reviewing, auditing, and revising CFD-AI / scientific ML journal papers.
+## What This Is
 
-This is not a generic academic-writing prompt pack. It is a reviewer-defense and evaluation system for CFD, turbulence, neural operators, PINNs, surrogate modeling, closure modeling, reconstruction, and physics-aware ML papers.
+This repository is a skill package for coding and research agents that work on manuscripts, reviews, LaTeX drafts, experiment plans, reproducibility audits, and reviewer responses in CFD-AI / SciML.
 
-## Gold-standard authors
+It is meant for papers involving neural operators, PINNs, surrogate modeling, turbulence closure, flow reconstruction, CFD acceleration, geometry-aware models, flow control, and related scientific-ML workflows.
 
-VA's answer key:
+The package gives an agent domain-specific instructions, references, rubrics, examples, and templates so it can produce useful paper artifacts instead of generic academic prose.
 
-- Kai Fukami
-- Steven L. Brunton
-- Romit Maulik
-- Sangseung Lee
-- Ricardo Vinuesa
+## Why CFD-AI Papers Need This
 
-Their first-author or senior/corresponding-author-level papers define the target patterns: physical problem clarity, careful positioning, reproducible numerics, fair baselines, meaningful diagnostics, honest limitations, and reviewer-defense structure.
+CFD-AI manuscripts are easy to overstate. A model can look good on a random snapshot split while failing on held-out Reynolds numbers, geometry, mesh, boundary conditions, long rollouts, force coefficients, spectra, or coupled-solver stability. A polished paragraph is not enough.
 
-## v0.5 structure
+This package pushes the agent to ask the questions reviewers ask:
+
+- What physical problem is actually being solved?
+- What claim is supported by which evidence?
+- Which solver, mesh, split, baseline, metric, and diagnostic are known?
+- Which facts are missing and must stay `TODO`?
+- Which claims need weaker wording?
+- Which figures and tables prove the story?
+- Can the LaTeX artifact be built and checked?
+
+## Agent Behaviors
+
+| Behavior | What the agent should do |
+|---|---|
+| Claim-evidence discipline | Map every major claim to evidence, limitation, or `TODO`. |
+| CFD-native vocabulary | Use terms such as regime, nondimensional group, mesh, BC/IC, QoI, spectra, residual, closure, and coupled solver correctly. |
+| Numerical reproducibility | Ask for solver, grid, boundary/initial conditions, seeds, splits, baselines, hardware, and runtime. |
+| Reviewer-risk detection | Flag overclaims such as "generalizable", "real-time", "physically consistent", "state-of-the-art", or "solves turbulence" when evidence is absent. |
+| LaTeX/PDF production | Produce build-ready LaTeX when requested and keep compile/build notes explicit. |
+| Review-paper taxonomy | Organize related work by workflow role, validation axis, and evidence level rather than citation order. |
+| Benchmark-aware validation | Separate random splits from held-out time, Reynolds number, geometry, mesh, BC/IC, and coupled-solver validation. |
+
+## Quickstart
+
+1. Put this repository where your agent can read it.
+2. Tell the agent to use the relevant `skills/<skill-name>/SKILL.md`.
+3. Provide your paper draft, notes, logs, figures, BibTeX, or experiment plan.
+4. Ask for a concrete artifact: claim-evidence map, reviewer report, experiment matrix, related-work taxonomy, LaTeX section, full paper seed, response letter, or reproducibility audit.
+5. Treat unknown facts as `TODO` until you provide evidence.
+
+Example:
 
 ```text
-skills/                 focused SKILL.md cockpits
-references/gold-papers/ abstract/metadata-grounded answer-key analyses
-rubrics/                0-3 evaluator-agent scoring rubrics
-examples/               CFD-specific before/after examples
-templates/              reusable manuscript/review artifacts
-evaluation/             dumb-agent/evaluator protocols, tasks, scorecards, runs, static tests
-scripts/                deterministic validators, LaTeX evaluator, export helper
+Use the CFD-AI paper skills in this repository. Audit my draft for unsupported CFD/SciML claims, map every major claim to evidence or TODO, and rewrite only the unsafe claims. Do not invent solver settings, citations, DOI values, or benchmark numbers.
 ```
 
-## Core skills
+## Codex Usage Tutorial
 
-| Skill | Job |
-|---|---|
-| `scientific-journal-writing` | Structure abstracts, introductions, claims, sections, and reviewer-safe prose. |
-| `paper-claim-auditor` | Map every claim to evidence, risk, safer wording, or TODO. |
-| `cfd-ml-paper-reviewer` | Stress-test manuscripts as a strict CFD/SciML reviewer. |
-| `cfd-reproducibility-checker` | Audit equations, BC/IC, mesh, solver, splits, commands, and compute. |
-| `sciml-experiment-auditor` | Audit baselines, splits, ablations, diagnostics, UQ, and efficiency. |
-| `figure-and-result-storytelling` | Build figure sequences where each figure proves a claim. |
-| `related-work-cartographer` / `related-work-synthesis` | Convert citation dumps into field taxonomies and gap paragraphs. |
-| `latex-paper-production` | Produce and preflight LaTeX/BibTeX artifacts. |
-| `paper-revision-loop-manager` / `response-to-reviewers` | Manage revision evidence and response letters. |
+From a workspace that contains this package, ask Codex to use the skill directly:
 
-## v0.4 answer-key files
+```text
+Use skills/paper-claim-auditor/SKILL.md and skills/cfd-reproducibility-checker/SKILL.md.
+Review manuscript/main.tex and produce:
+1. a claim-evidence table,
+2. a CFD reproducibility checklist,
+3. reviewer-risk rewrites for unsupported claims.
+Mark unknown facts as TODO.
+```
 
-Start with `references/gold-papers/INDEX.md`.
+For a full LaTeX seed:
 
-The package now has 15 gold-paper analyses: the original five v0.3 files plus two additional papers per gold-answer author. Each file declares source scope and marks PDF-only details as `unknown/TODO` when not extracted.
+```text
+Use skills/related-work-synthesis/SKILL.md, skills/figure-and-result-storytelling/SKILL.md, and skills/latex-paper-production/SKILL.md.
+Create a review-paper LaTeX seed on geometry-aware neural operators for CFD.
+Use only the evidence packet I provide.
+Include taxonomy tables, figure placeholders, reviewer traps, and TODO bibliography entries.
+```
 
-Current v0.4 additions include:
-
-- Fukami 2021 spatio-temporal super-resolution and Fukami 2023 SR survey.
-- Brunton 2016 SINDy and Brunton 2021 ML workflow tutorial.
-- Maulik 2021 neural ROM and Maulik 2023 multiscale GNN autoencoder.
-- Lee 2021 CNN wake mechanism analysis and Lee 2022 rough-wall transfer learning.
-- Vinuesa 2023 ML for experiments and Vinuesa 2023 DRL drag reduction.
-
-## Evaluation loop
-
-Use:
-
-- `evaluation/dumb-agent.md`
-- `evaluation/evaluator-agent.md`
-- `evaluation/ab-loop.md`
-- `evaluation/tasks/gold-paper-reconstruction-template.md`
-- `evaluation/evals.json`
-- `evaluation/trigger-tests.yaml`
-- `evaluation/schema-tests.yaml`
-- `scripts/run_static_evals.py`
-
-Basic loop:
-
-1. Give a weak agent one skill and one benchmark task.
-2. Constrain source access.
-3. Score output against gold-paper notes and rubrics.
-4. Patch the skill only when the failure is benchmark-backed.
-5. Save run artifacts under `evaluation/runs/`.
-
-v0.4 includes three simulated dumb-agent runs:
-
-- `evaluation/runs/2026-06-30-v04-fukami-super-resolution-reconstruction/`
-- `evaluation/runs/2026-06-30-v04-lee-cylinder-wake-reviewer-attack/`
-- `evaluation/runs/2026-06-30-v04-brunton-taxonomy-reconstruction/`
-
-They are labeled simulated runs and do not claim an external model was spawned.
-
-v0.5 adds two LaTeX manuscript benchmark tasks:
-
-- `evaluation/tasks/cfd-ai-full-manuscript-generation-benchmark.md`
-- `evaluation/tasks/cfd-ai-trend-review-manuscript-benchmark.md`
-
-The corresponding controlled internal A/B runs are:
-
-- `evaluation/runs/2026-07-01-full-manuscript-ab/`: no-skill failed at 1.2/3.0 average; skill-guided passed at 2.9/3.0 average.
-- `evaluation/runs/2026-07-01-trend-review-ab/`: no-skill failed at 1.1/3.0 average; skill-guided passed at 3.0/3.0 average.
-
-The trend-review benchmark is the recommended deployment gate for this package because it stresses workflow-first taxonomy, validation-axis depth, reproducibility discipline, reviewer-trap rewrites, and non-hallucination more strongly than a single-method manuscript seed.
-
-## Rubrics
-
-- `rubrics/claim-evidence-rubric.md`
-- `rubrics/cfd-reproducibility-rubric.md`
-- `rubrics/sciml-experiment-rubric.md`
-- `rubrics/figure-evidence-rubric.md`
-- `rubrics/skill-quality-rubric.md`
-- `rubrics/vocabulary-style-rubric.md`
-
-All are 0-3 scoreable for evaluator-agent use.
-
-## Field-native style guardrail
-
-AI-assisted manuscript prose must pass the field vocabulary guardrail:
-
-- `references/field-terminology-style-guide.md`
-- `rubrics/vocabulary-style-rubric.md`
-- `examples/ai-ish-to-field-native-prose.md`
-
-Loaded words such as `robust`, `generalizable`, `physically consistent`, `real-time`, `state-of-the-art`, `novel`, `interpretable`, and `efficient` are allowed only when the manuscript states the required evidence: regime, variable, baseline, metric, physical diagnostic, and limitation boundary. If evidence is missing, the output should mark a TODO rather than polish the overclaim.
-
-## Examples And Templates
-
-Examples:
-
-- `examples/bad-to-good-abstract.md`
-- `examples/weak-to-publishable-experiment-plan.md`
-- `examples/citation-dump-to-taxonomy.md`
-- `examples/generic-review-to-cfd-review.md`
-- `examples/ai-ish-to-field-native-prose.md`
-
-Templates:
-
-- `templates/claim-evidence-map.md`
-- `templates/experiment-plan.md`
-- `templates/reviewer-report.md`
-- `templates/response-letter.md`
-
-## Validation
-
-Run from package root:
+Codex can also run the repository checks:
 
 ```bash
 python3 scripts/validate_package.py
-python3 scripts/summarize_package.py
 python3 scripts/run_static_evals.py
-python3 scripts/evaluate_latex_output.py --tex evaluation/runs/2026-07-01-trend-review-ab/with_skill/main.tex --benchmark trend-review
+python3 scripts/export_package.py --dry-run
+```
+
+## Claude Code / Claude-Like Usage
+
+Do not rely on a platform-specific install command unless your Claude-like environment documents one. The portable pattern is to give the agent the repository path and name the skill files it should follow.
+
+Example prompt:
+
+```text
+You have access to this repository:
+/path/to/cfd-ai-paper-skills
+
+Follow:
+- skills/scientific-journal-writing/SKILL.md
+- skills/sciml-experiment-auditor/SKILL.md
+- skills/cfd-reproducibility-checker/SKILL.md
+
+Task: turn my rough CFD-AI experiment notes into a reviewer-safe manuscript outline and experiment matrix. Use TODO for missing solver, mesh, split, baseline, runtime, and citation facts.
+```
+
+If your environment supports reusable skills, copy or symlink the whole repository according to that environment's own instructions. Keep the root package intact so skill files can load `references/`, `rubrics/`, `examples/`, and `templates/`.
+
+## Generic Agent Usage
+
+Any capable agent can use this package if it can read local files. Give it:
+
+- the package path;
+- the specific skill files to follow;
+- the manuscript or evidence packet;
+- the artifact you want;
+- a hard rule not to invent missing scientific facts.
+
+Minimal prompt:
+
+```text
+Use /path/to/cfd-ai-paper-skills as a local instruction package.
+Follow skills/cfd-ml-paper-reviewer/SKILL.md.
+Review my CFD-AI draft as a skeptical journal reviewer.
+Return major issues first, then a claim-evidence table, then concrete revision tasks.
+Unknown facts must remain TODO.
+```
+
+## Copy-Paste Tasks
+
+```text
+Build a claim-evidence map for this abstract and introduction. For each claim, list evidence, missing evidence, reviewer risk, and safer wording.
+```
+
+```text
+Audit this CFD-AI experiment plan. Check train/test split, held-out regime, mesh sensitivity, baselines, physical diagnostics, uncertainty, runtime, and reproducibility.
+```
+
+```text
+Turn this citation dump into a review-paper taxonomy. Organize by CFD workflow role first, ML method family second, and validation axis third.
+```
+
+```text
+Create a LaTeX mini-review seed from this evidence packet. Include tables, boxed figure placeholders, reviewer traps, TODO bibliography entries, and limitation boundaries.
+```
+
+```text
+Draft a response-to-reviewers table. For each reviewer point, identify evidence needed, manuscript location, proposed change, and response text.
+```
+
+## Recommended Workflows
+
+| Workflow | Start with | Use these skills |
+|---|---|---|
+| Draft safety audit | Abstract, intro, or full draft | `paper-claim-auditor`, `cfd-ml-paper-reviewer` |
+| Experiment hardening | Method notes and results | `experiment-design-for-sciml`, `sciml-experiment-auditor`, `cfd-reproducibility-checker` |
+| Related-work positioning | Citation dump or topic | `related-work-cartographer`, `related-work-synthesis` |
+| Figure/story pass | Current figures or planned results | `figure-and-result-storytelling`, `paper-claim-auditor` |
+| LaTeX paper production | Evidence packet and desired structure | `scientific-journal-writing`, `latex-paper-production` |
+| Revision management | Reviews and manuscript diff | `paper-revision-loop-manager`, `response-to-reviewers` |
+
+## Benchmarks And Examples
+
+The `evaluation/tasks/` directory contains prompt-style benchmark tasks that users can run manually with an agent. They are useful examples of the package's expected behavior:
+
+- `cfd-ai-trend-review-manuscript-benchmark.md`: review-paper seed for geometry-aware neural operators and mesh graph surrogates.
+- `cfd-ai-closure-review-benchmark.md`: turbulence closure review seed focused on a priori vs a posteriori evidence.
+- `cfd-ai-benchmark-landscape-review.md`: benchmark landscape review focused on validation axes, splits, failure modes, and reproducibility.
+- `cfd-ai-full-manuscript-generation-benchmark.md`: full mini-manuscript generation from a bounded evidence packet.
+
+The `examples/` directory shows smaller before/after transformations for abstracts, experiment plans, related-work taxonomies, reviewer comments, and AI-ish prose.
+
+## Limitations
+
+- This package does not verify scientific facts by itself. The agent must be given evidence or mark facts as `TODO`.
+- It does not replace domain review by CFD/SciML experts.
+- It does not guarantee LaTeX compilation in every journal template.
+- It does not provide official installation commands for every agent platform.
+- It should not invent solver settings, DOI values, author roles, benchmark scores, dataset licenses, or citation metadata.
+
+## Related Projects
+
+General AI research-writing skill projects are useful references for evidence-backed paper workflows, prompt routing, claim maps, citation checks, and build packaging. This package differs by focusing on CFD-AI and SciML reviewer risks: mesh/regime/split design, solver coupling, turbulence closure, reconstruction diagnostics, geometry generalization, and numerical reproducibility.
+
+CFD-AI resource lists are useful for landscape coverage, but they are not substitutes for claim-evidence auditing or benchmark design. This package treats those lists as source material for taxonomy and validation prompts, not as proof that a manuscript claim is true.
+
+## Repository Layout
+
+```text
+skills/       Focused agent skills.
+references/   Domain notes, benchmark landscape, source-scope references, style guidance.
+rubrics/      Scoreable review and evaluation rubrics.
+examples/     Small before/after examples.
+templates/    Reusable paper/review artifacts.
+evaluation/   Benchmark tasks, static evals, and run artifacts.
+scripts/      Validators, deterministic LaTeX surface checks, export helper.
+docs/         User tutorials and positioning notes.
+```
+
+## Validation
+
+From the package root:
+
+```bash
+python3 scripts/validate_package.py
+python3 scripts/run_static_evals.py
 python3 scripts/export_package.py --dry-run
 PYTHONPYCACHEPREFIX=.tmp_pycache python3 -m py_compile scripts/*.py
 rm -rf .tmp_pycache
 ```
-
-Expected validation result:
-
-```text
-ok
-```
-
-## Ground rules
-
-- One skill = one focused job.
-- `SKILL.md` is the cockpit; references, rubrics, templates, scripts, and evals carry detail.
-- Unknown facts are `unknown/TODO`; do not invent solver settings, citations, DOI, or author roles.
-- Claim-evidence alignment outranks prose polish.
-- Skill changes must be justified by benchmark/eval failures, not taste.
-- Full-paper details must stay `unknown/TODO` unless a PDF/arXiv full-text extraction supports them.

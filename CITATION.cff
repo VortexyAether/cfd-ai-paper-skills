@@ -1,0 +1,15 @@
+cff-version: 1.2.0
+message: "If this skill package helps your work, cite the repository. No DOI has been assigned."
+title: "CFD-AI Paper Skills"
+type: software
+authors:
+  - name: "VortexyAether"
+repository-code: "https://github.com/VortexyAether/cfd-ai-paper-skills"
+abstract: "A skill package for agent-assisted CFD-AI and scientific-ML paper writing, reviewing, reproducibility auditing, LaTeX production, and revision management."
+keywords:
+  - CFD
+  - scientific machine learning
+  - paper writing
+  - reproducibility
+  - agent skills
+license: "NOASSERTION"
