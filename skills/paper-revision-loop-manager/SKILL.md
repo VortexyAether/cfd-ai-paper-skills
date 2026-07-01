@@ -2,7 +2,7 @@
 name: paper-revision-loop-manager
 description: Use when managing iterative revision of a CFD-AI/SciML manuscript: audit, prioritize fixes, re-audit, reviewer simulation, checklist completion, and response-letter coordination.
 version: 0.3.0
-author: VA + TARS
+author: CFD-AI Paper Skills maintainers
 metadata:
   short-description: Iterative revision loop manager for CFD-AI/SciML papers
 ---

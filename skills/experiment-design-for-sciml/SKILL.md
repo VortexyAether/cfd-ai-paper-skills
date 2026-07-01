@@ -2,7 +2,7 @@
 name: experiment-design-for-sciml
 description: Use when designing experiments, baselines, ablations, generalization tests, and physical diagnostics for CFD-AI and scientific ML manuscripts.
 version: 0.4.0
-author: VA + TARS
+author: CFD-AI Paper Skills maintainers
 metadata:
   short-description: Experiment matrix design for CFD-AI/SciML papers
 ---

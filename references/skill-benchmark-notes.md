@@ -2,7 +2,7 @@
 title: Skill benchmark notes
 created: 2026-06-30
 updated: 2026-06-30
-source: TARS + Claude Skills docs/web search
+source: skill-benchmark notes and documentation review
 status: v0.3-updated
 tags:
   - skills
@@ -55,7 +55,7 @@ Each skill should be scored from 0–3 on:
 4. Output template clarity
 5. Verification rigor
 6. Gold-paper alignment
-7. Dumb-agent usability
+7. Baseline-agent usability
 8. Failure-mode coverage
 
 Minimum acceptable average: 2.5/3.
@@ -82,7 +82,7 @@ cfd-ai-paper-skills/
 │   ├── response-letter.md
 │   └── experiment-plan.md
 └── evaluation/
-    ├── dumb-agent-evaluator-protocol.md
+    ├── baseline-agent-evaluator-protocol.md
     ├── tasks/
     └── scorecards/
 ```

@@ -90,7 +90,7 @@ This paper is a ROM answer key for advection-dominated systems. It frames the we
 
 ## Eval Task Derived From Paper
 
-Ask for a minimum evidence stack for a neural ROM of an advection-dominated PDE. The dumb agent must include POD/Galerkin comparison, latent dimension, rollout, parametric tests, and failure modes.
+Ask for a minimum evidence stack for a neural ROM of an advection-dominated PDE. The baseline agent must include POD/Galerkin comparison, latent dimension, rollout, parametric tests, and failure modes.
 
 ## Unknowns/TODOs
 

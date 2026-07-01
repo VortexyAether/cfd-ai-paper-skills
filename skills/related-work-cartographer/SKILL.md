@@ -2,7 +2,7 @@
 name: related-work-cartographer
 description: Use when mapping CFD-AI/SciML related work into a taxonomy, identifying nearest prior art, and writing gap/positioning paragraphs without citation dumping.
 version: 0.4.0
-author: VA + TARS
+author: CFD-AI Paper Skills maintainers
 metadata:
   short-description: Related-work map and prior-art risk audit
 ---

@@ -9,6 +9,7 @@ You can read this package:
 /path/to/cfd-ai-paper-skills
 
 Use these files as instructions:
+- SKILL.md
 - skills/scientific-journal-writing/SKILL.md
 - skills/sciml-experiment-auditor/SKILL.md
 - skills/cfd-reproducibility-checker/SKILL.md
@@ -56,6 +57,7 @@ Create a complete standalone main.tex from evidence_packet.md. Use boxed figure 
 
 If your environment supports reusable local skills, copy or symlink the whole repository according to that environment's documented procedure. Keep the directory structure intact so skill files can load:
 
+- root `SKILL.md`
 - `references/`
 - `rubrics/`
 - `examples/`

@@ -92,7 +92,7 @@ It upgrades surrogate modeling from point prediction to uncertainty-aware predic
 
 ## Eval task derived from this paper
 
-Give the dumb agent a claim that a turbulence surrogate is "trustworthy." It must propose a minimum experiment matrix with uncertainty calibration, noisy/sparse tests, and confidence interval diagnostics. Penalize generic "add uncertainty" answers.
+Give the baseline agent a claim that a turbulence surrogate is "trustworthy." It must propose a minimum experiment matrix with uncertainty calibration, noisy/sparse tests, and confidence interval diagnostics. Penalize generic "add uncertainty" answers.
 
 ## Unknowns/TODOs
 

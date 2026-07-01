@@ -2,7 +2,7 @@
 name: limitations-ethics-llm-disclosure
 description: Use when drafting or auditing limitations, ethics, compute, data/code availability, and LLM-usage disclosure sections for CFD-AI/SciML papers.
 version: 0.3.0
-author: VA + TARS
+author: CFD-AI Paper Skills maintainers
 metadata:
   short-description: Limitations, ethics, and LLM disclosure audit
 ---

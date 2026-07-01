@@ -2,7 +2,7 @@
 name: paper-claim-auditor
 description: Use when auditing a CFD-AI/SciML manuscript's abstract, introduction, contributions, or discussion to verify that every claim is supported by evidence and scoped correctly.
 version: 0.3.0
-author: VA + TARS
+author: CFD-AI Paper Skills maintainers
 metadata:
   short-description: Claim-evidence audit for CFD-AI/SciML papers
 ---

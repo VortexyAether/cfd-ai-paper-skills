@@ -2,7 +2,7 @@
 name: scientific-journal-writing
 description: Use when writing, revising, outlining, or critiquing CFD-AI and scientific ML journal papers; focuses on argument structure, claim-evidence alignment, novelty, and reviewer defense.
 version: 0.4.0
-author: VA + TARS
+author: CFD-AI Paper Skills maintainers
 metadata:
   short-description: Structure and sharpen CFD-AI/SciML journal manuscripts
   gold-standard-authors: [Kai Fukami, Steven L. Brunton, Romit Maulik, Sangseung Lee, Ricardo Vinuesa]
@@ -177,7 +177,7 @@ For abstracts, use `examples/bad-to-good-abstract.md` as the style and evidence 
 
 ## v0.4 eval-backed checks
 
-These checks were added after simulated dumb-agent failures in `evaluation/runs/2026-06-30-v04-*`.
+These checks were added after simulated baseline-agent failures in `evaluation/runs/2026-06-30-v04-*`.
 
 | Trigger | Extra requirement |
 |---|---|

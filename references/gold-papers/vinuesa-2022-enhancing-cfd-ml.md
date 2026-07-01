@@ -91,7 +91,7 @@ For a perspective, the evidence stack is:
 
 ## Eval task derived from this paper
 
-Ask the dumb agent to position a proposed CFD-AI contribution in a Vinuesa-style opportunity map. The evaluator checks whether it identifies the CFD bottleneck, ML role, required evidence, and limitation language.
+Ask the baseline agent to position a proposed CFD-AI contribution in a Vinuesa-style opportunity map. The evaluator checks whether it identifies the CFD bottleneck, ML role, required evidence, and limitation language.
 
 ## Unknowns/TODOs
 

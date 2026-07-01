@@ -16,7 +16,7 @@
 | Abstract | pass | Expected abstract environment. |
 | Required sections | pass | 7/7: Introduction, Taxonomy, Validation, Reproducibility, Reviewer, Research agenda, Conclusion |
 | Figure count | pass | 3 found; benchmark minimum is 3. |
-| Table count | pass | 8 table/tabular markers found; benchmark minimum is 2. |
+| Table count | pass | 4 table-like environments found; benchmark minimum is 2. |
 | Bibliography/TODO | pass | Expected bibliography marker and TODO discipline for missing evidence. |
 | Required CFD terms | pass | 9/9: geometry, mesh, neural operator, graph, workflow, validation, boundary, uncertainty, reproducibility |
 | reviewer-trap markers | pass | Expected reviewer-trap markers with evidence language. |

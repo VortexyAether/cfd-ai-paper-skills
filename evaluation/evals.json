@@ -1,6 +1,6 @@
 {
   "package": "cfd-ai-paper-skills",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "evals": [
     {
       "id": "fukami-super-resolution-reconstruction",

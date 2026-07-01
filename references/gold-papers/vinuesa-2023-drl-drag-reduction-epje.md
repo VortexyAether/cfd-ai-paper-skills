@@ -93,7 +93,7 @@ This paper is an answer key for ML control papers because it benchmarks DRL agai
 
 ## Eval Task Derived From Paper
 
-Ask a dumb reviewer to audit a DRL drag-reduction claim. It must ask for closed-loop baseline, reward, action limits, observation variables, simulator fidelity, seeds, and physical side effects.
+Ask a weak reviewer to audit a DRL drag-reduction claim. It must ask for closed-loop baseline, reward, action limits, observation variables, simulator fidelity, seeds, and physical side effects.
 
 ## Unknowns/TODOs
 

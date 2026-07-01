@@ -87,7 +87,7 @@ This is the survey counterpart to Fukami's JFM reconstruction papers. It defines
 
 ## Eval Task Derived From Paper
 
-Give a citation dump of SR papers. The dumb agent must produce a taxonomy by input data, reconstruction target, architecture, flow regime, and physical diagnostic.
+Give a citation dump of SR papers. The baseline agent must produce a taxonomy by input data, reconstruction target, architecture, flow regime, and physical diagnostic.
 
 ## Unknowns/TODOs
 

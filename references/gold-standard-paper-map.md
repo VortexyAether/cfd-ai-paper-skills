@@ -2,7 +2,7 @@
 title: Gold-standard paper map
 created: 2026-06-30
 updated: 2026-06-30
-source: TARS + arXiv/API/web search
+source: curated paper-map review
 status: draft-needs-deeper-reading
 tags:
   - cfd-ai
@@ -134,4 +134,4 @@ A CFD-AI/SciML paper should usually pass these:
 - Extract abstract/introduction templates from 2–3 papers per author.
 - Build a table of common experiment matrices.
 - Build a figure archetype library.
-- Create gold-answer tasks for the dumb-agent protocol.
+- Create gold-answer tasks for the baseline-agent protocol.

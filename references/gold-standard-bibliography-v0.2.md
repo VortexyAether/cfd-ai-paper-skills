@@ -2,7 +2,7 @@
 title: Gold-standard bibliography v0.2
 created: 2026-06-30
 updated: 2026-06-30
-source: TARS + delegated web bibliography agent
+source: delegated bibliography review
 status: archived-v0.2-input-superseded-by-v0.3
 aliases:
   - CFD-AI 정답지 논문 목록
@@ -17,7 +17,7 @@ tags:
 
 > v0.4 note: this bibliography remains useful as a broad source list. The current evaluator-facing bibliography is `references/gold-standard-bibliography-v0.4.md`, and the current answer-key files are indexed in `references/gold-papers/INDEX.md`.
 
-VA 지정 정답지: **Kai Fukami, Steven L. Brunton, Romit Maulik, Sangseung Lee, Ricardo Vinuesa**의 first-author 또는 senior/corresponding-author급 논문들.
+Gold-standard answer-key authors: **Kai Fukami, Steven L. Brunton, Romit Maulik, Sangseung Lee, Ricardo Vinuesa**의 first-author 또는 senior/corresponding-author급 논문들.
 
 원칙: 이 목록은 citation 장식이 아니라 **skill evaluation answer key**다. 각 논문에서 abstract/introduction/method/experiment/figure/reviewer-defense 패턴을 뽑아야 한다.
 

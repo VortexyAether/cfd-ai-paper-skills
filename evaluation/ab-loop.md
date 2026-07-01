@@ -8,10 +8,10 @@ Keep skill improvements only when they improve benchmark behavior, reduce halluc
 
 | Agent | Variant | Input |
 |---|---|---|
-| Dumb Agent A | Current skill | Same task and source limits |
-| Dumb Agent B | Patched skill | Same task and source limits |
+| Baseline Agent A | Current skill | Same task and source limits |
+| Baseline Agent B | Patched skill | Same task and source limits |
 | Evaluator | Blind comparison | Outputs A and B, gold file, rubrics |
-| TARS Integrator | Final decision | Evaluator score and diff |
+| Evaluator Integrator | Final decision | Evaluator score and diff |
 
 ## Procedure
 
@@ -32,10 +32,10 @@ prompt.md
 source-scope.md
 skill-A.md
 skill-B.md
-dumb-output-A.md
-dumb-output-B.md
+baseline-output-A.md
+baseline-output-B.md
 evaluator-scorecard.md
-tars-decision.md
+evaluator-decision.md
 patched-skill-diff.md
 ```
 

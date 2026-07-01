@@ -89,7 +89,7 @@ This paper is a mesh-aware interpretability answer key. It does not claim interp
 
 ## Eval Task Derived From Paper
 
-Ask a dumb agent to audit an "interpretable GNN autoencoder" CFD paper. It must demand unstructured mesh details, latent artifact visualization, physical-region interpretation, reconstruction baselines, and flow-case setup.
+Ask a baseline agent to audit an "interpretable GNN autoencoder" CFD paper. It must demand unstructured mesh details, latent artifact visualization, physical-region interpretation, reconstruction baselines, and flow-case setup.
 
 ## Unknowns/TODOs
 

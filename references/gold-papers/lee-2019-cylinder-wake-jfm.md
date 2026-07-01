@@ -94,7 +94,7 @@ It is a canonical early JFM flow-prediction paper with explicit conservation-law
 
 ## Eval task derived from this paper
 
-Give a weak manuscript claim: "Our deep learning model predicts cylinder wakes and generalizes to new flow conditions." The dumb reviewer must ask for Re split, solver/grid/CFL, temporal rollout, conservation residuals, GT/pred/error fields, and bounded claim wording.
+Give a weak manuscript claim: "Our deep learning model predicts cylinder wakes and generalizes to new flow conditions." The weak reviewer must ask for Re split, solver/grid/CFL, temporal rollout, conservation residuals, GT/pred/error fields, and bounded claim wording.
 
 ## Unknowns/TODOs
 

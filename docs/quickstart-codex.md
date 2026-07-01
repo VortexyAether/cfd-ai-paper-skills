@@ -4,11 +4,12 @@ Use this guide when Codex can read the package directory.
 
 ## 1. Point Codex at the package
 
-Give Codex the repository path and the skill files to follow:
+Give Codex the repository path and start with the root entrypoint. Name focused subskills when you already know the workflow:
 
 ```text
 Use /path/to/cfd-ai-paper-skills as a local skill package.
-Follow skills/paper-claim-auditor/SKILL.md and skills/cfd-reproducibility-checker/SKILL.md.
+Start with SKILL.md as the router.
+For this task, follow skills/paper-claim-auditor/SKILL.md and skills/cfd-reproducibility-checker/SKILL.md.
 ```
 
 ## 2. Provide evidence
@@ -63,6 +64,7 @@ python3 scripts/evaluate_latex_output.py --tex path/to/main.tex --benchmark tren
 ## Practical tips
 
 - Name the skills explicitly for focused work.
+- Use root `SKILL.md` when the task mixes writing, review, reproducibility, LaTeX, and revision management.
 - Give the agent permission to weaken unsafe claims.
 - Ask for tables/checklists when auditing.
 - Keep public claims separate from internal TODOs.

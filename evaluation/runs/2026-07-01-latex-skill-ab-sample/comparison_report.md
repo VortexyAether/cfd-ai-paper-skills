@@ -99,11 +99,11 @@ Remaining blockers before public-ish distribution:
 
 1. Install or provide a LaTeX engine and compile both sample PDFs.
 2. Add this A/B sample run to the package README or `evaluation/runs/README.md`.
-3. Optional: run an actual external weaker model against `sample_prompt.md` instead of TARS-authored A/B samples.
-4. Optional: package export script if the goal is sharing outside VA_obs.
+3. Optional: run an actual external weaker model against `sample_prompt.md` instead of manual A/B samples.
+4. Optional: package export script if the goal is sharing outside the local workspace.
 
-## TARS verdict
+## Evaluation verdict
 
-Deployable for VA internal use: **yes**.
+Deployable for internal evaluation use: **yes**.
 
 Public distribution: **not yet**. Needs PDF compile evidence and at least one real weak-model A/B run. Otherwise it smells like “trust me bro, but with YAML.”

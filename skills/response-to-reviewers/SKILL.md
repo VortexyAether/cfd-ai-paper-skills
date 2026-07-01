@@ -2,7 +2,7 @@
 name: response-to-reviewers
 description: Use when preparing point-by-point responses and manuscript revision plans for CFD-AI/SciML journal reviews.
 version: 0.3.0
-author: VA + TARS
+author: CFD-AI Paper Skills maintainers
 metadata:
   short-description: Response-letter strategy for CFD-AI/SciML revisions
 ---

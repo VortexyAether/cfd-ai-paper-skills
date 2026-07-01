@@ -36,7 +36,7 @@ Read when available:
 - `rubrics/sciml-experiment-rubric.md`
 - `rubrics/figure-evidence-rubric.md`
 
-## Dumb-agent / model prompt
+## Baseline-agent / model prompt
 
 You are writing a CFD-AI / scientific-ML journal manuscript seed in LaTeX. Your output must be a complete compilable `main.tex` file, not a prose memo.
 

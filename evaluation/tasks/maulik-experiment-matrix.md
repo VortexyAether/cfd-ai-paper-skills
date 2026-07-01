@@ -10,7 +10,7 @@
 - `references/gold-papers/maulik-2020-probabilistic-neural-networks-prf.md`
 - Additional Maulik-related closure/verifiable-SciML papers may be used only if source-scoped and marked.
 
-## Dumb-agent prompt
+## Baseline-agent prompt
 
 A paper claims a data-driven turbulence closure is generalizable and trustworthy. Design the minimum experiment matrix needed for journal review.
 

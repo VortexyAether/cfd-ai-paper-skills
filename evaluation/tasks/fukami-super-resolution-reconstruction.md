@@ -10,7 +10,7 @@
 
 Kai Fukami et al., *Super-resolution reconstruction of turbulent flows with machine learning*, arXiv:1811.11328.
 
-## Dumb-agent prompt
+## Baseline-agent prompt
 
 Given only the title and abstract of the paper, reconstruct:
 

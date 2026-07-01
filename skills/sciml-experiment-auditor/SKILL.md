@@ -2,7 +2,7 @@
 name: sciml-experiment-auditor
 description: Use when auditing CFD-AI/SciML experiments for baselines, ablations, generalization, physical diagnostics, uncertainty, compute reporting, and leakage-safe evaluation.
 version: 0.4.0
-author: VA + TARS
+author: CFD-AI Paper Skills maintainers
 metadata:
   short-description: Experiment audit for CFD-AI/SciML manuscripts
 ---

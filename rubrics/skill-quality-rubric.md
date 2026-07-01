@@ -11,7 +11,7 @@ Use this to score each `skills/*/SKILL.md` and decide whether a v0.3 patch shoul
 | Anti-patterns | Missing | Generic | Domain-specific | Domain-specific and evaluator-detectable |
 | Verification | Missing | Generic checklist | Domain checklist | Checklist maps to rubrics/eval tasks |
 | Gold-paper alignment | Decorative names | Superficial | Uses patterns | Points to exact gold-paper files and lessons |
-| Eval readiness | None | Manual only | Task/rubric linked | Dumb-agent/evaluator loop has concrete pass/fail criteria |
+| Eval readiness | None | Manual only | Task/rubric linked | Baseline-agent evaluation has concrete pass/fail criteria |
 
 ## Keep/patch rule
 

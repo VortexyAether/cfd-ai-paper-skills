@@ -2,7 +2,7 @@
 name: figure-and-result-storytelling
 description: Use when designing figures, result flow, captions, and visual evidence for CFD-AI/SciML journal manuscripts.
 version: 0.4.0
-author: VA + TARS
+author: CFD-AI Paper Skills maintainers
 metadata:
   short-description: Evidence-first figure planning for CFD-AI/SciML papers
 ---

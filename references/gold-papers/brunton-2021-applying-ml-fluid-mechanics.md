@@ -87,7 +87,7 @@ This is a pedagogical/review paper:
 
 ## Eval Task Derived From Paper
 
-Give a vague "physics-informed neural network for CFD" paragraph. The dumb agent must locate physics in problem formulation, data, architecture, loss, and optimization, marking missing stages as TODO.
+Give a vague "physics-informed neural network for CFD" paragraph. The baseline agent must locate physics in problem formulation, data, architecture, loss, and optimization, marking missing stages as TODO.
 
 ## Unknowns/TODOs
 

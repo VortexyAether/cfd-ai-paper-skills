@@ -9,7 +9,7 @@
 
 Steven L. Brunton, Bernd R. Noack, Petros Koumoutsakos, *Machine Learning for Fluid Mechanics*, Annual Review of Fluid Mechanics, 2020.
 
-## Dumb-agent prompt
+## Baseline-agent prompt
 
 Build a related-work taxonomy for a new CFD-AI paper using Brunton-style field mapping. Include where ML enters the fluid-mechanics workflow and how a new contribution should position itself.
 

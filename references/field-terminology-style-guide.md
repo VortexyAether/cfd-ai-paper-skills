@@ -3,7 +3,7 @@ title: Field terminology and style guide
 created: 2026-06-30
 updated: 2026-06-30
 status: v1.0-candidate
-source: TARS + LazyCodex style scout + Hermes web scout
+source: internal style and terminology review
 tags:
   - cfd-ai
   - sciml

@@ -2,13 +2,13 @@
 
 ## Trigger
 
-Use when scoring a dumb-agent output against gold-paper notes, rubrics, examples, or benchmark tasks.
+Use when scoring a baseline-agent output against gold-paper notes, rubrics, examples, or benchmark tasks.
 
 ## Inputs
 
 | Input | Required |
 |---|---|
-| Dumb-agent output | yes |
+| Baseline-agent output | yes |
 | Task prompt | yes |
 | Skill version or path | yes |
 | Gold-paper file(s) | yes for gold reconstruction tasks |

@@ -1,6 +1,6 @@
-# Simulated dumb-agent run: Brunton taxonomy reconstruction
+# Simulated baseline-agent run: Brunton taxonomy reconstruction
 
-Label: simulated dumb-agent run. No external model was spawned.
+Label: simulated baseline-agent run. No external model was spawned.
 
 ## Task
 

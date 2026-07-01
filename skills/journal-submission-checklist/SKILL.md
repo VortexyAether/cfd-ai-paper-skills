@@ -2,7 +2,7 @@
 name: journal-submission-checklist
 description: Use before submitting a CFD-AI/SciML journal manuscript to check formatting, files, declarations, figures, references, cover letter, and reviewer-risk items.
 version: 0.3.0
-author: VA + TARS
+author: CFD-AI Paper Skills maintainers
 metadata:
   short-description: Preflight checklist for CFD-AI/SciML journal submission
 ---

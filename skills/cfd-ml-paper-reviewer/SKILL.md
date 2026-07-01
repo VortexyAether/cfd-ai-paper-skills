@@ -2,7 +2,7 @@
 name: cfd-ml-paper-reviewer
 description: Use when stress-testing CFD, fluid mechanics, turbulence, PINN, neural-operator, surrogate, closure, or SciML manuscripts from a strict reviewer perspective.
 version: 0.4.0
-author: VA + TARS
+author: CFD-AI Paper Skills maintainers
 metadata:
   short-description: Strict CFD-AI/SciML reviewer pass
   gold-standard-authors: [Kai Fukami, Steven L. Brunton, Romit Maulik, Sangseung Lee, Ricardo Vinuesa]

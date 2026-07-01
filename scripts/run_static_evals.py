@@ -12,9 +12,9 @@ SCHEMA_TESTS: Final = ROOT / "evaluation" / "schema-tests.yaml"
 REQUIRED_RUN_FILES: Final = (
     "prompt.md",
     "skill-version.md",
-    "dumb-output.md",
+    "baseline-output.md",
     "evaluator-scorecard.md",
-    "tars-decision.md",
+    "evaluator-decision.md",
 )
 EXPECTED_RUN_DIRS: Final = (
     "2026-06-30-v04-brunton-taxonomy-reconstruction",
@@ -152,7 +152,7 @@ def validate_eval_runs() -> int:
             f"{run_dir}: patch artifact is empty",
         )
         prompt_text = (run_dir / "prompt.md").read_text(encoding="utf-8").lower()
-        require("simulated dumb-agent run" in prompt_text, f"{run_dir}: prompt must label simulated dumb-agent run")
+        require("simulated baseline-agent run" in prompt_text, f"{run_dir}: prompt must label simulated baseline-agent run")
         skill_text = (run_dir / "skill-version.md").read_text(encoding="utf-8")
         for skill in task_skills(relative_file(RUN_TASKS[dirname], "run_task", "evaluation/tasks")):
             skill_path(skill)

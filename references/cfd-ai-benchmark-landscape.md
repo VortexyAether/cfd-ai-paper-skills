@@ -1,6 +1,6 @@
 # CFD-AI benchmark landscape
 
-Source scope: distilled from the related repository/source scope in `.tars/related-repos/source-scope.md`, existing package gold-paper notes, and browser-inspected public pages for PDEBench, DeepXDE, DrivAerNet, and The Well. This is an internal benchmark-design reference, not a complete survey.
+Source scope: distilled from the related repository/source scope in internal source-scope notes, existing package gold-paper notes, and browser-inspected public pages for PDEBench, DeepXDE, DrivAerNet, and The Well. This is an internal benchmark-design reference, not a complete survey.
 
 ## Why this landscape matters
 
@@ -29,6 +29,22 @@ CFD-AI papers fail review when they validate only the easiest axis. A surrogate 
 | The Well | Large physics-simulation dataset collection with benchmark infrastructure and fluid/astrophysical entries. | Good anchor for large-scale spatiotemporal benchmark design and data logistics. | Not all datasets are CFD; classify domain and governing physics explicitly. |
 | Curated ML-fluid repositories | Broad inventory of reviews, papers, datasets, codes, and application areas. | Good for coverage checks and prompt seeds. | They are lists, not proof of benchmark quality or current consensus. |
 
+## Validation axes that should be forced apart
+
+No-skill outputs often compress these into "generalization" or "accuracy". Benchmark prompts should require separate rows because each axis supports a different claim.
+
+| Axis | Claim it can support | Evidence needed | Common overclaim to block |
+|---|---|---|---|
+| Held-out time / rollout horizon | Temporal interpolation or bounded extrapolation for the same regime. | Rollout protocol, teacher-forcing policy, drift metrics, stability/failure horizon. | "Stable long-term prediction" from one-step loss. |
+| Held-out Reynolds/Mach/parameter regime | Regime transfer within the stated nondimensional range. | Train/test parameter ranges, nondimensional groups, regime labels, failure cases. | "Generalizable surrogate" from random parameter mixing. |
+| Held-out geometry family/topology | Design-space transfer or geometry-conditioned prediction. | Split by design family/topology, geometry parameterization, leakage check, force/field diagnostics. | "Works for new geometries" from near-duplicate shapes. |
+| Mesh/resolution transfer | Discretization robustness or operator-like behavior. | Mesh policy, resolution ladder, interpolation/projection method, conservation/QoI drift. | "Mesh independent" from same-grid testing. |
+| Boundary/initial-condition transfer | Scenario transfer under changed forcing or inflow/outflow conditions. | BC/IC definitions, training coverage, boundary residuals, QoI sensitivity. | "Physics-aware" from residual terms alone. |
+| Cross-solver or cross-fidelity transfer | Portability beyond one numerical setup. | Solver/fidelity definitions, calibration differences, domain mismatch, uncertainty bounds. | "Deployable" from one solver's offline data. |
+| Coupled-solver deployment | Closed-loop numerical usefulness. | Coupling interface, residual behavior, CFL/time step, fallback policy, wall-clock accounting. | "Real-time CFD acceleration" from neural inference timing only. |
+| Physical diagnostic agreement | Field error supports the intended physics/QoI claim. | Spectra, conservation, forces, pressure, stresses, vorticity, dissipation, uncertainty calibration. | "Physically consistent" from low MSE or visual agreement. |
+| Data/license/logistics | Reproducible benchmark reuse. | Source, version, license, preprocessing, storage format, seeds, hardware/runtime. | "Open benchmark" without verified reuse conditions. |
+
 ## Prompt requirements for future hard benchmarks
 
 Every new CFD-AI benchmark task should ask for:
@@ -39,6 +55,7 @@ Every new CFD-AI benchmark task should ask for:
 - failure mode: leakage, solver-coupling instability, spectral drift, conservation violation, force/QoI mismatch, uncertainty miscalibration, or unreproducible setup;
 - evidence table: what claim is allowed, what evidence is supplied, what remains TODO;
 - reviewer traps: unsupported "state-of-the-art", "real-time", "generalizable", "physically consistent", "solves turbulence", or "deployable".
+- source-boundary table: what is a dataset, a tool, a benchmark suite, a curated list, or a review claim, and what each one can and cannot prove.
 
 ## Unknowns/TODO
 

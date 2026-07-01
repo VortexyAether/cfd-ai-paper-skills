@@ -39,7 +39,7 @@ This package pushes the agent to ask the questions reviewers ask:
 ## Quickstart
 
 1. Put this repository where your agent can read it.
-2. Tell the agent to use the relevant `skills/<skill-name>/SKILL.md`.
+2. Tell the agent to start with the root `SKILL.md` entrypoint, or name the relevant `skills/<skill-name>/SKILL.md` files directly for focused work.
 3. Provide your paper draft, notes, logs, figures, BibTeX, or experiment plan.
 4. Ask for a concrete artifact: claim-evidence map, reviewer report, experiment matrix, related-work taxonomy, LaTeX section, full paper seed, response letter, or reproducibility audit.
 5. Treat unknown facts as `TODO` until you provide evidence.
@@ -50,11 +50,14 @@ Example:
 Use the CFD-AI paper skills in this repository. Audit my draft for unsupported CFD/SciML claims, map every major claim to evidence or TODO, and rewrite only the unsafe claims. Do not invent solver settings, citations, DOI values, or benchmark numbers.
 ```
 
+If your agent supports installable local skills, `SKILL.md` is the easiest entrypoint. It routes manuscript writing, claim audits, reproducibility checks, experiment design, related-work synthesis, LaTeX production, and reviewer-response work to the focused subskills under `skills/`.
+
 ## Codex Usage Tutorial
 
 From a workspace that contains this package, ask Codex to use the skill directly:
 
 ```text
+Use SKILL.md from the CFD-AI paper skills package as the router.
 Use skills/paper-claim-auditor/SKILL.md and skills/cfd-reproducibility-checker/SKILL.md.
 Review manuscript/main.tex and produce:
 1. a claim-evidence table,

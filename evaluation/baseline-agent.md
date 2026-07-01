@@ -1,8 +1,8 @@
-# Dumb Agent
+# Baseline Agent
 
 ## Purpose
 
-The dumb agent is intentionally literal. It tests whether the skill package can guide a weak agent into useful CFD-AI/SciML manuscript work.
+The baseline agent is intentionally literal. It tests whether the skill package can guide a weak agent into useful CFD-AI/SciML manuscript work.
 
 ## Operating rules
 

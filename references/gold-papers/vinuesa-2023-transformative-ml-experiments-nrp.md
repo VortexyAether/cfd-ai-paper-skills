@@ -89,7 +89,7 @@ For a review/perspective:
 
 ## Eval Task Derived From Paper
 
-Ask a dumb agent to position a proposed ML-for-PIV/experimental-control paper. It must classify the workflow stage, required evidence, limitations, and real-time/control constraints.
+Ask a baseline agent to position a proposed ML-for-PIV/experimental-control paper. It must classify the workflow stage, required evidence, limitations, and real-time/control constraints.
 
 ## Unknowns/TODOs
 

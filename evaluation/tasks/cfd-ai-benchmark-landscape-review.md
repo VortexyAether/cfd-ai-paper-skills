@@ -52,7 +52,7 @@ Read when available:
 - `rubrics/sciml-experiment-rubric.md`
 - `rubrics/figure-evidence-rubric.md`
 
-## Dumb-agent / model prompt
+## Baseline-agent / model prompt
 
 You are writing a CFD-AI / scientific-ML **review article seed** in LaTeX. Your output must be a complete compilable `main.tex` file, not a bullet memo.
 
@@ -149,6 +149,7 @@ The manuscript must include:
 8. At least two tables:
    - resource classification table;
    - validation-axis/split-design table.
+   - source-boundary table distinguishing datasets, tools, benchmark suites, curated lists, and review claims.
 9. At least three boxed figure placeholders:
    - benchmark landscape map;
    - split-design decision tree;
@@ -165,6 +166,8 @@ The manuscript must include:
 - Do not use `robust`, `generalizable`, `physically consistent`, `state-of-the-art`, or `real-time` unless immediately bounded by evidence or flagged as unsupported.
 - Every figure caption must state what claim the figure supports.
 - Every table must include a limitation, validation, split, or reproducibility column.
+- Do not merge held-out time, parameter, geometry, mesh, BC/IC, cross-solver, and coupled-solver axes into one generic "generalization" row.
+- Distinguish resource-list coverage from evidence that a benchmark supports a CFD-AI claim.
 - Make the prose sound like a cautious CFD/SciML review, not a hype blog post.
 
 ### Output format
@@ -192,6 +195,8 @@ A pass-level output should:
 
 - compile with Tectonic or standard LaTeX without fatal errors;
 - classify resources by workflow role, validation axis, split design, failure mode, and reproducibility;
+- keep source-boundary distinctions explicit: datasets, tools, benchmark suites, curated resource lists, and review claims support different evidence levels;
+- force validation axes apart rather than using one generic generalization/accuracy bucket;
 - distinguish datasets, tooling, benchmark suites, and curated resource lists;
 - cover data-driven surrogates, physics-informed surrogates, ML-assisted numerical solutions, closure, reconstruction, aero, flow control, and multiphase cases;
 - include at least two meaningful tables and three evidence-linked figure placeholders;
@@ -222,6 +227,8 @@ Minimum internal pass: average score >= 2.3 and no score below 1 on LaTeX compil
 | Failure | Why it matters |
 |---|---|
 | Resource list instead of taxonomy | It does not help reviewers judge benchmark claims. |
+| Merges validation axes into generic generalization | It hides whether the claim is about time, regime, geometry, mesh, BC/IC, solver, or deployment. |
+| Treats source scope as evidence strength | A dataset, tool, list, and benchmark suite do not prove the same kind of claim. |
 | Omits split design | Benchmark claims depend on what was held out. |
 | Treats tools as validation evidence | A library capability does not prove model behavior. |
 | Claims comprehensive CFD coverage | Most resources cover only selected domains. |

@@ -54,6 +54,44 @@ REQUIRED_TEMPLATES: Final = (
     "templates/response-letter.md",
     "templates/reviewer-report.md",
 )
+PRIVATE_STATE_DIR: Final = "." + ("ta" + "rs")
+LOCAL_USER_PART: Final = "v" + "a"
+PUBLIC_SCAN_EXCLUDED_DIRS: Final = frozenset((".git", "." + "omo", PRIVATE_STATE_DIR, "dist", "__pycache__", ".tmp_pycache"))
+PUBLIC_SCAN_EXCLUDED_NAMES: Final = frozenset((".gitignore",))
+FORBIDDEN_PUBLIC_PATTERNS: Final = (
+    "TA" + "RS",
+    "Lazy" + "Codex",
+    "du" + "mb",
+    "du" + "mb-agent",
+    "du" + "mb agent",
+    "evaluator " + "loop",
+    "/Users/" + LOCAL_USER_PART,
+    PRIVATE_STATE_DIR,
+)
+ROOT_SKILL_REQUIRED_STRINGS: Final = (
+    "name: cfd-ai-paper-skills",
+    "version: v0.6.1",
+    "## Trigger Conditions",
+    "## Progressive Disclosure",
+    "## Routing Table",
+    "skills/paper-claim-auditor/SKILL.md",
+    "skills/cfd-reproducibility-checker/SKILL.md",
+    "skills/experiment-design-for-sciml/SKILL.md",
+    "skills/sciml-experiment-auditor/SKILL.md",
+    "skills/related-work-cartographer/SKILL.md",
+    "skills/related-work-synthesis/SKILL.md",
+    "skills/latex-paper-production/SKILL.md",
+    "skills/reviewer-simulator/SKILL.md",
+    "skills/response-to-reviewers/SKILL.md",
+    "skills/paper-revision-loop-manager/SKILL.md",
+    "Claim-Evidence Map",
+    "Reviewer-Risk Report",
+    "Reproducibility Checklist",
+    "Experiment Matrix",
+    "LaTeX Manuscript Seed",
+    "Response Letter",
+    "Benchmark Review Output",
+)
 SKILL_REQUIRED_SECTIONS: Final = (
     ("output schema", "output template"),
     ("anti-pattern",),
@@ -105,6 +143,13 @@ def validate_skill(path: Path) -> None:
         require(has_any_section(text, section_names), f"{path}: missing {label} section")
 
 
+def validate_root_skill(path: Path) -> None:
+    validate_skill(path)
+    text = path.read_text(encoding="utf-8")
+    for required in ROOT_SKILL_REQUIRED_STRINGS:
+        require(required in text, f"{path}: missing root entrypoint requirement: {required}")
+
+
 def validate_gold_paper(path: Path) -> None:
     text = path.read_text(encoding="utf-8")
     require(text.startswith("---\n"), f"{path}: missing YAML frontmatter at byte 0")
@@ -148,6 +193,22 @@ def validate_eval_tasks(evals_path: Path) -> None:
             )
 
 
+def validate_public_term_separation() -> None:
+    for path in sorted(ROOT.rglob("*")):
+        relative = path.relative_to(ROOT)
+        if not path.is_file():
+            continue
+        if path.name in PUBLIC_SCAN_EXCLUDED_NAMES:
+            continue
+        if any(part in PUBLIC_SCAN_EXCLUDED_DIRS for part in relative.parts):
+            continue
+        if path.suffix.lower() in (".pdf", ".gz"):
+            continue
+        text = path.read_text(encoding="utf-8").lower()
+        for pattern in FORBIDDEN_PUBLIC_PATTERNS:
+            require(pattern.lower() not in text, f"{relative}: forbidden public/internal term: {pattern}")
+
+
 def main() -> int:
     for directory in REQUIRED_DIRS:
         require((ROOT / directory).is_dir(), f"required directory missing: {directory}")
@@ -155,11 +216,14 @@ def main() -> int:
     for path in REQUIRED_GOLD_PAPERS + REQUIRED_REFERENCE_FILES + REQUIRED_RUBRICS + REQUIRED_EXAMPLES + REQUIRED_TEMPLATES:
         require((ROOT / path).is_file(), f"required file missing: {path}")
 
+    validate_root_skill(ROOT / "SKILL.md")
+
     for skill_path in sorted((ROOT / "skills").glob("*/SKILL.md")):
         validate_skill(skill_path)
 
     validate_gold_papers()
     validate_eval_tasks(ROOT / "evaluation" / "evals.json")
+    validate_public_term_separation()
     run_static_evals.run_all()
     print("ok")
     return 0

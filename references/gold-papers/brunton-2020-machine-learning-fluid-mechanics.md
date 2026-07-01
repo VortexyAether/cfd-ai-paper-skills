@@ -92,7 +92,7 @@ For review papers, the evidence stack is conceptual:
 
 ## Eval task derived from this paper
 
-Ask the dumb agent to position a new neural-operator CFD paper in a Brunton-style taxonomy. The evaluator checks whether the agent maps workflow roles, limitations, and contribution boundaries rather than producing a citation dump.
+Ask the baseline agent to position a new neural-operator CFD paper in a Brunton-style taxonomy. The evaluator checks whether the agent maps workflow roles, limitations, and contribution boundaries rather than producing a citation dump.
 
 ## Unknowns/TODOs
 

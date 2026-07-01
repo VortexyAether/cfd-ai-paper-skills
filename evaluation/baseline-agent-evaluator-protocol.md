@@ -1,8 +1,8 @@
 ---
-title: Dumb-agent + evaluator protocol
+title: Baseline-agent + evaluator protocol
 created: 2026-06-30
 updated: 2026-06-30
-source: TARS
+source: internal evaluator
 status: draft
 tags:
   - cfd-ai
@@ -10,15 +10,15 @@ tags:
   - multi-agent
 ---
 
-# Dumb-agent + evaluator protocol
+# Baseline-agent + evaluator protocol
 
 Purpose: test whether the CFD-AI/SciML skill package actually improves manuscript work.
 
-The weak agent is intentionally underpowered: it receives a skill and a task, then tries to critique/write/reconstruct. The evaluator compares its output against gold-standard papers and scores it. TARS updates the skill based on failures.
+The weak agent is intentionally underpowered: it receives a skill and a task, then tries to critique/write/reconstruct. The evaluator compares its output against gold-standard papers and scores it. the evaluator updates the skill based on failures.
 
 ## Agents
 
-### 1. Dumb Writer / Dumb Reviewer
+### 1. Baseline Writer / Baseline Reviewer
 
 Inputs:
 
@@ -40,7 +40,7 @@ Purpose:
 
 Inputs:
 
-- Dumb-agent output.
+- Baseline-agent output.
 - Gold-standard paper excerpt/metadata.
 - Evaluation rubric.
 
@@ -51,7 +51,7 @@ Outputs:
 - Hallucinations/inventions.
 - Skill-level fix recommendations.
 
-### 3. TARS Integrator
+### 3. Evaluator Integrator
 
 Role:
 
@@ -63,7 +63,7 @@ Role:
 
 ### A. Gold-answer reconstruction
 
-Give dumb agent a title/abstract from a gold paper. Ask it to infer:
+Give baseline agent a title/abstract from a gold paper. Ask it to infer:
 
 - problem statement
 - gap
@@ -78,7 +78,7 @@ Evaluator checks against full paper notes.
 
 Give a weak manuscript paragraph with missing CFD details.
 
-Dumb agent must flag:
+Baseline agent must flag:
 
 - missing equations/BC/IC
 - missing solver/grid/CFL
@@ -94,7 +94,7 @@ Give method claim:
 
 > Our neural operator generalizes to turbulent flows across Reynolds numbers.
 
-Dumb agent must propose:
+Baseline agent must propose:
 
 - baseline matrix
 - train/test split
@@ -110,7 +110,7 @@ Evaluator scores completeness.
 
 Give a proposed paper idea and close prior art candidates.
 
-Dumb agent must produce:
+Baseline agent must produce:
 
 - taxonomy
 - close prior-art risks
@@ -123,7 +123,7 @@ Evaluator penalizes fake novelty.
 
 Give results inventory.
 
-Dumb agent must propose figure sequence:
+Baseline agent must propose figure sequence:
 
 1. task schematic
 2. dataset/flow setup
@@ -158,9 +158,9 @@ Pass threshold:
 ## Iteration loop
 
 1. Select one skill and one test task.
-2. Run dumb agent.
+2. Run baseline agent.
 3. Run evaluator.
-4. TARS inspects evaluator comments.
+4. the evaluator inspects evaluator comments.
 5. Patch skill:
    - add missing checklist item
    - sharpen output schema
@@ -191,9 +191,9 @@ Keep B only if:
 evaluation/runs/YYYY-MM-DD_task-name/
 ├── prompt.md
 ├── skill-version.md
-├── dumb-output.md
+├── baseline-output.md
 ├── evaluator-scorecard.md
-├── tars-decision.md
+├── evaluator-decision.md
 └── patched-skill-diff.md
 ```
 

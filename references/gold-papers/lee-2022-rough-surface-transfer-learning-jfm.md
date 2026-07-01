@@ -88,7 +88,7 @@ This paper is an answer key for physics-informed transfer learning that does not
 
 ## Eval Task Derived From Paper
 
-Ask a dumb agent to design evidence for "transfer learning improves rough-wall drag prediction." It must include empirical-correlation source, limited-DNS sweep, roughness statistics, and baseline without transfer.
+Ask a baseline agent to design evidence for "transfer learning improves rough-wall drag prediction." It must include empirical-correlation source, limited-DNS sweep, roughness statistics, and baseline without transfer.
 
 ## Unknowns/TODOs
 

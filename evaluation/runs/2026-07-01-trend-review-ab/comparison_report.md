@@ -10,7 +10,7 @@ Benchmark prompt:
 
 ## Run type
 
-Controlled TARS ablation:
+Controlled baseline ablation:
 
 - `no_skill/main.tex`: same review benchmark, generic/no-skill behavior.
 - `with_skill/main.tex`: same benchmark, CFD-AI/SciML skill-guided behavior.
@@ -61,7 +61,7 @@ The skill-guided output mentions risky phrases primarily as traps, limitations, 
 
 ## Scorecard
 
-Manual TARS evaluator scores using the trend-review benchmark scorecard.
+Manual manual evaluator scores using the trend-review benchmark scorecard.
 
 | Axis | No skill | With skill | Notes |
 |---|---:|---:|---|

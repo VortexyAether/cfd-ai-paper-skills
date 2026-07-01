@@ -2,7 +2,7 @@
 name: related-work-synthesis
 description: Use when searching, reading, organizing, and writing related work for CFD-AI/SciML papers, with emphasis on taxonomy, close-prior-art risk, and gap positioning.
 version: 0.4.0
-author: VA + TARS
+author: CFD-AI Paper Skills maintainers
 metadata:
   short-description: Related-work taxonomy and gap synthesis for CFD-AI/SciML
 ---

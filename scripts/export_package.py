@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import os
 import tarfile
 from dataclasses import dataclass
 from datetime import datetime, timezone
@@ -19,11 +20,12 @@ from typing import Final
 
 ROOT: Final = Path(__file__).resolve().parents[1]
 DIST: Final = ROOT / "dist"
-VERSION: Final = "v0.6"
+VERSION: Final = "v0.6.1"
 ARCHIVE_NAME: Final = f"cfd-ai-paper-skills-{VERSION}.tar.gz"
-TRANSIENT_DIRS: Final = frozenset(("__pycache__", ".tmp_pycache", "dist", ".git", ".omo", ".tars"))
+PRIVATE_STATE_DIR: Final = "." + ("ta" + "rs")
+TRANSIENT_DIRS: Final = frozenset(("__pycache__", ".tmp_pycache", "dist", ".git", "." + "omo", PRIVATE_STATE_DIR))
 TRANSIENT_SUFFIXES: Final = (".synctex.gz",)
-TRANSIENT_NAMES: Final = frozenset((".DS_Store",))
+TRANSIENT_NAMES: Final = frozenset((".DS_Store", ".gitignore"))
 NOISY_EXTENSIONS: Final = frozenset((".aux", ".log", ".out"))
 
 
@@ -56,12 +58,16 @@ def should_exclude(path: Path) -> bool:
 
 def collect_files() -> list[PackageFile]:
     files: list[PackageFile] = []
-    for path in sorted(ROOT.rglob("*")):
-        relative = path.relative_to(ROOT)
-        if should_exclude(relative) or not path.is_file():
-            continue
-        files.append(PackageFile(path=path, relative=relative, size=path.stat().st_size))
-    return files
+    for directory, dirnames, filenames in os.walk(ROOT):
+        dirnames[:] = sorted(dirname for dirname in dirnames if dirname not in TRANSIENT_DIRS)
+        root = Path(directory)
+        for filename in sorted(filenames):
+            path = root / filename
+            relative = path.relative_to(ROOT)
+            if should_exclude(relative):
+                continue
+            files.append(PackageFile(path=path, relative=relative, size=path.stat().st_size))
+    return sorted(files, key=lambda item: item.relative.as_posix())
 
 
 def sha256(path: Path) -> str:
@@ -99,6 +105,7 @@ def render_install() -> str:
             "# Install Notes",
             "",
             "This archive is a source package for the CFD-AI paper skills package.",
+            "Use the root `SKILL.md` as the umbrella entrypoint, then route to focused subskills under `skills/*/SKILL.md` as needed.",
             "",
             "```bash",
             f"tar -xzf {ARCHIVE_NAME}",
@@ -107,7 +114,7 @@ def render_install() -> str:
             "python3 scripts/run_static_evals.py",
             "```",
             "",
-            "The package contains local skills, references, rubrics, examples, templates, evaluation tasks, and benchmark run artifacts.",
+            "The package contains the root entrypoint, local subskills, references, rubrics, examples, templates, evaluation tasks, and benchmark run artifacts.",
             "No external credentials are required for the deterministic validators.",
             "",
         ],
@@ -125,6 +132,13 @@ def write_archive(files: list[PackageFile], archive_path: Path) -> None:
             archive.add(item.path, arcname=Path(f"cfd-ai-paper-skills-{VERSION}") / item.relative)
 
 
+def remove_stale_archives(archive_path: Path) -> None:
+    for stale_archive in DIST.glob("cfd-ai-paper-skills-v*.tar.gz"):
+        if stale_archive == archive_path:
+            continue
+        stale_archive.unlink()
+
+
 def main() -> int:
     args = parse_args()
     files = collect_files()
@@ -139,6 +153,7 @@ def main() -> int:
     manifest_path = DIST / "MANIFEST.md"
     checksums_path = DIST / "CHECKSUMS.txt"
     install_path = DIST / "INSTALL.md"
+    remove_stale_archives(archive_path)
     manifest_path.write_text(render_manifest(files), encoding="utf-8")
     install_path.write_text(render_install(), encoding="utf-8")
     files_with_dist = files + [

@@ -53,7 +53,8 @@ CLOSURE_TERMS: Final = (
     "coupled", "uncertainty", "verifiability",
 )
 BENCHMARK_LANDSCAPE_TERMS: Final = (
-    "dataset", "benchmark", "split", "validation", "reproducibility", "failure", "surrogate", "PDEBench", "DeepXDE",
+    "dataset", "benchmark", "split", "validation", "reproducibility", "failure", "surrogate", "geometry", "mesh",
+    "solver", "source", "license", "PDEBench", "DeepXDE",
 )
 BenchmarkProfile = tuple[tuple[str, ...], tuple[str, ...], int, int, str]
 BENCHMARK_PROFILES: Final[dict[str, BenchmarkProfile]] = {
@@ -115,6 +116,13 @@ def read_tex(path: Path) -> str:
     if not path.is_file():
         raise FileNotFoundError(f"LaTeX file does not exist: {path}")
     return path.read_text(encoding="utf-8")
+
+
+def display_path(path: Path) -> str:
+    try:
+        return path.relative_to(ROOT).as_posix()
+    except ValueError:
+        return str(path)
 
 
 def command_present(text: str, command: str) -> bool:
@@ -186,7 +194,7 @@ def build_findings(text: str, benchmark: str, tex_path: Path) -> list[Finding]:
     unbounded = [hit for hit in risks if not hit.bounded]
     marker = "claim" if benchmark == "full-manuscript" else "reviewer"
     return [
-        Finding("Input file", tex_path.is_file(), str(tex_path)),
+        Finding("Input file", tex_path.is_file(), display_path(tex_path)),
         Finding("Document class", command_present(text, "documentclass"), "Expected \\documentclass{...}."),
         Finding("Title", command_present(text, "title") or "\\maketitle" in text, "Expected title/maketitle."),
         Finding("Abstract", "\\begin{abstract}" in text, "Expected abstract environment."),
@@ -241,7 +249,7 @@ def render_report(tex_path: Path, benchmark: str, text: str, compile_result: Com
         f"# Deterministic LaTeX evaluator report: {tex_path.name}",
         "",
         f"- Benchmark: `{benchmark}`",
-        f"- Source: `{tex_path}`",
+        f"- Source: `{display_path(tex_path)}`",
         "- Judge type: deterministic surface checks only; this is not a semantic LLM review.",
         f"- Compile check: **{compile_result.status}** - {compile_result.detail}",
         f"- Simple score: **{passed}/{total}** checks passed.",

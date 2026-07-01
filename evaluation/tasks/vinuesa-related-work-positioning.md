@@ -10,7 +10,7 @@
 - `references/gold-papers/vinuesa-2022-enhancing-cfd-ml.md`
 - Additional Vinuesa perspective papers may be used only if source-scoped and marked.
 
-## Dumb-agent prompt
+## Baseline-agent prompt
 
 Position a new CFD-AI paper in the broader ML-for-CFD landscape. Identify taxonomy, opportunity, risk, and responsible claim boundaries.
 

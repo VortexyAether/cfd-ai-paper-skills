@@ -1,6 +1,6 @@
 # Related projects distillation
 
-Source scope: inspected browser-accessible README/key pages listed in `.tars/related-repos/source-scope.md`. Shell raw fetch and shallow clone were blocked by DNS resolution for `raw.githubusercontent.com`; no upstream code was vendored. `Zejun-W/AI-Research-Writing-Skills-Hub` could not be verified cleanly in this environment, so it is listed only as `unknown/TODO`.
+Source scope: inspected browser-accessible README/key pages listed in internal source-scope notes. Shell raw fetch and shallow clone were blocked by DNS resolution for `raw.githubusercontent.com`; no upstream code was vendored. `Zejun-W/AI-Research-Writing-Skills-Hub` could not be verified cleanly in this environment, so it is listed only as `unknown/TODO`.
 
 ## Comparison
 

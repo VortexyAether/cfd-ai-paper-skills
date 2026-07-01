@@ -2,7 +2,7 @@
 title: Gold-standard bibliography v0.4
 created: 2026-06-30
 updated: 2026-06-30
-source: TARS + arXiv/DOI metadata and v0.4 gold-paper notes
+source: curated bibliography metadata and v0.4 gold-paper notes
 status: v0.4
 tags:
   - cfd-ai

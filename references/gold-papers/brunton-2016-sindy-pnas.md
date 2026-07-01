@@ -88,7 +88,7 @@ This paper is a model for interpretable scientific ML: the ML method is valuable
 
 ## Eval Task Derived From Paper
 
-Ask a dumb agent to critique a "we discover governing equations" claim. It must request state variables, derivative estimation, candidate library, sparsity threshold, noise tests, and recovery of known equations.
+Ask a baseline agent to critique a "we discover governing equations" claim. It must request state variables, derivative estimation, candidate library, sparsity threshold, noise tests, and recovery of known equations.
 
 ## Unknowns/TODOs
 

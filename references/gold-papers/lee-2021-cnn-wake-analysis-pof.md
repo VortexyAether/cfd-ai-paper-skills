@@ -89,7 +89,7 @@ This paper shifts from "CNN predicts wake fields" to "what mechanisms does the C
 
 ## Eval Task Derived From Paper
 
-Ask a dumb reviewer to critique a CNN wake prediction paper claiming interpretability. It must demand feature maps, spectral analysis, variable/time-history contributions, and physical-regime comparison.
+Ask a weak reviewer to critique a CNN wake prediction paper claiming interpretability. It must demand feature maps, spectral analysis, variable/time-history contributions, and physical-regime comparison.
 
 ## Unknowns/TODOs
 

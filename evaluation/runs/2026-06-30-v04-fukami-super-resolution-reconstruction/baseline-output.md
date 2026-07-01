@@ -1,4 +1,4 @@
-# Dumb Output
+# Baseline Output
 
 ## Inputs used
 

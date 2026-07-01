@@ -93,7 +93,7 @@ This paper extends Fukami 2019 from spatial super-resolution to coupled space-ti
 
 ## Eval Task Derived From Paper
 
-Ask a dumb agent to extend a spatial-SR evidence stack into a spatio-temporal one. It must add frame-interval, rollout/inbetweening, temporal-correlation, and turbulence-statistics checks without inventing solver settings.
+Ask a baseline agent to extend a spatial-SR evidence stack into a spatio-temporal one. It must add frame-interval, rollout/inbetweening, temporal-correlation, and turbulence-statistics checks without inventing solver settings.
 
 ## Unknowns/TODOs
 

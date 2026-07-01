@@ -1,7 +1,7 @@
 # Deterministic LaTeX evaluator report: main.tex
 
 - Benchmark: `trend-review`
-- Source: `/Users/va/Obsidian/VA_obs/20_Research/CFD-AI_Paper_Skills_Package/evaluation/runs/2026-07-01-trend-review-ab/no_skill/main.tex`
+- Source: `evaluation/runs/2026-07-01-trend-review-ab/no_skill/main.tex`
 - Judge type: deterministic surface checks only; this is not a semantic LLM review.
 - Compile check: **not-run** - Compile check skipped; use --compile to enable.
 - Simple score: **9/11** checks passed.
@@ -10,7 +10,7 @@
 
 | Check | Result | Detail |
 |---|---:|---|
-| Input file | pass | /Users/va/Obsidian/VA_obs/20_Research/CFD-AI_Paper_Skills_Package/evaluation/runs/2026-07-01-trend-review-ab/no_skill/main.tex |
+| Input file | pass | evaluation/runs/2026-07-01-trend-review-ab/no_skill/main.tex |
 | Document class | pass | Expected \documentclass{...}. |
 | Title | pass | Expected title/maketitle. |
 | Abstract | pass | Expected abstract environment. |

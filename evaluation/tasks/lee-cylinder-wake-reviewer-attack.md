@@ -9,7 +9,7 @@
 
 Sangseung Lee and Donghyun You, *Data-driven prediction of unsteady flow fields over a circular cylinder using deep learning*, JFM 879:217–254 / arXiv:1804.06076.
 
-## Dumb-agent prompt
+## Baseline-agent prompt
 
 A manuscript claims: “Our deep learning model accurately predicts unsteady cylinder wake flow and generalizes to new flow conditions.” Critique it as a CFD reviewer.
 

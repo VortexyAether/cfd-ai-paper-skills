@@ -10,7 +10,7 @@ Benchmark prompt:
 
 ## Run type
 
-Controlled TARS ablation:
+Controlled baseline ablation:
 
 - `no_skill/main.tex`: same evidence packet, no CFD-AI/SciML skill behavior applied; intentionally reflects generic AI manuscript failure modes.
 - `with_skill/main.tex`: same evidence packet, generated with the CFD-AI/SciML paper-writing skill package principles.
@@ -63,7 +63,7 @@ The skill-guided output mentions risky concepts only as scoped limitations or TO
 
 ## Scorecard
 
-Scores are manual TARS evaluator scores using the benchmark scorecard.
+Scores are manual manual evaluator scores using the benchmark scorecard.
 
 | Axis | No skill | With skill | Notes |
 |---|---:|---:|---|
@@ -104,7 +104,7 @@ The skill-guided output behaves like a reviewer-defensible seed: it narrows the 
 For a stronger deployment gate, run the same benchmark with an actual external weaker model:
 
 1. give it only the benchmark prompt;
-2. record raw output without TARS cleanup;
+2. record raw output without manual cleanup;
 3. compile or log compile failure;
 4. score with the same rubric;
 5. compare against skill-guided output.

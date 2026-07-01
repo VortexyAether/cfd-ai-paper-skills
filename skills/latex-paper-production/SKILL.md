@@ -2,7 +2,7 @@
 name: latex-paper-production
 description: Use when writing, editing, compiling, or debugging LaTeX scientific manuscripts, journal templates, equations, figures, tables, captions, and BibTeX.
 version: 0.3.0
-author: VA + TARS
+author: CFD-AI Paper Skills maintainers
 metadata:
   short-description: Produce and debug LaTeX CFD-AI/SciML manuscripts
 ---

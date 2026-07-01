@@ -7,9 +7,9 @@
 ## Gold reference
 
 - Paper file: `references/gold-papers/[paper].md`
-- Source scope allowed to dumb agent: title + abstract / gold note / full paper
+- Source scope allowed to baseline agent: title + abstract / gold note / full paper
 
-## Dumb-agent prompt
+## Baseline-agent prompt
 
 Given only the allowed source scope, reconstruct:
 

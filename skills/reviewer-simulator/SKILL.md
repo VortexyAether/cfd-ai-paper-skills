@@ -2,7 +2,7 @@
 name: reviewer-simulator
 description: Use when simulating a journal/ML-conference reviewer for a CFD-AI/SciML manuscript, producing strengths, major concerns, reproducibility concerns, required experiments, and decision risk.
 version: 0.3.0
-author: VA + TARS
+author: CFD-AI Paper Skills maintainers
 metadata:
   short-description: Reviewer simulation for CFD-AI/SciML manuscripts
 ---

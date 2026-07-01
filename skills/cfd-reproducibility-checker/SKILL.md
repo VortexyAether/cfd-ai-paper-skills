@@ -2,7 +2,7 @@
 name: cfd-reproducibility-checker
 description: Use when auditing CFD-AI/SciML papers for reproducibility: governing equations, nondimensional numbers, geometry, mesh, boundary conditions, solver settings, datasets, splits, baselines, hyperparameters, compute, and exact commands.
 version: 0.4.0
-author: VA + TARS
+author: CFD-AI Paper Skills maintainers
 metadata:
   short-description: CFD reproducibility audit for AI/ML manuscripts
 ---

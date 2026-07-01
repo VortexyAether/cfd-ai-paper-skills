@@ -1,6 +1,6 @@
-# Simulated dumb-agent run: Lee cylinder wake reviewer attack
+# Simulated baseline-agent run: Lee cylinder wake reviewer attack
 
-Label: simulated dumb-agent run. No external model was spawned.
+Label: simulated baseline-agent run. No external model was spawned.
 
 ## Task
 

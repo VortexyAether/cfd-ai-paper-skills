@@ -99,7 +99,7 @@ It translates a computer-vision task into a fluid-mechanics reconstruction probl
 
 ## Eval task derived from this paper
 
-Give a dumb agent only the title and abstract. It must reconstruct the evidence stack and figure sequence without inventing solver details. Score with `rubrics/figure-evidence-rubric.md`, `rubrics/sciml-experiment-rubric.md`, and hallucination checks.
+Give a baseline agent only the title and abstract. It must reconstruct the evidence stack and figure sequence without inventing solver details. Score with `rubrics/figure-evidence-rubric.md`, `rubrics/sciml-experiment-rubric.md`, and hallucination checks.
 
 ## Unknowns/TODOs
 

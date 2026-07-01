@@ -2,7 +2,7 @@
 title: Benchmark synthesis v0.2
 created: 2026-06-30
 updated: 2026-06-30
-source: TARS + delegated benchmark agent
+source: internal benchmark synthesis
 status: archived-v0.2-input-superseded-by-v0.3
 tags:
   - cfd-ai
@@ -13,7 +13,7 @@ tags:
 
 # Benchmark synthesis v0.2
 
-> v0.3 note: this file is retained as historical benchmark input. Current v0.3 package structure is summarized in `README.md`, operational rubrics live in `rubrics/`, and evaluator workflow lives in `evaluation/evaluator-agent.md`, `evaluation/dumb-agent.md`, and `evaluation/ab-loop.md`.
+> v0.3 note: this file is retained as historical benchmark input. Current v0.3 package structure is summarized in `README.md`, operational rubrics live in `rubrics/`, and evaluator workflow lives in `evaluation/evaluator-agent.md`, `evaluation/baseline-agent.md`, and `evaluation/ab-loop.md`.
 
 Benchmarked sources:
 

@@ -32,4 +32,4 @@ If you update `scripts/evaluate_latex_output.py`, run it against at least one ex
 
 Public README/docs should be user-centered: what the package is, how to use it, what agent behaviors it provides, tutorials, workflows, limitations, and positioning.
 
-Internal development notes belong in `references/`, `evaluation/`, or ignored `.tars/` run artifacts.
+Internal development notes belong in `references/`, `evaluation/`, or ignored local run artifacts.
