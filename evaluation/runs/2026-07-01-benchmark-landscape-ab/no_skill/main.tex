@@ -1,0 +1,102 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\title{How Should CFD-AI Benchmarks Be Reviewed? Validation Axes, Splits, Failure Modes, and Reproducibility}
+\author{No-skill baseline sample}
+\date{}
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Machine learning has become a state-of-the-art approach for computational fluid dynamics benchmarks. This review summarizes important resources including PDEBench, DeepXDE, DrivAerNet, The Well, and curated machine-learning fluid-mechanics lists. We argue that modern CFD-AI benchmarks are robust, generalizable, and increasingly ready for real-time deployment in engineering design. The article provides a compact overview of datasets, tools, and future directions for AI-based CFD acceleration.
+\end{abstract}
+
+\section{Introduction}
+CFD-AI benchmarks are rapidly expanding. Neural operators, graph neural networks, PINNs, autoencoders, and diffusion models are now used for surrogate modeling, turbulence closure, reconstruction, aerodynamic design, and flow control. Because many resources exist, the main task for reviewers is to identify the most comprehensive benchmark suite and compare reported accuracy across methods.
+
+Popular resources such as PDEBench, DeepXDE, DrivAerNet, and The Well collectively show that AI methods can solve a wide range of PDE and CFD problems. These resources also demonstrate the strong generalization capacity of neural networks when trained on enough simulation data. In many cases, reported errors are low enough to support real-time digital twins and fast design loops.
+
+\section{Benchmark Resources}
+\begin{table}[h]
+\centering
+\begin{tabular}{llll}
+\toprule
+Resource & Type & Main use & Strength \\
+\midrule
+PDEBench & Dataset suite & PDE learning & Broad coverage \\
+DeepXDE & Tool & PINNs & Physically consistent models \\
+DrivAerNet & Dataset & Aerodynamics & Geometry generalization \\
+The Well & Dataset collection & Physics ML & Large-scale training \\
+Awesome lists & Resource lists & Literature search & Comprehensive coverage \\
+\bottomrule
+\end{tabular}
+\caption{Important CFD-AI benchmark resources. The table supports the claim that the field has broad benchmark coverage.}
+\end{table}
+
+\section{Validation Splits}
+Most benchmark papers use train/test splits. Random splits are useful because they measure whether a model can interpolate within the same data distribution. Held-out time, parameters, geometry, mesh, and boundary conditions are alternative split types, but all can generally be interpreted as generalization. A strong benchmark should report a representative accuracy metric such as relative error or mean squared error.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lll}
+\toprule
+Split & Meaning & Recommended metric \\
+\midrule
+Random & Standard generalization & MSE \\
+Time & Temporal prediction & MSE \\
+Geometry & Design transfer & Drag error \\
+Mesh & Resolution transfer & Field error \\
+Boundary condition & Scenario transfer & Field error \\
+\bottomrule
+\end{tabular}
+\caption{Validation splits used by CFD-AI benchmarks. The table supports comparing benchmark accuracy across resources.}
+\end{table}
+
+\section{Failure Modes}
+Benchmark failure modes include overfitting, noisy data, limited resolution, and poor model architecture. However, these problems can usually be addressed by larger models, more data, and better physics-informed losses. Neural operators and graph networks are especially promising because they can generalize across discretizations and geometries.
+
+\fbox{\begin{minipage}{0.92\linewidth}
+\textbf{Figure placeholder 1: Benchmark landscape map.} This figure supports the claim that modern CFD-AI resources span most important benchmark categories.
+\end{minipage}}
+
+\vspace{1em}
+\fbox{\begin{minipage}{0.92\linewidth}
+\textbf{Figure placeholder 2: Split-design decision tree.} This figure supports selecting random or held-out splits for model evaluation.
+\end{minipage}}
+
+\vspace{1em}
+\fbox{\begin{minipage}{0.92\linewidth}
+\textbf{Figure placeholder 3: Failure-mode funnel.} This figure supports the idea that more data and larger models reduce most failures.
+\end{minipage}}
+
+\section{Reviewer Traps}
+\begin{table}[h]
+\centering
+\begin{tabular}{ll}
+\toprule
+Overclaim & Rewrite \\
+\midrule
+Benchmarks are comprehensive & Benchmarks cover many cases \\
+Models are state-of-the-art & Models are competitive \\
+PINNs are physically consistent & PINNs include physics losses \\
+Surrogates are real-time & Surrogates can be fast \\
+Models generalize & Models can generalize \\
+\bottomrule
+\end{tabular}
+\caption{Reviewer-trap rewrites. The table supports safer benchmark-language choices.}
+\end{table}
+
+\section{Research Agenda}
+Future work should add more datasets, larger models, better leaderboards, and more real-time deployment studies. Benchmark maintainers should unify data formats and report accuracy. The community should also create a single comprehensive CFD-AI leaderboard.
+
+\begin{thebibliography}{9}
+\bibitem{pdebench} TODO: verified PDEBench citation.
+\bibitem{deepxde} TODO: verified DeepXDE citation.
+\bibitem{drivaernet} TODO: verified DrivAerNet citation.
+\bibitem{thewell} TODO: verified The Well citation.
+\end{thebibliography}
+
+\end{document}

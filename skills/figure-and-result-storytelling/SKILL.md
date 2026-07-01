@@ -25,6 +25,7 @@ A figure is not decoration. It is evidence for a claim.
 - For cylinder-wake prediction/rollout figures, read `references/gold-papers/lee-2019-cylinder-wake-jfm.md`.
 - For CNN mechanism/interpretability figures, read `references/gold-papers/lee-2021-cnn-wake-analysis-pof.md`.
 - For uncertainty figures, read `references/gold-papers/maulik-2020-probabilistic-neural-networks-prf.md`.
+- For captions that sound decorative or AI-written, read `references/gold-paper-style-patterns.md`, `rubrics/gold-paper-closeness-rubric.md`, and `examples/generic-ai-to-gold-paper-prose.md`.
 
 ## Figure archetypes
 
@@ -70,6 +71,8 @@ Good caption:
 
 > Predicted and reference vorticity fields for the unseen $Re=2000$ cylinder wake. The proposed model preserves shear-layer roll-up and reduces relative $L_2$ error by 31% compared with FNO, while the error map shows remaining bias near vortex shedding extrema.
 
+Gold-paper-like captions should behave as evidence, not decoration. They should name the condition, the compared panels, the metric or diagnostic, and the claim boundary. Avoid captions that say only “comparison of results” or “effectiveness of the proposed method.”
+
 ## Output template
 
 1. Figure sequence
@@ -78,6 +81,7 @@ Good caption:
 4. Caption draft
 5. Missing plots/data
 6. Visual risk checklist
+7. Gold-paper closeness issues in captions, if any
 
 Also include:
 
@@ -93,6 +97,7 @@ For gold-paper reconstruction tasks, add a confidence column: `confirmed`, `like
 - Caption states only what is shown, not what is learned.
 - Turbulence claim with no spectrum/statistical diagnostic.
 - Generalization claim with no unseen-regime panel.
+- Caption uses `effective`, `robust`, `complex dynamics`, or `physically consistent` without metric/diagnostic/scope.
 
 ## Verification
 
@@ -102,3 +107,4 @@ For gold-paper reconstruction tasks, add a confidence column: `confirmed`, `like
 - Captions state takeaway, not just content.
 - Pretty fields are paired with quantitative/physical diagnostics.
 - Each major claim has at least one figure/table with rubric score 2 or 3.
+- Captions can be scored at least 2 on the figure/caption axis of `rubrics/gold-paper-closeness-rubric.md`.

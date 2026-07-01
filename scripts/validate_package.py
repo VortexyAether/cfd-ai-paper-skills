@@ -20,6 +20,9 @@ REQUIRED_DIRS: Final = (
     "evaluation/tasks",
     "evaluation/runs",
     "scripts",
+    ".codex",
+    ".codex/agents",
+    ".codex/prompts",
 )
 REQUIRED_GOLD_PAPERS: Final = (
     "references/gold-papers/fukami-2019-super-resolution-jfm.md",
@@ -32,6 +35,8 @@ REQUIRED_REFERENCE_FILES: Final = (
     "references/gold-papers/INDEX.md",
     "references/gold-standard-bibliography-v0.4.md",
     "references/field-terminology-style-guide.md",
+    "references/gold-paper-style-patterns.md",
+    "references/multi-agent-paper-roles.md",
 )
 REQUIRED_RUBRICS: Final = (
     "rubrics/claim-evidence-rubric.md",
@@ -40,6 +45,10 @@ REQUIRED_RUBRICS: Final = (
     "rubrics/figure-evidence-rubric.md",
     "rubrics/skill-quality-rubric.md",
     "rubrics/vocabulary-style-rubric.md",
+    "rubrics/gold-paper-closeness-rubric.md",
+    "rubrics/reviewer-audit-rubric.md",
+    "rubrics/reviewer-editor-loop-rubric.md",
+    "rubrics/multi-agent-paper-workflow-rubric.md",
 )
 REQUIRED_EXAMPLES: Final = (
     "examples/bad-to-good-abstract.md",
@@ -47,12 +56,35 @@ REQUIRED_EXAMPLES: Final = (
     "examples/citation-dump-to-taxonomy.md",
     "examples/generic-review-to-cfd-review.md",
     "examples/ai-ish-to-field-native-prose.md",
+    "examples/generic-ai-to-gold-paper-prose.md",
+    "examples/weak-review-to-reviewer-audit.md",
+    "examples/reviewer-audit-to-editor-rewrite.md",
+    "examples/multi-agent-reviewer-editor-workflow.md",
 )
 REQUIRED_TEMPLATES: Final = (
     "templates/claim-evidence-map.md",
     "templates/experiment-plan.md",
     "templates/response-letter.md",
     "templates/reviewer-report.md",
+    "templates/gold-paper-reconstruction-report.md",
+    "templates/reviewer-audit-report.md",
+    "templates/reviewer-editor-loop-report.md",
+    "templates/multi-agent-paper-workflow-report.md",
+)
+REQUIRED_CODEX_FILES: Final = (
+    ".codex/config.toml",
+    ".codex/README.md",
+    ".codex/agents/managing_editor.toml",
+    ".codex/agents/cfd_reviewer.toml",
+    ".codex/agents/evidence_auditor.toml",
+    ".codex/agents/experiment_planner.toml",
+    ".codex/agents/figure_table_editor.toml",
+    ".codex/agents/prose_editor.toml",
+    ".codex/agents/gatekeeper.toml",
+    ".codex/prompts/smoke-test.md",
+    ".codex/prompts/iterative-edit-review-loop.md",
+    ".codex/prompts/multi-agent-abstract-rescue.md",
+    ".codex/prompts/full-paper-reviewer-editor.md",
 )
 PRIVATE_STATE_DIR: Final = "." + ("ta" + "rs")
 LOCAL_USER_PART: Final = "v" + "a"
@@ -70,7 +102,7 @@ FORBIDDEN_PUBLIC_PATTERNS: Final = (
 )
 ROOT_SKILL_REQUIRED_STRINGS: Final = (
     "name: cfd-ai-paper-skills",
-    "version: v0.6.1",
+    "version: v0.6.5",
     "## Trigger Conditions",
     "## Progressive Disclosure",
     "## Routing Table",
@@ -213,7 +245,7 @@ def main() -> int:
     for directory in REQUIRED_DIRS:
         require((ROOT / directory).is_dir(), f"required directory missing: {directory}")
 
-    for path in REQUIRED_GOLD_PAPERS + REQUIRED_REFERENCE_FILES + REQUIRED_RUBRICS + REQUIRED_EXAMPLES + REQUIRED_TEMPLATES:
+    for path in REQUIRED_GOLD_PAPERS + REQUIRED_REFERENCE_FILES + REQUIRED_RUBRICS + REQUIRED_EXAMPLES + REQUIRED_TEMPLATES + REQUIRED_CODEX_FILES:
         require((ROOT / path).is_file(), f"required file missing: {path}")
 
     validate_root_skill(ROOT / "SKILL.md")

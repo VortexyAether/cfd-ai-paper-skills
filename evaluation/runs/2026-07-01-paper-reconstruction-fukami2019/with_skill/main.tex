@@ -1,0 +1,108 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\title{Reconstructing the Argument of Fukami et al. (2019): Super-Resolution of Turbulent Flow Fields}
+\author{Skill-guided reconstruction from compressed summary}
+\date{}
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This manuscript seed reconstructs, from a compressed source summary, the likely argument of Fukami, Fukagata, and Taira's 2019 study on machine-learning super-resolution for fluid flows. The source summary supports a bounded claim: convolutional and hybrid downsampled skip-connection/multi-scale models were used to reconstruct high-resolution velocity or vorticity fields from coarse inputs for a cylinder wake at $Re_D=100$ and two-dimensional homogeneous decaying turbulence, with bicubic interpolation as a classical baseline. The reconstruction below preserves the paper's evidence sequence while marking exact error values, solver details, architecture hyperparameters, split seeds, code status, and PDF-level figure captions as TODO. It does not claim universal turbulence recovery, real-time deployment, or solver acceleration.
+\end{abstract}
+
+\section{Introduction}
+High-resolution flow-field data are central to computational and experimental fluid mechanics, but storage, measurement, or sensing constraints can leave useful data under-resolved. The target paper frames this as a super-resolution reconstruction problem: infer a high-resolution flow field from a low-resolution representation. The important move is not merely importing image super-resolution into CFD, but narrowing the task to fluid variables, flow regimes, baselines, and physical diagnostics.
+
+The compressed evidence supports the following contribution boundary. The paper studies low-resolution-to-high-resolution reconstruction for selected two-dimensional flow cases. It evaluates learned convolutional reconstruction against classical interpolation and uses cylinder-wake and turbulence examples to test whether reconstructed fields preserve physically relevant structure. Claims about three-dimensional turbulence, real-time CFD deployment, solver acceleration, or untested geometries are outside the supplied evidence and remain unsupported.
+
+\section{Problem Formulation and Method}
+Let $\mathbf{q}_{\ell}$ denote a low-resolution flow field and $\mathbf{q}_{h}$ the corresponding high-resolution reference field. The learning problem can be written as
+\begin{equation}
+\hat{\mathbf{q}}_{h}=\mathcal{N}_{\theta}(\mathbf{q}_{\ell}), \qquad
+\mathcal{L}(\theta)=\|\hat{\mathbf{q}}_{h}-\mathbf{q}_{h}\|_2^2,
+\end{equation}
+where the exact implementation details, normalization, layer counts, and hyperparameters are TODO because they are not fully supplied in the summary.
+
+The source summary identifies three method facts that are safe to state: (i) convolutional neural networks are used; (ii) hybrid downsampled skip-connection/multi-scale models are considered; and (iii) average and max pooling appear in the downsampling protocol. The summary also notes Adam and early stopping, but exact optimizer settings, stopping criteria, train/validation/test split seeds, and solver implementation details remain TODO.
+
+\section{Flow Cases and Evidence Stack}
+The reconstructed evidence sequence should be read as a manuscript map, not a substitute for verified figure captions.
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{p{0.20\linewidth}p{0.22\linewidth}p{0.28\linewidth}p{0.20\linewidth}}
+\toprule
+Case & Known setup & Evidence role & TODO boundary \\
+\midrule
+Cylinder wake & Incompressible wake at $Re_D=100$ & Canonical demonstration of low-to-high-resolution reconstruction, vorticity/velocity visualization, error comparison, and PDF agreement & Exact solver, mesh, split seeds, figure captions \\
+2D homogeneous decaying turbulence & Two-dimensional turbulent vorticity/velocity fields & Stress test for small-scale or high-wavenumber reconstruction under coarse inputs & Exact spectra/statistical panels and quantitative values \\
+Downsampling study & Average/max pooling and coarse inputs & Tests sensitivity to low-resolution input construction & Pooling factors and all panel-level results \\
+Training-data sensitivity & Summary notes small-data behavior with as few as 50 snapshots & Tests data-efficiency claim under supplied conditions & Exact curve values and uncertainty \\
+\bottomrule
+\end{tabular}
+\caption{Claim-evidence map reconstructed from the dense summary. Each row states what can be claimed and what remains TODO.}
+\end{table}
+
+\section{Figures and Results Story}
+A reviewer-defensible reconstruction should preserve the likely figure logic without inventing unavailable panels.
+
+\begin{figure}[h]
+\centering
+\fbox{\begin{minipage}{0.88\linewidth}
+\textbf{Figure placeholder 1: Reconstruction pipeline.} Claim supported: the paper maps a low-resolution fluid field to a high-resolution field using learned convolutional reconstruction. Exact architecture schematic remains TODO.
+\end{minipage}}
+\caption{Pipeline placeholder with claim boundary.}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\fbox{\begin{minipage}{0.88\linewidth}
+\textbf{Figure placeholder 2: Cylinder wake comparison.} Claim supported: for $Re_D=100$, learned reconstruction is compared with coarse input and bicubic interpolation using vorticity/velocity fields and quantitative error. Exact values and panel order remain TODO.
+\end{minipage}}
+\caption{Cylinder-wake reconstruction placeholder.}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\fbox{\begin{minipage}{0.88\linewidth}
+\textbf{Figure placeholder 3: Turbulence stress test.} Claim supported: two-dimensional homogeneous decaying turbulence is used to test reconstruction of under-resolved turbulent structure. Exact spectral/statistical panels require PDF verification.
+\end{minipage}}
+\caption{Turbulence reconstruction placeholder.}
+\end{figure}
+
+\section{Reviewer-Risk Audit}
+The summary supports a super-resolution reconstruction contribution, not an unrestricted turbulence-modeling claim.
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{p{0.28\linewidth}p{0.34\linewidth}p{0.26\linewidth}}
+\toprule
+Unsafe reconstruction & Safer evidence-bound wording & Missing evidence \\
+\midrule
+Deep learning recovers turbulence generally & The supplied cases show reconstruction tests for a cylinder wake and 2D homogeneous decaying turbulence & 3D flows, new regimes, experimental noise \\
+Real-time CFD acceleration & Not claimed from this summary; reconstruction cost and solver coupling are TODO & hardware/runtime/coupling evidence \\
+Physically complete recovery & Physical/statistical diagnostics are important, but exact spectra/statistics are TODO & verified diagnostics and values \\
+Generalizable model & Scope is limited to supplied cases and downsampling protocols & held-out geometry/regime/mesh tests \\
+Exact performance advantage & Learned models are compared with bicubic interpolation; exact error values are TODO & quantitative table from paper \\
+\bottomrule
+\end{tabular}
+\caption{Reviewer-risk table. The table prevents the reconstructed manuscript from filling summary gaps with unsupported claims.}
+\end{table}
+
+\section{Limitations of This Reconstruction}
+This reconstruction is intentionally incomplete. It is based only on the dense summary, which itself was grounded in metadata, abstract, and accessible text rather than a fresh full-PDF extraction. Therefore the following must remain TODO before any public technical summary: exact numerical errors, full architecture diagram, pooling factors, solver discretization, mesh resolution, train/validation/test split protocol, code repository status, complete bibliographic metadata, and exact figure captions.
+
+\section{Conclusion}
+The likely paper argument is that super-resolution can be formulated as a CFD/SciML reconstruction task and evaluated through canonical flow cases, classical interpolation baselines, and physical diagnostics. The defensible reconstruction is narrower than a generic AI manuscript: it preserves the low-resolution-to-high-resolution contribution while refusing to invent missing numerical, solver, and figure details.
+
+\begin{thebibliography}{9}
+\bibitem{fukami2019} TODO: verified full bibliographic entry for Fukami, Fukagata, and Taira, 2019, Journal of Fluid Mechanics.
+\end{thebibliography}
+
+\end{document}

@@ -20,7 +20,7 @@ from typing import Final
 
 ROOT: Final = Path(__file__).resolve().parents[1]
 DIST: Final = ROOT / "dist"
-VERSION: Final = "v0.6.1"
+VERSION: Final = "v0.6.5"
 ARCHIVE_NAME: Final = f"cfd-ai-paper-skills-{VERSION}.tar.gz"
 PRIVATE_STATE_DIR: Final = "." + ("ta" + "rs")
 TRANSIENT_DIRS: Final = frozenset(("__pycache__", ".tmp_pycache", "dist", ".git", "." + "omo", PRIVATE_STATE_DIR))
@@ -107,15 +107,37 @@ def render_install() -> str:
             "This archive is a source package for the CFD-AI paper skills package.",
             "Use the root `SKILL.md` as the umbrella entrypoint, then route to focused subskills under `skills/*/SKILL.md` as needed.",
             "",
+            "## Validate the package",
+            "",
             "```bash",
             f"tar -xzf {ARCHIVE_NAME}",
             f"cd cfd-ai-paper-skills-{VERSION}",
             "python3 scripts/validate_package.py",
             "python3 scripts/run_static_evals.py",
+            "python3 scripts/export_package.py --dry-run",
             "```",
             "",
-            "The package contains the root entrypoint, local subskills, references, rubrics, examples, templates, evaluation tasks, and benchmark run artifacts.",
-            "No external credentials are required for the deterministic validators.",
+            "## Codex native subagents",
+            "",
+            "Start Codex from the package root so `.codex/agents/` is visible:",
+            "",
+            "```bash",
+            "codex",
+            "```",
+            "",
+            "Then paste one of `.codex/prompts/iterative-edit-review-loop.md`, `.codex/prompts/multi-agent-abstract-rescue.md`, or `.codex/prompts/full-paper-reviewer-editor.md`.",
+            "",
+            "## Local skill install pattern",
+            "",
+            "For local skill managers, keep the repository intact so references, rubrics, examples, templates, and Codex agent files stay reachable.",
+            "",
+            "```bash",
+            "mkdir -p ~/.hermes/skills/research",
+            "ln -s \"$PWD\" ~/.hermes/skills/research/cfd-ai-paper-skills",
+            "hermes skills list | grep cfd-ai-paper-skills",
+            "```",
+            "",
+            "No external credentials are required for deterministic validators. Tectonic is optional and only needed for LaTeX/PDF benchmark compilation.",
             "",
         ],
     )

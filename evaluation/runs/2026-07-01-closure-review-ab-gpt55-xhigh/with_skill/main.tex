@@ -1,0 +1,335 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{hyperref}
+
+\newcommand{\TODO}{\textbf{TODO: }}
+\newcommand{\figureplaceholder}[1]{%
+\fbox{%
+\begin{minipage}{0.92\linewidth}
+\vspace{0.4em}
+#1
+\vspace{0.4em}
+\end{minipage}}}
+
+\title{Machine-learning turbulence closures: why a priori accuracy is not enough for RANS and LES deployment}
+\author{Benchmark review seed}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Turbulence closure remains one of the main modeling bottlenecks in Reynolds-averaged Navier--Stokes (RANS) and large-eddy simulation (LES) workflows because the learned quantity enters the momentum balance rather than remaining a passive prediction target. Machine-learning closure studies have shown useful a priori fits for Reynolds-stress anisotropy, eddy-viscosity corrections, subgrid-scale stresses, scalar fluxes, and closure discrepancy fields, but closure-term regression alone does not establish behavior after the model is coupled to a CFD solver. This mini-review organizes ML turbulence closure work first by closure role--RANS discrepancy modeling, LES subgrid-scale modeling, data-driven uncertainty indication, and hybrid solver--ML coupling--and then by method family. The central validation agenda is that a deployable closure claim requires invariant or otherwise frame-aware representation, realizability or boundedness checks, a posteriori stability evidence, calibrated uncertainty when uncertainty is claimed, and reproducible coupling details. The review is intentionally limited to the evidence packet specified for this benchmark: exact benchmark numbers, solver settings, data sources, code repositories, and bibliographic details not supplied there are marked as TODO rather than inferred.
+\end{abstract}
+
+\section{Introduction: closure evidence is a coupled-solver question}
+
+The closure problem is not an ordinary supervised-learning task. In RANS, the modeled Reynolds-stress divergence changes the mean momentum equation and can alter separation, reattachment, pressure recovery, skin friction, and Reynolds-stress budgets. In LES, the subgrid-scale (SGS) stress or scalar-flux model changes interscale energy transfer and therefore affects resolved kinetic energy, spectra, dissipation, and long-horizon stability. A low error on stored closure targets can therefore be useful diagnostic evidence while still being insufficient for deployment.
+
+The difference can be seen from the modeled terms. For incompressible RANS, the mean momentum equation contains the Reynolds-stress divergence,
+\begin{equation}
+\overline{u}_j \frac{\partial \overline{u}_i}{\partial x_j}
+= -\frac{1}{\rho}\frac{\partial \overline{p}}{\partial x_i}
++ \nu \frac{\partial^2 \overline{u}_i}{\partial x_j \partial x_j}
+- \frac{\partial \overline{u_i' u_j'}}{\partial x_j},
+\label{eq:rans}
+\end{equation}
+and ML may be used to predict anisotropy, an eddy-viscosity correction, or a model-form discrepancy. For LES, the filtered momentum equation contains
+\begin{equation}
+\tau_{ij}^{\mathrm{sgs}} =
+\widetilde{u_i u_j} - \tilde{u}_i \tilde{u}_j,
+\label{eq:sgs}
+\end{equation}
+or an analogous scalar flux. The SGS term may look accurate in an offline comparison, but an unstable energy transfer or filter-dependent learned mapping can degrade a long rollout.
+
+This review therefore treats ML closures as numerical-model components. A priori evidence answers whether a learned mapping can reproduce a closure target under a stated data distribution. A posteriori evidence answers whether the mapping remains useful when inserted into the discretized equations, under a specified solver, grid or filter, time step, boundary condition, and fallback policy. Both forms are needed, but they answer different reviewer questions.
+
+The writing pattern follows the role-based taxonomy advocated in ML-for-fluids reviews and perspectives: the first classification is where ML enters the fluid-mechanics workflow, not which neural architecture is fashionable \cite{brunton2020,brunton2021,vinuesa2022}. Uncertainty is treated in the same spirit as probabilistic surrogate work: a map of uncertain regions is not evidence of verifiability unless it is calibrated and tied to a decision such as abstention, fallback, or additional simulation \cite{maulik2020}. These references are included as placeholder keys; the bibliography entries remain TODO because this benchmark requests placeholder entries only.
+
+\section{Taxonomy by closure role before method family}
+
+Closure papers are easiest to review when the taxonomy begins with the modeled term and its numerical role. Model family matters, but only after the closure target, governing equation, and coupling path are specified. Table~\ref{tab:taxonomy} gives the organizing map used in this review.
+
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{@{}p{0.19\linewidth}p{0.22\linewidth}p{0.25\linewidth}p{0.24\linewidth}@{}}
+\toprule
+Closure role & Typical ML method families & Decisive validation evidence & Reviewer-risk boundary \\
+\midrule
+RANS Reynolds-stress anisotropy, eddy-viscosity correction, or model-form discrepancy &
+Tensor-basis neural networks, invariant feature regressors, random forests, Gaussian-process or Bayesian discrepancy models, symbolic or sparse regressors &
+Frame-aware inputs and tensor outputs; a posteriori RANS runs for mean velocity, Reynolds stresses, pressure coefficient, skin friction, and separation or reattachment; comparison with the baseline closure under the same solver &
+A good Reynolds-stress fit can worsen the coupled mean-flow solution; random snapshot splits do not test regime, geometry, or pressure-gradient transfer. \\
+\addlinespace
+LES SGS stress, SGS scalar flux, or deconvolution-like closure &
+Local multilayer perceptrons, convolutional models, graph or mesh-aware models, neural operators, mixed symbolic--neural closures &
+Energy spectra, SGS dissipation, resolved kinetic energy, filter and grid dependence, long-rollout stability, and comparison with dynamic or classical SGS baselines where appropriate &
+One-step SGS stress correlation does not establish stable LES; learned backscatter or over-dissipation can be numerically harmful after coupling. \\
+\addlinespace
+Data-driven uncertainty or extrapolation indicator for closure use &
+Probabilistic neural networks, ensembles, Bayesian regressors, conformal or residual-based indicators (exact implementation TODO) &
+Calibration, coverage, reliability diagrams, held-out flow regimes, and a stated decision rule for abstention, fallback, or refinement &
+Uncertainty heatmaps without calibration do not verify the closure or guide solver decisions. \\
+\addlinespace
+Hybrid solver--ML coupling and deployment path &
+In-solver neural closures, differentiable solver coupling, tabulated surrogate closures, runtime monitors, fallback wrappers &
+Time step, CFL or stability control, residual histories, wall-clock cost, memory, hardware, code path, and fallback policy &
+Offline neural inference speed is not a CFD speedup claim; solver overhead and stability controls must be counted. \\
+\bottomrule
+\end{tabular}
+\caption{Closure taxonomy used in this review. The table supports the claim that ML turbulence closures should be organized by closure role and coupled evidence before architecture family. The risk column states the limitation that each category must address.}
+\label{tab:taxonomy}
+\end{table}
+
+\subsection{RANS discrepancy closures}
+
+RANS closure learning usually targets a correction to an existing eddy-viscosity model, a Reynolds-stress anisotropy tensor, or a discrepancy field between a baseline model and high-fidelity or experimental evidence. The reviewer question is not only whether the anisotropy tensor is fitted. The question is whether the correction improves the mean-flow quantities used by RANS: mean velocity, Reynolds stresses, pressure coefficient, wall shear stress or skin friction, and separation or reattachment in separated flows.
+
+The RANS setting makes invariance especially visible. A closure trained on raw gradients or coordinate components can encode frame-dependent artifacts unless the representation is explicitly invariant, equivariant, or otherwise tied to a clear coordinate-frame convention. Tensor-basis expansions and nondimensional local features are one route, but the use of invariant inputs does not by itself establish admissibility. A review should still ask whether the predicted anisotropy lies in a realizable state, whether turbulent kinetic energy remains non-negative, and whether the corrected closure causes residual growth or solver failure.
+
+\subsection{LES subgrid closures}
+
+LES closure learning has a different evidence contract. The SGS target may be a stress tensor, scalar flux, energy-transfer term, or deconvolution-like approximation. Offline correlation with a filtered DNS target can indicate that the model has learned some local mapping, but it does not test the feedback loop between the model, the resolved field, and the discretization. A posteriori LES evidence should therefore include spectra, SGS dissipation, resolved kinetic energy, long-horizon drift, filter dependence, and grid dependence.
+
+The RANS and LES cases should not be collapsed into a generic ``turbulence model'' category. RANS asks whether the modeled Reynolds-stress divergence yields better mean-flow quantities after closure. LES asks whether the SGS model supplies the right amount and structure of interscale transfer over time. The same architecture label can therefore imply different validation duties.
+
+\subsection{Uncertainty indicators and hybrid coupling}
+
+Uncertainty-aware closures and extrapolation indicators are useful only when their output is calibrated and connected to action. A reliability diagram, coverage test, or held-out flow case is needed before a heatmap can be interpreted as evidence. The decision rule should be explicit: for example, abstain from a learned correction, fall back to a baseline closure, refine the mesh, reduce a time step, or flag the region for additional high-fidelity data. The exact thresholds and calibration metrics are TODO unless a manuscript supplies them.
+
+Hybrid solver--ML coupling is the final deployment step. A learned closure used inside a finite-volume, finite-difference, or spectral solver must report more than offline inference time. The review should require the solver time step, stability controls, residual behavior, wall-clock cost, memory, hardware, and fallback path. Without those details, a closure paper may have a useful regression result but not a reproducible solver-coupled claim.
+
+\section{A priori and a posteriori evidence}
+
+A priori evaluation is the natural first test for a learned closure. It can reveal whether a model recovers a known Reynolds-stress anisotropy, eddy-viscosity correction, SGS stress, or scalar flux from stored fields. It is also the right place to test invariance under coordinate transformations, nondimensional scaling, sensitivity to noisy gradients, and leakage in train/test splits. However, the a priori setting freezes the flow trajectory. It does not expose the numerical feedback that occurs once the closure changes the next solver state.
+
+A posteriori evaluation closes the loop. For RANS, this means inserting the learned correction into the RANS solver and reporting the resulting mean-flow quantities under the same discretization and boundary conditions as the baseline. For LES, it means running the filtered equations with the learned SGS term and examining the spectra, SGS dissipation, resolved kinetic energy, and long-time behavior. A posteriori evidence is not a replacement for a priori evidence: if the closure target is not understood offline, solver success can be difficult to interpret. The two tests form an evidence ladder.
+
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{@{}p{0.17\linewidth}p{0.24\linewidth}p{0.24\linewidth}p{0.25\linewidth}@{}}
+\toprule
+Evidence rung & RANS closure requirement & LES closure requirement & Limitation or reviewer risk \\
+\midrule
+Target definition &
+State whether the target is anisotropy, eddy-viscosity correction, or model-form discrepancy. &
+State whether the target is SGS stress, SGS scalar flux, dissipation, or deconvolution output. &
+An undefined target makes accuracy claims uninterpretable. \\
+\addlinespace
+A priori target fit &
+Report tensor/component error and relevant baseline under leakage-safe splits. &
+Report SGS stress or flux error, correlation, and filter-aware split. &
+Regression fit does not imply improved coupled-solver behavior. \\
+\addlinespace
+Representation checks &
+Show invariant, equivariant, or explicit coordinate-frame handling; nondimensionalize local inputs. &
+Show filter/grid awareness and nondimensional inputs where applicable. &
+Invariance reduces avoidable frame artifacts but does not prove admissible closure behavior. \\
+\addlinespace
+Admissibility checks &
+Check anisotropy realizability, bounded correction, and non-negative turbulent kinetic energy where applicable. &
+Check bounded SGS transfer, dissipation behavior, and controlled backscatter if modeled. &
+Tensor outputs can be numerically unsafe even when the average error is low. \\
+\addlinespace
+A posteriori solver run &
+Report mean velocity, Reynolds stresses, pressure coefficient, skin friction, and separation or reattachment in the coupled RANS solver. &
+Report spectra, SGS dissipation, resolved kinetic energy, and long-horizon drift in the coupled LES solver. &
+This is the deployment evidence; without it, deployment language should be removed or marked TODO. \\
+\addlinespace
+Reproducible coupling &
+Report solver, mesh or filter, time step, residual controls, code path, seeds, hardware, runtime, and fallback policy. &
+Report solver, filter/grid, time step, horizon, stability controls, hardware, runtime, and fallback policy. &
+Offline model speed does not establish end-to-end solver cost or stability. \\
+\bottomrule
+\end{tabular}
+\caption{Closure evidence ladder. The table supports the claim that a priori accuracy is necessary but insufficient: each higher rung adds numerical, physical, or reproducibility evidence needed for RANS or LES deployment claims.}
+\label{tab:evidence-ladder}
+\end{table}
+
+\begin{figure}[t]
+\centering
+\figureplaceholder{
+\textbf{Boxed placeholder: closure coupling loop.}
+
+Inputs: resolved or mean-flow fields, nondimensional local features, baseline closure state, and uncertainty indicator.
+
+Learned closure: RANS discrepancy or LES SGS term with invariant/frame-aware representation and realizability or boundedness monitor.
+
+Solver feedback: discretized momentum equation, residual update, time-step or nonlinear-iteration control, fallback to baseline closure if monitor fails.
+
+Outputs to report: RANS mean-flow quantities or LES spectra/dissipation, residual histories, wall-clock cost, and failure cases.
+}
+\caption{Closure coupling loop. This figure supports the claim that closure evidence must include the feedback path from learned model output into the CFD solver, not only an offline prediction target.}
+\label{fig:coupling-loop}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\figureplaceholder{
+\textbf{Boxed placeholder: a priori/a posteriori validation ladder.}
+
+Rung 1: closure-target definition and source-scope statement.
+
+Rung 2: a priori target fit with leakage-safe split.
+
+Rung 3: invariance, nondimensionalization, and admissibility checks.
+
+Rung 4: solver-coupled RANS or LES run with physical diagnostics.
+
+Rung 5: calibrated uncertainty, fallback policy, runtime, and reproducibility capsule.
+}
+\caption{Validation ladder. This figure supports the claim that offline target fit is an early rung, while deployment language requires solver-coupled diagnostics, uncertainty decisions, and reproducible numerical details.}
+\label{fig:validation-ladder}
+\end{figure}
+
+\section{Invariance, realizability, and numerical stability}
+
+Frame indifference is a minimum representational requirement for many closure settings. RANS closures should avoid learning coordinate artifacts from raw tensor components unless the coordinate convention is part of the model definition and deployment scope. Common reviewer-safe language is to state whether the inputs are invariant scalars, tensor-basis coefficients, nondimensional local quantities, or explicitly transformed variables. LES closures likewise need clear treatment of filter width, grid spacing, local strain/rotation information, and nondimensional scaling. These choices should be reported as part of the closure definition, not as an implementation footnote.
+
+Representation does not settle admissibility. For RANS, a predicted Reynolds-stress anisotropy should be checked against realizability constraints, for example through eigenvalue or barycentric-state diagnostics when those diagnostics are appropriate to the target. Eddy-viscosity or discrepancy corrections should be bounded or otherwise monitored because unbounded corrections can produce nonphysical stress states or solver divergence. For LES, the issue is often energy transfer: the learned closure should not introduce uncontrolled energy growth, and any intended backscatter should be bounded by a stated model or numerical control. The exact admissibility criterion is problem-dependent and should be supplied by the manuscript; absent details remain TODO.
+
+Numerical stability is not the same as physical admissibility, although the two interact. A model can satisfy a tensor constraint while still degrading convergence under a particular discretization or time step. Conversely, a heavily damped correction may stabilize the solver while erasing the flow physics the closure is meant to represent. Solver-coupled validation should therefore include residual histories, nonlinear-iteration behavior for steady RANS, time-step sensitivity for unsteady cases, and failure cases where the learned model is disabled or clipped.
+
+\section{Uncertainty, verifiability, and reproducibility}
+
+Uncertainty evidence should be judged by calibration and decision value. A closure paper may display large uncertainty in separated regions, near walls, or under extrapolated Reynolds numbers, but a heatmap is only a qualitative diagnostic unless it is checked against held-out errors. Calibration evidence can include reliability diagrams, empirical coverage of prediction intervals, rank histograms, or another stated calibration test. The review should ask what action follows from uncertainty: abstain from the learned correction, switch to a baseline model, request high-fidelity data, reduce the time step, or flag the run as outside the training domain.
+
+Reproducibility has a CFD-specific meaning in this topic. The minimum capsule should include the governing equations and closure target, DNS/LES/RANS or experimental source, geometry, boundary and initial conditions, nondimensional numbers, mesh or filter, solver and discretization, time step or convergence criteria, training/validation/test split, preprocessing and normalization, architecture and hyperparameters, seeds, hardware, runtime, and code path for solver coupling. If a manuscript claims cross-regime evidence, the split must be by the claimed axis: Reynolds number, geometry, pressure gradient, boundary condition, mesh or filter, time horizon, or flow regime. Random snapshot splits are not enough for those claims.
+
+\begin{figure}[t]
+\centering
+\figureplaceholder{
+\textbf{Boxed placeholder: uncertainty and fallback decision flow.}
+
+Step 1: compute learned closure and uncertainty or extrapolation score.
+
+Step 2: compare score with calibrated coverage or reliability evidence from held-out flows.
+
+Step 3: if inside calibrated range, apply closure with realizability and stability monitors.
+
+Step 4: if outside calibrated range, abstain, fall back to baseline closure, refine the simulation, or mark the result as TODO for additional data.
+
+Step 5: report decision counts, false-confidence cases, solver residuals, and cost.
+}
+\caption{Uncertainty and fallback decision flow. This figure supports the claim that uncertainty is verifiability evidence only when calibrated and connected to a solver decision rather than shown as an isolated field.}
+\label{fig:uq-flow}
+\end{figure}
+
+\section{Reviewer traps and safer rewrites}
+
+Table~\ref{tab:traps} lists common overclaims in ML turbulence closure manuscripts and the corresponding reviewer-safe wording. The purpose is not to weaken useful contributions, but to align each claim with the evidence actually supplied.
+
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{@{}p{0.21\linewidth}p{0.25\linewidth}p{0.25\linewidth}p{0.19\linewidth}@{}}
+\toprule
+Overclaim to avoid & Why reviewers will object & Safer field-native wording & Required validation or TODO \\
+\midrule
+``The learned closure solves turbulence modeling.'' &
+No closure result supports all regimes, geometries, wall treatments, and solvers. &
+``The learned correction improves selected closure components under the tested regime.'' &
+Name flow, regime, solver, baseline, and limitation. \\
+\addlinespace
+``A priori accuracy demonstrates deployment.'' &
+The learned term has not altered the solver trajectory. &
+``A priori accuracy supports target learning; deployment requires a posteriori coupled-solver evidence.'' &
+Run coupled RANS or LES with physical diagnostics. \\
+\addlinespace
+``Invariant inputs guarantee physically consistent behavior.'' &
+Invariance is a representation property, not a full admissibility or stability proof. &
+``Invariant or frame-aware inputs reduce coordinate-frame artifacts; realizability and stability remain separate checks.'' &
+Add realizability, boundedness, and solver residual evidence. \\
+\addlinespace
+``The model is robust.'' &
+The stress condition is unspecified. &
+``The closure remains stable under the tested noise, mesh, filter, or rollout condition.'' &
+Specify range, metric, and failure boundary; otherwise mark TODO. \\
+\addlinespace
+``The method is generalizable.'' &
+The held-out axis is unspecified and may be a random snapshot split. &
+``The closure is evaluated on an unseen Reynolds number, geometry, pressure-gradient case, boundary condition, or time horizon.'' &
+Use leakage-safe splits matching the claim. \\
+\addlinespace
+``The closure is real-time.'' &
+Offline neural inference excludes solver overhead and hardware assumptions. &
+``End-to-end solver wall-clock cost is TODO until reported with hardware, batch size, time step, and fallback overhead.'' &
+Report full coupled runtime, memory, and comparator. \\
+\addlinespace
+``Uncertainty heatmaps verify the model.'' &
+No calibration or decision rule is stated. &
+``The uncertainty indicator is calibrated on held-out flows and used to trigger abstention or fallback.'' &
+Reliability or coverage test plus decision policy. \\
+\addlinespace
+``The closure is state-of-the-art.'' &
+The phrase needs same-data, same-split, same-metric baselines. &
+``The closure outperforms the named baseline on the stated metric under the stated split.'' &
+Add fair classical and ML baselines or remove the claim. \\
+\bottomrule
+\end{tabular}
+\caption{Reviewer-trap rewrite table. The table supports the claim that closure manuscripts should convert broad deployment language into evidence-bounded statements with explicit validation or TODO requirements.}
+\label{tab:traps}
+\end{table}
+
+The same logic applies at paragraph level. A review seed should not begin from a generic claim about artificial intelligence changing CFD. It should begin from the closure term, the flow quantity, and the numerical feedback path. It should also keep RANS and LES separate, because their closure variables, diagnostics, and failure modes differ.
+
+\section{Concrete research agenda}
+
+A useful review should end with an actionable agenda rather than a generic call for more data. The following items are deliberately phrased as review criteria that future closure papers can satisfy.
+
+\begin{enumerate}
+\item \textbf{Paired a priori and a posteriori benchmarks.} Report offline closure-target error and coupled-solver behavior for the same closure, same split, and same baseline. For RANS, include mean velocity, Reynolds stresses, pressure coefficient, skin friction, and separation or reattachment where relevant. For LES, include spectra, SGS dissipation, resolved kinetic energy, and long-horizon drift.
+
+\item \textbf{Closure-role-specific validation matrices.} RANS discrepancy models should separate tests by Reynolds number, geometry, pressure gradient, and boundary condition when those axes are claimed. LES SGS closures should separate tests by filter width, grid, Reynolds number, and rollout horizon. The matrix should state which axes are tested and which remain TODO.
+
+\item \textbf{Representation and admissibility reports.} Papers should state the invariant, equivariant, or coordinate-frame convention used by the closure, then separately report realizability, boundedness, or energy-transfer checks. These should not be merged into one unsupported physical-language claim.
+
+\item \textbf{Solver-coupling capsules.} Each solver-coupled result should be accompanied by the solver, discretization, mesh or filter, time step or nonlinear tolerance, residual behavior, stability controls, wall-clock cost, memory, hardware, and fallback policy. The capsule should be sufficient for a reviewer to distinguish an offline ML result from a deployable numerical model.
+
+\item \textbf{Calibrated uncertainty tied to action.} UQ studies should include calibration or coverage evidence and a decision rule. The rule may trigger abstention, fallback to a baseline closure, mesh or filter refinement, or additional high-fidelity data generation. Uncalibrated uncertainty fields should be described as exploratory diagnostics only.
+
+\item \textbf{Negative and boundary cases.} Closure papers should report where the learned term fails: separated regions, near-wall cells, extrapolated Reynolds numbers, different pressure gradients, coarse filters, long rollouts, or solver settings that require clipping. Boundary evidence makes the positive claim more reviewable.
+
+\item \textbf{Source-scope discipline in reviews.} Review articles should distinguish verified papers, abstract-level notes, and TODO bibliography. Exact benchmark numbers, DOI values, solver settings, and author roles should not be supplied from memory. This manuscript seed follows that rule by using placeholder bibliography entries.
+\end{enumerate}
+
+\section{Limitations of this review seed}
+
+This article is a benchmark manuscript seed, not a completed literature review. It uses only the supplied evidence packet and local package guidance. The taxonomy, tables, and figure placeholders identify the evidence a full review should demand, but they do not claim that any named paper has satisfied every requirement. Exact citation metadata, DOI values, benchmark numbers, solver settings, data licenses, code repositories, and hardware results are TODO unless provided in the source packet. A completed review would need full-paper reading, a transparent inclusion criterion, and a source-scope table separating full-text evidence from abstract-only or metadata-only evidence.
+
+\section{Conclusion}
+
+Machine-learning turbulence closures should be reviewed as coupled numerical-model components. A priori target accuracy is valuable: it checks whether the proposed mapping learns a closure quantity under a stated source distribution. It is not enough for RANS or LES deployment language because the learned term changes the solver trajectory. The reviewer-safe evidence ladder therefore runs from target definition and invariant or frame-aware representation, through realizability or boundedness checks, to a posteriori solver runs, calibrated uncertainty decisions, and reproducible coupling details. Keeping RANS and LES separate is essential: RANS closure evidence centers on mean-flow quantities and stress behavior, while LES closure evidence centers on spectra, SGS dissipation, resolved kinetic energy, filter/grid dependence, and long-time stability. The practical standard is narrow but demanding: claim only the regimes, solvers, diagnostics, and uncertainty decisions that the evidence directly supports, and mark the rest as TODO.
+
+\begin{thebibliography}{9}
+
+\bibitem{brunton2020}
+\TODO Verified entry for Brunton, Noack, and Koumoutsakos review on machine learning for fluid mechanics. Exact bibliographic metadata intentionally not completed in this benchmark output.
+
+\bibitem{brunton2021}
+\TODO Verified entry for Brunton article on applying machine learning to study fluid mechanics. Exact bibliographic metadata intentionally not completed in this benchmark output.
+
+\bibitem{vinuesa2022}
+\TODO Verified entry for Vinuesa and Brunton perspective on enhancing CFD with machine learning. Exact bibliographic metadata intentionally not completed in this benchmark output.
+
+\bibitem{maulik2020}
+\TODO Verified entry for Maulik and coauthors on probabilistic neural networks for fluid-flow surrogate modeling and data recovery. Exact bibliographic metadata intentionally not completed in this benchmark output.
+
+\bibitem{todoRansInvariance}
+\TODO Verified entry for representative invariant RANS closure work, including source scope, solver-coupled evidence, and DOI if confirmed.
+
+\bibitem{todoLesSgs}
+\TODO Verified entry for representative learned LES SGS closure work, including source scope, filter/grid details, and a posteriori evidence if confirmed.
+
+\bibitem{todoClosureUq}
+\TODO Verified entry for representative uncertainty-aware closure or extrapolation-indicator work, including calibration evidence if confirmed.
+
+\end{thebibliography}
+
+\end{document}

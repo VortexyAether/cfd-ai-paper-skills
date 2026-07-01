@@ -1,0 +1,9 @@
+Created `with_skill/main.tex` as a complete standalone LaTeX review seed. It includes the required structure, RANS/LES distinction, a priori vs a posteriori evidence ladder, solver-coupled validation, invariance/realizability/stability, UQ/calibration, reproducibility discipline, three tables, three boxed figure placeholders, reviewer-trap rewrites, a concrete research agenda, and TODO placeholder bibliography entries.
+
+Verification:
+- Package validation script: `ok`.
+- Static LaTeX checks passed: required package whitelist, balanced braces/environments, 3 figures, 3 tables, equations, labels, citations, bibliography.
+- ASCII-only check passed.
+- Constrained terms appear only as flagged overclaims in the reviewer-trap table.
+
+I could not complete actual PDF compilation because `latexmk`/`pdflatex` are not installed, and `tectonic` panics before reading `main.tex` in this environment. The worktree already had unrelated dirty/untracked files; I left them untouched.

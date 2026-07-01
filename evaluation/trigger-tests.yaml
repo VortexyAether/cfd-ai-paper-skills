@@ -28,3 +28,23 @@
   expected_skill: figure-and-result-storytelling
   eval_task: evaluation/tasks/fukami-super-resolution-reconstruction.md
 
+- id: gold_paper_style_reconstruction
+  prompt: "Rewrite this CFD-AI manuscript seed so it stops sounding AI-written and becomes closer to gold-paper style."
+  expected_skill: scientific-journal-writing
+  eval_task: evaluation/tasks/gold-paper-style-reconstruction-template.md
+
+- id: reviewer_audit_gate
+  prompt: "Audit this CFD-AI abstract for rejection risk and minimum rescue experiments."
+  expected_skill: reviewer-audit-toolkit
+  eval_task: evaluation/tasks/minimal-reviewer-audit-flawed-abstract.md
+
+- id: reviewer_editor_loop
+  prompt: "Use reviewer criticism to rewrite this CFD-AI abstract, then re-audit the revision."
+  expected_skill: paper-revision-loop-manager
+  eval_task: evaluation/tasks/reviewer-editor-loop-abstract-rescue.md
+
+- id: multi_agent_paper_workflow
+  prompt: "Run a multi-agent reviewer/editor workflow on this CFD-AI abstract."
+  expected_skill: multi-agent-paper-orchestrator
+  eval_task: evaluation/tasks/multi-agent-reviewer-editor-workflow.md
+

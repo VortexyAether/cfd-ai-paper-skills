@@ -1,0 +1,150 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\title{How Should CFD-AI Benchmarks Be Reviewed? Validation Axes, Splits, Failure Modes, and Reproducibility}
+\author{Skill-guided sample}
+\date{}
+\begin{document}
+\maketitle
+
+\begin{abstract}
+CFD-AI benchmark reviews should not be written as resource catalogues. A benchmark supports a manuscript claim only when its workflow role, validation axis, split design, failure mode, and reproducibility metadata match the claim being made. This mini-review distinguishes datasets, tools, benchmark suites, curated lists, and review claims, then organizes CFD-AI benchmarking around held-out time, Reynolds or parameter regime, geometry, mesh, boundary and initial conditions, cross-solver transfer, coupled-solver deployment, physical diagnostics, and data logistics. The contribution is a reviewer-facing taxonomy and checklist for judging benchmark evidence while blocking unsupported deployment or ranking claims unless direct evidence is supplied.
+\end{abstract}
+
+\section{Introduction}
+CFD-AI manuscripts often use benchmark names as evidence shortcuts. That shortcut is unsafe. A broad PDE dataset can test operator learning under selected PDE families, a PINN library can support a workflow, an aerodynamic dataset can test geometry-conditioned prediction, and a curated list can improve literature coverage. None of these, by itself, proves deployment in a CFD solver or generalization to unseen geometries, meshes, boundary conditions, or regimes.
+
+This review treats benchmark design as a claim-evidence problem. The first question is not which model is best, but which claim the benchmark can support. A random snapshot split supports a different claim from a held-out geometry split; same-grid field error supports a different claim from mesh-transfer conservation or force-coefficient agreement; offline inference timing supports a different claim from coupled-solver wall-clock speedup. Missing source details, license terms, solver settings, dataset sizes, and leaderboard numbers are therefore marked as TODO rather than filled in from memory.
+
+\section{Source Boundaries and Benchmark Objects}
+A review should first separate the object under discussion. Datasets, tools, benchmark suites, curated lists, and review claims have different evidentiary status.
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{p{0.18\linewidth}p{0.22\linewidth}p{0.25\linewidth}p{0.25\linewidth}}
+\toprule
+Object & Example role & What it can support & Limitation / TODO \\
+\midrule
+Benchmark suite & PDEBench-like PDE tasks & Split and model-family comparison within supplied PDE cases & TODO: exact task list, versions, scores, licenses \\
+Tool/library & DeepXDE-like PINN tooling & Workflow feasibility for residual/BC/IC experiments & A tool feature is not validation evidence \\
+Engineering dataset & DrivAerNet-like aero data & Geometry-conditioned fields or force prediction under stated splits & TODO: version, license, mesh policy, split leakage \\
+Physics collection & The Well-like datasets & Large spatiotemporal benchmark logistics and rollout tests & Not all entries are CFD; classify governing physics \\
+Curated list & ML-fluid resource list & Coverage discovery and source-scope planning & List inclusion is not benchmark quality \\
+\bottomrule
+\end{tabular}
+\caption{Source-boundary table. The table supports the claim that resource type determines what evidence may be inferred, and what must remain TODO.}
+\end{table}
+
+\section{Workflow-First Benchmark Taxonomy}
+Benchmark reviews should classify CFD-AI tasks by workflow role before naming model families. A surrogate used for design screening, a closure term coupled to RANS or LES, a reconstruction model for sparse measurements, and a flow-control policy fail in different ways.
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{p{0.18\linewidth}p{0.23\linewidth}p{0.22\linewidth}p{0.25\linewidth}}
+\toprule
+Workflow role & Validation axis & Failure mode & Reproducibility minimum \\
+\midrule
+Data-driven surrogate & Held-out time, regime, geometry, mesh, QoI & Random snapshot split overstates transfer & Solver, grid, split, metrics, runtime \\
+Physics-informed surrogate & Residual, BC/IC transfer, physical diagnostic & Residual loss mistaken for diagnostic agreement & PDE form, nondimensionalization, residual weights \\
+Solver acceleration & Coupled-solver stability and cost & Offline accuracy fails inside solver loop & Coupling interface, CFL/time step, wall-clock accounting \\
+Turbulence closure & A priori and a posteriori evidence & Closure-term fit worsens mean flow after feedback & Target definition, invariance, solver integration, UQ \\
+Reconstruction & Noise, sparsity, spectra, derivative QoIs & Visual agreement hides spectral/gradient error & Measurement model, noise level, train/test regimes \\
+Aerodynamic design & Held-out geometry family/topology & Near-duplicate geometry leakage & Geometry parameterization, force integration, split by design \\
+Flow control & Closed-loop stability, delay, energy budget & Offline reward does not transfer to plant & Observation/action limits, seeds, baseline controller \\
+Multiphase/reacting flow & Interface/regime transfer, balance checks & Smooth field metrics miss topology failure & Phase variables, closure assumptions, balance checks \\
+\bottomrule
+\end{tabular}
+\caption{Workflow and validation taxonomy. The table supports the claim that benchmark evidence must be matched to CFD workflow role and expected failure mode.}
+\end{table}
+
+\section{Split Design and Validation Axes}
+The phrase ``generalization'' is too coarse for CFD-AI benchmark review. Held-out axes should be separated because each supports a different manuscript claim.
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{p{0.18\linewidth}p{0.26\linewidth}p{0.23\linewidth}p{0.21\linewidth}}
+\toprule
+Axis & Claim it may support & Evidence needed & Unsafe shortcut \\
+\midrule
+Held-out time & Bounded rollout behavior & rollout protocol, drift metric, failure horizon & one-step loss implies stability \\
+Regime / parameter & transfer within stated nondimensional range & train/test ranges, regime labels & random mixing implies regime transfer \\
+Geometry/topology & design-space transfer & family-level split, leakage check, force/field diagnostics & near-duplicate shapes imply new geometry \\
+Mesh/resolution & discretization transfer & resolution ladder, projection, balance/QoI drift & same-grid error implies mesh independence \\
+BC/IC & scenario transfer & boundary definitions, sensitivity, residuals & residual term implies boundary transfer \\
+Cross-solver/fidelity & portability & solver/fidelity definitions, uncertainty & one solver dataset implies deployment evidence \\
+Coupled solver & numerical usefulness & interface, CFL/time step, residual behavior, fallback policy & neural inference timing implies CFD acceleration \\
+\bottomrule
+\end{tabular}
+\caption{Validation-axis table. The table supports the claim that each split design validates a different kind of CFD-AI statement.}
+\end{table}
+
+\section{Failure Modes and Reviewer Traps}
+Reviewer-risk language should be rewritten before submission. Unsupported claims are not made safer by smoother prose.
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{p{0.30\linewidth}p{0.33\linewidth}p{0.27\linewidth}}
+\toprule
+Trap & Safer rewrite & Evidence required \\
+\midrule
+``comprehensive CFD-AI benchmark'' & benchmark covers the supplied domains only & source-scope table and TODO gaps \\
+``top-ranked model'' & compared under the supplied same-data/same-split setting & verified leaderboard or same-scope baseline \\
+``diagnostically verified PINN'' & residual/BC terms were included; diagnostic agreement remains TODO & balance checks, spectra, forces, residuals \\
+``deployment-speed CFD acceleration'' & offline inference cost was measured; coupled speedup remains TODO & wall-clock solver accounting \\
+``new-geometry transfer'' & evaluated on the specified held-out geometry split & leakage check, force/field diagnostics \\
+``closure ready for solver use'' & a posteriori coupled-solver evidence is required & stability, residual, QoI, UQ evidence \\
+\bottomrule
+\end{tabular}
+\caption{Reviewer-trap rewrite table. The table supports the claim that benchmark reviews must convert hype terms into evidence-bounded statements.}
+\end{table}
+
+\section{Reproducibility, Licensing, and Data Logistics}
+Benchmark reuse depends on more than model architecture. A review should ask for dataset version, source generation procedure, solver and mesh details, preprocessing, split files, seeds, hardware, runtime, license, storage format, and scripts needed to reproduce metrics. Missing values should be recorded as TODO rather than guessed. For public claims about PDEBench-like, DeepXDE-like, DrivAerNet-like, or The Well-like resources, exact citation metadata, dataset sizes, license terms, and current benchmark numbers must be verified against the current source.
+
+\section{Evidence-Linked Figure Placeholders}
+\begin{figure}[h]
+\centering
+\fbox{\begin{minipage}{0.88\linewidth}
+\textbf{Figure placeholder 1: Benchmark landscape map.} Claim supported: CFD-AI benchmarks should be grouped by workflow role and validation axis, not by resource popularity.
+\end{minipage}}
+\caption{Benchmark landscape map placeholder.}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\fbox{\begin{minipage}{0.88\linewidth}
+\textbf{Figure placeholder 2: Split-design decision tree.} Claim supported: random, temporal, parameter, geometry, mesh, BC/IC, cross-solver, and coupled-solver splits validate different statements.
+\end{minipage}}
+\caption{Split-design decision tree placeholder.}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\fbox{\begin{minipage}{0.88\linewidth}
+\textbf{Figure placeholder 3: Failure-mode and reproducibility funnel.} Claim supported: benchmark evidence weakens when source scope, split design, failure mode, license, and reproduction metadata are missing.
+\end{minipage}}
+\caption{Failure-mode and reproducibility funnel placeholder.}
+\end{figure}
+
+\section{Research Agenda}
+A useful CFD-AI benchmark agenda should prioritize: (i) published split files that isolate time, regime, geometry, mesh, BC/IC, and solver-coupling claims; (ii) physical diagnostics beyond field MSE, including spectra, balance checks, forces, stresses, dissipation, uncertainty calibration, and long-rollout drift; (iii) reproducibility metadata for solver, mesh, preprocessing, license, seeds, hardware, and runtime; and (iv) negative results or failure-mode reports that show where models should not be used.
+
+\section{Conclusion}
+Benchmark reviews should make CFD-AI claims harder to overstate. The correct unit of review is not the resource name, but the evidence path from resource type to validation axis, split design, failure mode, and reproducibility. When that path is incomplete, the defensible output is TODO, not a polished claim.
+
+\begin{thebibliography}{9}
+\bibitem{pdebench} TODO: verified PDEBench citation.
+\bibitem{deepxde} TODO: verified DeepXDE citation.
+\bibitem{drivaernet} TODO: verified DrivAerNet or DrivAerNet++ citation and license/version.
+\bibitem{thewell} TODO: verified The Well citation and dataset-scope note.
+\bibitem{mlfluidlists} TODO: verified curated ML-fluid resource-list citations.
+\end{thebibliography}
+
+\end{document}

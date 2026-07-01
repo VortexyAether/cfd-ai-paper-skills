@@ -135,6 +135,19 @@ Baseline agent must propose figure sequence:
 
 Evaluator checks whether each figure supports a claim.
 
+### F. Gold-paper style reconstruction
+
+Give a baseline writer a paper title, abstract, and dense source summary. Ask for a manuscript seed. Score whether the result resembles the scientific contract of the gold paper, not merely fluent academic prose.
+
+The evaluator must check:
+
+- physical problem before AI capability;
+- narrow gap before method;
+- input/output mapping before architecture detail;
+- baseline and physical diagnostic before broad claim;
+- limitation boundary before future-work promise;
+- natural CFD/SciML collocations instead of generic AI phrases.
+
 ## Scoring rubric
 
 Score each 0–3.
@@ -145,6 +158,7 @@ Score each 0–3.
 | Evidence alignment | unsupported | weak mapping | mostly mapped | every claim tied to evidence/TODO |
 | Reviewer realism | no risk | generic risk | relevant risks | likely reviewer objections prioritized |
 | Gold-paper alignment | none | superficial | partial | reproduces answer-key patterns |
+| Gold-paper prose texture | generic AI prose | some field terms | mostly field-native | normal paper texture with physical context, evidence order, and scoped limitations |
 | Output schema | chaotic | partial | usable | exact structured output |
 | Non-hallucination | invents | some inventions | marks some unknowns | clean unknown/TODO discipline |
 | Actionability | vague | broad | concrete | directly executable edits/experiments |
@@ -204,6 +218,7 @@ evaluation/runs/YYYY-MM-DD_task-name/
 3. Lee cylinder wake prediction: reviewer attack on data/solver/generalization.
 4. Maulik turbulence closure: experiment matrix and uncertainty/verifiability.
 5. Vinuesa emerging trends: related-work positioning and responsible claims.
+6. Gold-paper style reconstruction: compare no-skill vs with-skill manuscript seeds for AI-ish wording, rhetorical move order, and field-native texture.
 
 ## Failure modes to detect
 
@@ -214,5 +229,6 @@ evaluation/runs/YYYY-MM-DD_task-name/
 - Misses train/test leakage.
 - Ignores nondimensional groups.
 - Produces pretty prose but no experiment plan.
+- Produces fluent but generic AI paper context that does not sound like the target field.
 
 This protocol is the part that prevents skill theater. Good. Annoying. Necessary.

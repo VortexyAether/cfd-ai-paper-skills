@@ -34,6 +34,7 @@ Read only the files needed for the manuscript:
 | CFD opportunity/limitation framing | `references/gold-papers/vinuesa-2022-enhancing-cfd-ml.md` |
 | Reproducibility scoring | `rubrics/cfd-reproducibility-rubric.md` |
 | Experiment scoring | `rubrics/sciml-experiment-rubric.md` |
+| Manuscript texture / AI-ish prose | `references/gold-paper-style-patterns.md`, `rubrics/gold-paper-closeness-rubric.md`, `examples/generic-ai-to-gold-paper-prose.md` |
 
 ## Review workflow
 
@@ -165,6 +166,20 @@ Good figures include:
 
 Pretty vortices alone are not evidence. A tragedy in high resolution.
 
+### 9. Manuscript texture and context realism
+
+If the manuscript sounds fluent but artificial, audit the first two paragraphs and every loaded adjective.
+
+Reject or rewrite when:
+
+- the opening starts from AI capability instead of flow physics or numerical bottleneck;
+- the network is introduced before input/output variables, flow case, regime, and reference data;
+- the same generic “recent advances / however / therefore” rhythm repeats across sections;
+- loaded adjectives have no adjacent metric, baseline, diagnostic, or scope;
+- limitations are generic future work rather than named untested axes.
+
+Score the issue with `rubrics/gold-paper-closeness-rubric.md` and provide field-native replacement sentences.
+
 ## Severity labels
 
 - **Fatal**: likely rejection unless fixed.
@@ -182,9 +197,10 @@ Pretty vortices alone are not evidence. A tragedy in high resolution.
 6. Required experiments
 7. Nice-to-have experiments
 8. Claim wording fixes
-9. Risk level: low/medium/high
+9. Gold-paper closeness / manuscript texture issues
+10. Risk level: low/medium/high
 
-Use `templates/reviewer-report.md` for full reviews. Use `examples/generic-review-to-cfd-review.md` to convert generic critique into CFD-specific critique.
+Use `templates/reviewer-report.md` for full reviews. Use `skills/reviewer-audit-toolkit/SKILL.md` and `templates/reviewer-audit-report.md` when the user needs a submission gate, blocker count, or rescue plan. Use `examples/generic-review-to-cfd-review.md` to convert generic critique into CFD-specific critique.
 
 ## Anti-patterns
 
@@ -192,6 +208,7 @@ Use `templates/reviewer-report.md` for full reviews. Use `examples/generic-revie
 - Pretty-vortex criticism without asking for residuals, spectra, forces, or regime splits.
 - Treating missing solver/mesh/BC details as minor polish.
 - Claiming author intent or hidden supplementary details that are not in evidence.
+- Treating generic AI academic tone as only a writing-style issue when it hides missing problem, evidence, or scope.
 
 ## Verification
 
@@ -200,3 +217,4 @@ Use `templates/reviewer-report.md` for full reviews. Use `examples/generic-revie
 - Do not invent missing solver/data details.
 - Prioritize the most rejection-relevant issues.
 - Score fatal/major issues against `rubrics/cfd-reproducibility-rubric.md` and `rubrics/sciml-experiment-rubric.md`.
+- Score manuscript-texture issues against `rubrics/gold-paper-closeness-rubric.md` when the prose is fluent but field-inappropriate.

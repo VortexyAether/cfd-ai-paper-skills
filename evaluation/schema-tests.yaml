@@ -33,3 +33,31 @@
   eval_task: evaluation/tasks/brunton-taxonomy-reconstruction.md
   gold_paper: references/gold-papers/brunton-2016-sindy-pnas.md
 
+- id: gold_paper_style_schema
+  skill: scientific-journal-writing
+  template: templates/gold-paper-reconstruction-report.md
+  rubric: rubrics/gold-paper-closeness-rubric.md
+  eval_task: evaluation/tasks/gold-paper-style-reconstruction-template.md
+  gold_paper: references/gold-papers/fukami-2019-super-resolution-jfm.md
+
+- id: reviewer_audit_schema
+  skill: reviewer-audit-toolkit
+  template: templates/reviewer-audit-report.md
+  rubric: rubrics/reviewer-audit-rubric.md
+  eval_task: evaluation/tasks/minimal-reviewer-audit-flawed-abstract.md
+  gold_paper: references/gold-papers/lee-2019-cylinder-wake-jfm.md
+
+- id: reviewer_editor_loop_schema
+  skill: paper-revision-loop-manager
+  template: templates/reviewer-editor-loop-report.md
+  rubric: rubrics/reviewer-editor-loop-rubric.md
+  eval_task: evaluation/tasks/reviewer-editor-loop-abstract-rescue.md
+  gold_paper: references/gold-papers/lee-2019-cylinder-wake-jfm.md
+
+- id: multi_agent_paper_workflow_schema
+  skill: multi-agent-paper-orchestrator
+  template: templates/multi-agent-paper-workflow-report.md
+  rubric: rubrics/multi-agent-paper-workflow-rubric.md
+  eval_task: evaluation/tasks/multi-agent-reviewer-editor-workflow.md
+  gold_paper: references/gold-papers/lee-2019-cylinder-wake-jfm.md
+

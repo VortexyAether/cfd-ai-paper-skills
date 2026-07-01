@@ -1,6 +1,6 @@
 {
   "package": "cfd-ai-paper-skills",
-  "version": "0.6.1",
+  "version": "0.6.5",
   "evals": [
     {
       "id": "fukami-super-resolution-reconstruction",
@@ -36,6 +36,26 @@
       "id": "cfd-ai-benchmark-landscape-review",
       "task": "evaluation/tasks/cfd-ai-benchmark-landscape-review.md",
       "scorecard": "evaluation/scorecards/cfd-ai-skill-scorecard.md"
+    },
+    {
+      "id": "gold-paper-style-reconstruction",
+      "task": "evaluation/tasks/gold-paper-style-reconstruction-template.md",
+      "scorecard": "evaluation/scorecards/cfd-ai-skill-scorecard.md"
+    },
+    {
+      "id": "minimal-reviewer-audit-flawed-abstract",
+      "task": "evaluation/tasks/minimal-reviewer-audit-flawed-abstract.md",
+      "scorecard": "evaluation/scorecards/reviewer-audit-scorecard.md"
+    },
+    {
+      "id": "reviewer-editor-loop-abstract-rescue",
+      "task": "evaluation/tasks/reviewer-editor-loop-abstract-rescue.md",
+      "scorecard": "evaluation/scorecards/reviewer-editor-loop-scorecard.md"
+    },
+    {
+      "id": "multi-agent-reviewer-editor-workflow",
+      "task": "evaluation/tasks/multi-agent-reviewer-editor-workflow.md",
+      "scorecard": "evaluation/scorecards/multi-agent-paper-workflow-scorecard.md"
     }
   ]
 }

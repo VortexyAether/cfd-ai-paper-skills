@@ -1,0 +1,3 @@
+Wrote `./main.tex`.
+
+I also checked that it uses only the allowed LaTeX packages and includes the required TODO markers, tables, and three claim-linked figure placeholders. Full compile could not be completed here: `tectonic` panicked before compiling, and no other TeX engine was installed.

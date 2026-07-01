@@ -1,0 +1,167 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{booktabs}
+
+\title{Skill-Guided Reconstruction Audit: Fukami et al. Super-Resolution of Turbulent Flows}
+\author{With-skill benchmark arm: gpt-5.5, xhigh reasoning, Codex exec}
+\date{July 1, 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This manuscript seed reconstructs the argument of Fukami, Fukagata, and Taira's 2019 super-resolution study using the benchmark dense summary plus the CFD-AI package guidance for scientific journal writing, claim-evidence auditing, CFD reproducibility, and vocabulary control. The defensible claim is narrow: convolutional and hybrid downsampled skip-connection/multi-scale models reconstruct high-resolution velocity or vorticity fields from low-resolution inputs for a cylinder wake at $Re_D=100$ and two-dimensional homogeneous decaying turbulence, with bicubic interpolation as a classical baseline. The source scope does not support exact error values, layer counts, solver settings, train/test seed details, full hyperparameter tables, final figure captions, code repository status, real-time deployment, solver acceleration, or universal turbulence recovery; these remain TODO rather than implied.
+\end{abstract}
+
+\section{Source Scope and Claim Boundary}
+The reconstruction uses three evidence sources: the benchmark task prompt, the dense source summary, and the local gold-paper note for Fukami et al. The gold note reports the paper as Super-resolution reconstruction of turbulent flows with machine learning, Journal of Fluid Mechanics 870, 106--120, DOI 10.1017/jfm.2019.238; it also states that full PDF figure-caption verification remains TODO.
+
+The one-sentence claim is:
+\begin{quote}
+Fukami et al. formulate low-resolution to high-resolution flow-field reconstruction as a supervised learning problem and test convolutional and hybrid multi-scale models on a cylinder wake at $Re_D=100$ and two-dimensional homogeneous decaying turbulence, comparing against bicubic interpolation and flow-field/statistical diagnostics under the supplied source scope.
+\end{quote}
+
+This is a reconstruction claim, not a turbulence-closure, deployment, or solver-acceleration claim.
+
+\section{Claim-Evidence Map}
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{p{0.25\linewidth}p{0.18\linewidth}p{0.25\linewidth}p{0.20\linewidth}}
+\toprule
+Claim & Status & Evidence location & Required TODO \\
+\midrule
+Low-resolution flow fields are mapped to high-resolution fields & Supported with scope & Dense summary and gold note describe the reconstruction task & Exact normalization and input and output tensor construction \\
+CNN and hybrid DSC/MS models are used & Supported with scope & Dense summary identifies both model families & Layer counts, filter widths, parameter counts, architecture diagram verification \\
+Cylinder wake at $Re_D=100$ is a demonstration case & Supported & Dense summary and gold note & Solver, mesh, time step, boundary/initial conditions \\
+Two-dimensional homogeneous decaying turbulence is a stress test & Supported with scope & Dense summary and gold note & Initial condition, resolution, statistical sampling, exact diagnostic panels \\
+Bicubic interpolation is a baseline & Supported & Dense summary and gold note & Same-data metric table and exact numerical comparison \\
+Small-data behavior includes as few as 50 snapshots & Partial & Dense summary says accessible text notes this claim & Exact curve values, split protocol, variability across runs \\
+High-wavenumber or statistical recovery is demonstrated & Partial & Dense summary says physical/statistical diagnostics matter, exact panels TODO & Verified spectra/statistics and caption-level evidence \\
+The method is robust, generalizable, or real-time & Unsupported as a broad claim & Not supplied & Noise, out-of-distribution, deployment, and hardware evidence before using these terms \\
+\bottomrule
+\end{tabular}
+\caption{Claim-evidence map following the package claim-audit rubric. Unsupported claims are converted to TODOs.}
+\label{tab:claims}
+\end{table}
+
+\section{Method Reconstruction}
+Let $\mathbf{q}_{\ell}$ be a low-resolution field produced by a documented downsampling operation and $\mathbf{q}_{h}$ be the corresponding high-resolution reference field. The supervised reconstruction problem is
+\begin{equation}
+  \hat{\mathbf{q}}_{h} = \mathcal{N}_{\theta}(\mathbf{q}_{\ell}), \qquad
+  \mathcal{L}(\theta) = \left\|\hat{\mathbf{q}}_{h} - \mathbf{q}_{h}\right\|_2^2.
+\end{equation}
+The supplied sources support CNN and hybrid downsampled skip-connection/multi-scale model families, average and max pooling in the downsampling protocol, Adam optimization, and early stopping. The sources do not supply enough evidence to reconstruct all architecture, optimizer, normalization, or split details.
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{p{0.24\linewidth}p{0.13\linewidth}p{0.31\linewidth}p{0.20\linewidth}}
+\toprule
+Reproducibility item & Present? & Evidence & Blocking TODO \\
+\midrule
+Governing equations & Partial & Gold note says incompressible Navier--Stokes for the wake and 2D vorticity transport for turbulence are in accessible text & Exact equation statement and assumptions from paper \\
+Regime numbers & Partial & $Re_D=100$ for cylinder wake is supplied & Other nondimensional groups or turbulence parameters \\
+Geometry/domain & Partial & Circular-cylinder wake is identified; homogeneous turbulence case is identified & Domain dimensions and coordinate conventions \\
+Boundary/initial conditions & Missing & Not in dense summary & Wake BC/IC and turbulence initial condition/forcing \\
+Grid and time integration & Missing & DNS is stated, but implementation details are not supplied & Mesh, time step/CFL, schemes, convergence checks \\
+Data splits & Partial & Train/validation/test separation is indicated in gold note & Exact split definition, seed, leakage prevention \\
+ML training & Partial & L2 objective, Adam, early stopping are noted & Learning rate, batch size, epochs, normalization, seeds, runs \\
+Baselines & Partial & Bicubic interpolation is named & Full baseline matrix and same-metric tables \\
+Compute and code/data & Missing or unknown & Code availability statement appears in accessible arXiv text, but repository status is unknown & Verified URL, commit/version, commands, hardware/runtime \\
+\bottomrule
+\end{tabular}
+\caption{CFD reproducibility ledger. The manuscript should not fill missing numerical-method details from expectation.}
+\label{tab:repro}
+\end{table}
+
+\section{Evidence Sequence and Figure Roles}
+The figure sequence should prove progressively stronger claims while preserving TODO boundaries.
+
+\begin{figure}[h]
+\centering
+\fbox{\begin{minipage}{0.88\linewidth}
+\vspace{0.14in}
+\textbf{Pipeline and downsampling.} Evidence role: defines the low-resolution input, high-resolution target, and reconstruction operator. TODO: exact pooling factors, tensor dimensions, and architecture schematic.
+\vspace{0.14in}
+\end{minipage}}
+\caption{Reconstruction pipeline placeholder. The caption states the evidence role rather than implying unavailable implementation details.}
+\label{fig:pipeline}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\fbox{\begin{minipage}{0.88\linewidth}
+\vspace{0.14in}
+\textbf{Cylinder wake at $Re_D=100$.} Evidence role: compares ground truth, coarse input, bicubic interpolation, and learned reconstruction for velocity or vorticity fields. TODO: exact color scales, error values, and panel order.
+\vspace{0.14in}
+\end{minipage}}
+\caption{Cylinder-wake reconstruction placeholder with explicit claim boundary.}
+\label{fig:wake}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\fbox{\begin{minipage}{0.88\linewidth}
+\vspace{0.14in}
+\textbf{Training-snapshot and PDF diagnostics.} Evidence role: tests data amount and checks distributional agreement for vorticity in the cylinder wake. TODO: exact snapshot-count curve, uncertainty, and PDF values.
+\vspace{0.14in}
+\end{minipage}}
+\caption{Data-sensitivity and vorticity-PDF placeholder.}
+\label{fig:pdf}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\fbox{\begin{minipage}{0.88\linewidth}
+\vspace{0.14in}
+\textbf{Two-dimensional homogeneous decaying turbulence.} Evidence role: stress-tests reconstruction of smaller-scale turbulent structure from coarse inputs. TODO: verified spectral/statistical panels and quantitative values.
+\vspace{0.14in}
+\end{minipage}}
+\caption{Turbulence stress-test placeholder.}
+\label{fig:turbulence}
+\end{figure}
+
+\section{Reviewer-Risk Audit}
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{p{0.25\linewidth}p{0.30\linewidth}p{0.29\linewidth}}
+\toprule
+Risky wording or gap & Why it is unsafe & Safer manuscript action \\
+\midrule
+``Robust reconstruction'' & Robustness needs an identified stress axis such as noise, sparsity, OOD regime, or coarse-grid severity & Say ``reconstruction under the tested downsampling conditions'' until stress tests are supplied \\
+``Generalizable turbulence recovery'' & The supplied cases do not prove unseen geometry, 3D turbulence, or experimental transfer & Limit to cylinder wake and 2D homogeneous decaying turbulence \\
+``Physically consistent'' & Requires a named physical diagnostic, not only visual similarity & Name vorticity PDF and any verified spectrum/statistical diagnostic; keep exact panels TODO \\
+``Real-time'' or ``efficient'' & Requires hardware, batch size, runtime, and a comparator & Mark runtime and deployment claims TODO \\
+Exact numerical superiority & Exact values are absent from the source summary & State comparison structure, not unverified margins \\
+\bottomrule
+\end{tabular}
+\caption{Vocabulary and claim-calibration audit.}
+\label{tab:risk}
+\end{table}
+
+\section{Implications for a New Paper in This Line}
+A follow-on CFD-AI paper should not merely add a larger neural network. The defensible experiment matrix should include:
+\begin{itemize}
+  \item same-data comparisons against interpolation and simple neural baselines;
+  \item explicit spatial downsampling factors and train/validation/test splits;
+  \item reconstruction metrics plus physical diagnostics such as vorticity PDFs, spectra, conservation residuals, or force histories where relevant;
+  \item stress tests over snapshot count, coarse resolution, noise, and sparse observations;
+  \item holdout tests on a named axis before claiming generalization;
+  \item hardware, runtime, memory, and code/data instructions before claiming efficiency or deployability.
+\end{itemize}
+
+\section{Conclusion}
+The package-guided reconstruction remains narrower than a fluent generic paper. It identifies the paper's CFD/SciML role, preserves the supported low-resolution to high-resolution contribution, and makes missing solver, architecture, metric, and figure-caption details visible. This is the desired failure-avoidance behavior for scientific paper reconstruction: unknown facts stay unknown, while the manuscript still retains the physical problem, ML transformation, evidence sequence, and reviewer-defense structure.
+
+\begin{thebibliography}{9}
+\bibitem{fukami2019}
+K. Fukami, K. Fukagata, and K. Taira.
+\newblock Super-resolution reconstruction of turbulent flows with machine learning.
+\newblock Journal of Fluid Mechanics, 870:106--120, 2019.
+\newblock DOI: 10.1017/jfm.2019.238.
+\end{thebibliography}
+
+\end{document}

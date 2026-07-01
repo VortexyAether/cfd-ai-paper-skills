@@ -16,10 +16,12 @@ Use when asked to avoid overclaiming, check novelty, audit abstract/introduction
 ## Progressive disclosure
 
 - Read `rubrics/claim-evidence-rubric.md` before scoring.
+- Route to `skills/reviewer-audit-toolkit/SKILL.md` when the user asks for a gate decision, rejection risk, submission readiness, or minimum rescue plan.
 - Read `rubrics/vocabulary-style-rubric.md` when the text contains loaded adjectives such as robust, generalizable, physically consistent, novel, state-of-the-art, interpretable, efficient, real-time, promising, or transformative.
 - Use `references/field-terminology-style-guide.md` to replace AI-ish prose with field-native CFD-AI/SciML wording.
+- Use `references/gold-paper-style-patterns.md` and `rubrics/gold-paper-closeness-rubric.md` when text sounds fluent but unlike a normal CFD-AI/SciML paper.
 - Use `templates/claim-evidence-map.md` for full audits.
-- Use `examples/bad-to-good-abstract.md` and `examples/ai-ish-to-field-native-prose.md` when rewriting abstracts or conclusions.
+- Use `examples/bad-to-good-abstract.md`, `examples/ai-ish-to-field-native-prose.md`, and `examples/generic-ai-to-gold-paper-prose.md` when rewriting abstracts or conclusions.
 - Read gold-paper files only when the claim domain matches:
   - reconstruction: `references/gold-papers/fukami-2019-super-resolution-jfm.md`
   - field taxonomy: `references/gold-papers/brunton-2020-machine-learning-fluid-mechanics.md`
@@ -33,7 +35,8 @@ Use when asked to avoid overclaiming, check novelty, audit abstract/introduction
 2. Classify claim type: novelty, accuracy, physical consistency, generalization, robustness, efficiency, interpretability, reproducibility.
 3. Map each claim to evidence location.
 4. Score evidence strength: supported / weak / missing / overclaimed.
-5. Suggest safer wording or required experiment.
+5. If the paragraph is generic or AI-ish, score gold-paper closeness: physical anchoring, rhetorical move order, field-native collocations, and limitation boundary.
+6. Suggest safer wording or required experiment.
 
 ## Output schema
 
@@ -45,6 +48,11 @@ Add a rubric score:
 | Claim | Score 0-3 | Missing evidence | Safer wording |
 |---|---:|---|---|
 
+For prose-style audits, add:
+
+| Passage | Gold-paper closeness score 0-3 | AI-ish marker | Field-native rewrite |
+|---|---:|---|---|
+
 ## Anti-patterns
 
 - “robust” without robustness tests.
@@ -52,6 +60,8 @@ Add a rubric score:
 - “physics-informed” without locating physics in loss/architecture/data/constraints.
 - “state-of-the-art” without fair baselines.
 - “real-time” without hardware/runtime.
+- “AI framework” or “complex dynamics” where the paper should name input, output, flow regime, metric, and diagnostic.
+- Generic context paragraphs that do not mention a physical object by the third sentence.
 
 ## Verification
 
@@ -59,3 +69,4 @@ Add a rubric score:
 - No solver/citation details invented.
 - Safer wording preserves contribution without hype.
 - Claims scored 0-1 are either removed, narrowed, or converted to explicit TODOs.
+- Gold-paper closeness failures are rewritten using `examples/generic-ai-to-gold-paper-prose.md`.

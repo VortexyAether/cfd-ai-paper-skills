@@ -39,6 +39,8 @@ Model the discipline of papers by Fukami, Brunton, Maulik, Lee, and Vinuesa:
 - figure sequence that proves claims,
 - cautious wording.
 
+The target is not “more academic English.” It is normal CFD-AI/SciML paper texture: physical problem first, narrow gap second, method role third, evidence sequence fourth, limitation boundary last. If the prose could fit any AI-for-science paper after replacing two nouns, it is not close enough to the gold-paper target.
+
 Use progressive disclosure:
 
 | Task | Read first |
@@ -52,6 +54,7 @@ Use progressive disclosure:
 | Experimental-fluid-mechanics opportunity framing | `references/gold-papers/vinuesa-2023-transformative-ml-experiments-nrp.md` |
 | Claim strength decisions | `rubrics/claim-evidence-rubric.md` |
 | AI-ish / field-inappropriate vocabulary | `references/field-terminology-style-guide.md`, `rubrics/vocabulary-style-rubric.md`, `examples/ai-ish-to-field-native-prose.md` |
+| Gold-paper closeness / normal paper texture | `references/gold-paper-style-patterns.md`, `rubrics/gold-paper-closeness-rubric.md`, `examples/generic-ai-to-gold-paper-prose.md` |
 
 ## Workflow
 
@@ -120,6 +123,8 @@ Five moves:
 
 No “promising,” “robust,” “SOTA,” or “physically consistent” without measurable evidence.
 
+Gold-paper closeness gate: the first sentence must name a physical/numerical object or bottleneck, not AI capability. Accept “high-resolution vorticity reconstruction from low-resolution snapshots”; reject “AI has revolutionized CFD.”
+
 #### Introduction
 
 Flow:
@@ -171,9 +176,10 @@ Return:
 4. Section-level structure
 5. Reviewer attack points
 6. Required evidence/TODOs
-7. Exact rewrite, if requested
+7. Gold-paper closeness score, if writing/reconstruction is requested
+8. Exact rewrite, if requested
 
-For abstracts, use `examples/bad-to-good-abstract.md` as the style and evidence standard. For experiments, route to `templates/experiment-plan.md` and `rubrics/sciml-experiment-rubric.md`.
+For abstracts, use `examples/bad-to-good-abstract.md` as the style and evidence standard. For prose that sounds generic or AI-written, use `references/gold-paper-style-patterns.md`, `rubrics/gold-paper-closeness-rubric.md`, and `examples/generic-ai-to-gold-paper-prose.md`. When the user wants reviewer criticism to drive the rewrite, route through `skills/paper-revision-loop-manager/SKILL.md` and use `templates/reviewer-editor-loop-report.md`. For experiments, route to `templates/experiment-plan.md` and `rubrics/sciml-experiment-rubric.md`.
 
 ## v0.4 eval-backed checks
 
@@ -192,6 +198,8 @@ These checks were added after simulated baseline-agent failures in `evaluation/r
 - “generalizable” from interpolation-only tests.
 - “real-time” without hardware/timing.
 - “state-of-the-art” without a fair baseline matrix.
+- Generic opening context that could belong to any AI-for-science paper.
+- Method-first paragraphs that name the network before the flow case, variable, and reference data.
 
 ## Verification
 
@@ -202,3 +210,4 @@ Before finalizing:
 - Reviewer objections are explicit.
 - Suggested text preserves scientific tone and does not overclaim.
 - The final answer can be scored by `rubrics/claim-evidence-rubric.md`.
+- If manuscript prose is generated, the final answer can also be scored by `rubrics/gold-paper-closeness-rubric.md`.

@@ -36,21 +36,100 @@ This package pushes the agent to ask the questions reviewers ask:
 | Review-paper taxonomy | Organize related work by workflow role, validation axis, and evidence level rather than citation order. |
 | Benchmark-aware validation | Separate random splits from held-out time, Reynolds number, geometry, mesh, BC/IC, and coupled-solver validation. |
 
-## Quickstart
+## Pipeline Visualization
 
-1. Put this repository where your agent can read it.
-2. Tell the agent to start with the root `SKILL.md` entrypoint, or name the relevant `skills/<skill-name>/SKILL.md` files directly for focused work.
-3. Provide your paper draft, notes, logs, figures, BibTeX, or experiment plan.
-4. Ask for a concrete artifact: claim-evidence map, reviewer report, experiment matrix, related-work taxonomy, LaTeX section, full paper seed, response letter, or reproducibility audit.
-5. Treat unknown facts as `TODO` until you provide evidence.
+This package is built around reviewer-driven writing, not one-shot prose polishing.
 
-Example:
+```mermaid
+flowchart TD
+    A[Draft or evidence packet] --> B[Source-scope contract]
+    B --> R[Reviewer\nFatal/Major rejection risks]
+    B --> E[Evidence auditor\nclaim -> evidence/TODO]
+    B --> X[Experiment planner\nvalidation, baselines, diagnostics]
+    B --> F[Figure/table editor\nclaim-linked artifacts]
+    R --> M[Orchestrator merge ledger]
+    E --> M
+    X --> M
+    F --> M
+    M --> P1[Prose editor\ncycle 1 rewrite]
+    P1 --> G1[Gatekeeper\nreview 1]
+    G1 -->|wording or structure fixable| P2[Prose editor\ncycle 2 revision]
+    P2 --> G2[Gatekeeper\nreview 2]
+    G1 -->|clean or evidence required| Z[Final text + residual-risk table]
+    G2 --> Z
+    Z --> N[Next experiments, tables, figures]
+```
+
+Default loop limits:
+
+- abstracts: max 2 edit-review cycles;
+- longer sections/full drafts: max 3 edit-review cycles;
+- stop early when remaining blockers require new evidence rather than wording.
+
+## Installation And Quickstart
+
+### 1. Clone and validate
+
+```bash
+git clone https://github.com/VortexyAether/cfd-ai-paper-skills.git
+cd cfd-ai-paper-skills
+python3 scripts/validate_package.py
+python3 scripts/run_static_evals.py
+python3 scripts/export_package.py --dry-run
+```
+
+The deterministic checks require only Python. Tectonic is needed only when you want to compile LaTeX benchmark artifacts.
+
+### 2. Use directly with Codex native subagents
+
+Start Codex from the package root so project-scoped agents under `.codex/agents/` are visible:
+
+```bash
+codex
+```
+
+Then paste a prompt template:
+
+```text
+.codex/prompts/smoke-test.md
+.codex/prompts/iterative-edit-review-loop.md
+.codex/prompts/multi-agent-abstract-rescue.md
+.codex/prompts/full-paper-reviewer-editor.md
+```
+
+Minimal Codex prompt:
+
+```text
+Use native Codex subagents and run a bounded edit-review loop.
+Spawn cfd_reviewer, evidence_auditor, experiment_planner, and figure_table_editor in parallel on this abstract.
+Wait for all. Merge their outputs into a blocker ledger.
+Run prose_editor -> gatekeeper -> prose_editor -> gatekeeper for max 2 cycles.
+Stop if no Fatal/Major blockers remain or remaining blockers need new evidence.
+
+<Abstract here>
+```
+
+Use `/agent` inside Codex CLI to inspect active subagent threads.
+
+### 3. Use as a local skill package
+
+Point any local-file-capable agent at the repository and start with the root `SKILL.md` router, or name focused files under `skills/<skill-name>/SKILL.md`.
+
+If your environment supports local reusable skills, copy or symlink the whole repository intact so the router can load `references/`, `rubrics/`, `examples/`, `templates/`, and `.codex/`:
+
+```bash
+mkdir -p ~/.hermes/skills/research
+ln -s "$PWD" ~/.hermes/skills/research/cfd-ai-paper-skills
+hermes skills list | grep cfd-ai-paper-skills
+```
+
+Example generic prompt:
 
 ```text
 Use the CFD-AI paper skills in this repository. Audit my draft for unsupported CFD/SciML claims, map every major claim to evidence or TODO, and rewrite only the unsafe claims. Do not invent solver settings, citations, DOI values, or benchmark numbers.
 ```
 
-If your agent supports installable local skills, `SKILL.md` is the easiest entrypoint. It routes manuscript writing, claim audits, reproducibility checks, experiment design, related-work synthesis, LaTeX production, and reviewer-response work to the focused subskills under `skills/`.
+`SKILL.md` routes manuscript writing, claim audits, reproducibility checks, experiment design, related-work synthesis, LaTeX production, reviewer-response work, and multi-agent reviewer-editor loops to the focused subskills under `skills/`.
 
 ## Codex Usage Tutorial
 
