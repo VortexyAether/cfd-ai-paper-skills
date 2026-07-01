@@ -1,0 +1,136 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\title{Geometry-Aware Neural Operators and Mesh-Based Graph Surrogates for CFD: From Regular-Grid Benchmarks to Engineering Validation}
+\author{Skill-guided review manuscript seed}
+\date{}
+\emergencystretch=2em
+\begin{document}
+\maketitle
+
+\begin{abstract}
+CFD surrogate modeling is moving from regular-grid proof-of-concept problems toward complex geometries, unstructured meshes, and engineering validation. This review seed frames that transition through a workflow-first taxonomy: where machine learning enters CFD tasks such as surrogate prediction, reduced-order modeling, solver acceleration, closure estimation, sensing, and design-loop support. We distinguish regular-grid neural operators, physics-constrained operator surrogates, mesh-based graph neural networks, geometry-conditioned surrogates, and hybrid CFD--ML workflows. The central gap is not only architecture choice but validation: claims about geometry transfer, mesh independence, physical fidelity, or deployment require held-out geometries, boundary-condition transfer tests, mesh-refinement sensitivity, physical diagnostics, uncertainty estimates, and reproducible solver/training details. The review therefore argues for a validation agenda rather than a winner-takes-all method ranking. Bibliographic details, exact benchmark numbers, and paper-specific claims remain TODOs until verified sources are inserted.
+\end{abstract}
+
+\section{Introduction}
+Neural surrogates for CFD are attractive because high-fidelity simulations can be expensive in parameter sweeps, design studies, uncertainty quantification, and closed-loop workflows. Early benchmarks often use regular grids, fixed domains, and controlled boundary conditions. Those settings are useful for algorithm development, but they do not by themselves establish reliability for engineering configurations with changing geometry, unstructured meshes, and regime-dependent quantities of interest.
+
+The current trend is therefore geometry and mesh awareness. Neural operators promise mappings between discretized fields; graph surrogates can use mesh connectivity; geometry-conditioned models encode body or domain shape; and hybrid CFD--ML workflows insert learned components into selected solver or post-processing stages. The review thesis is cautious: these approaches address limitations of regular-grid surrogates, but their value depends on validation design, reproducibility, and failure-boundary reporting.
+
+\section{Workflow-First Taxonomy}
+A useful review should first ask where ML enters the CFD workflow, then ask which model family is used. Sorting only by architecture hides whether a method performs reconstruction, forecasting, closure estimation, solver acceleration, design-loop evaluation, or uncertainty quantification.
+
+\begin{table}[t]
+\centering
+\caption{Workflow-first taxonomy for geometry-aware CFD surrogates. Each row includes a validation limitation because method names alone do not establish CFD reliability.}
+\begin{tabular}{p{0.18\linewidth}p{0.22\linewidth}p{0.28\linewidth}p{0.22\linewidth}}
+\toprule
+CFD workflow role & Typical ML families & Evidence needed & Common limitation \\
+\midrule
+Field surrogate / forecasting & neural operators, CNNs, graph nets & held-out time, regime, geometry, BC tests; QoI errors & random snapshot splits overstate transfer \\
+ROM / latent dynamics & autoencoders, graph autoencoders, recurrent models & rollout stability, modal/energy diagnostics & latent drift and unstable long horizons \\
+Closure / model-form support & physics-constrained nets, graph/local models & a priori and a posteriori closure tests & good regression may fail coupled CFD \\
+Sensing / reconstruction & CNNs, operators, data assimilation hybrids & sparse sensor layout, noise, spectra, force/QoI recovery & visual agreement can hide physical errors \\
+Design-loop support & geometry-conditioned surrogates, hybrid solvers & held-out geometries, runtime, uncertainty, failure detection & geometry transfer often under-tested \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Method-Family Map}
+Regular-grid neural operators, such as FNO-style surrogates, are useful when fields live on structured domains and boundary conditions are controlled. Their limitation is not speed after training, but whether the learned operator remains meaningful under mesh changes, geometry changes, and new nondimensional regimes. Physics-informed neural operators and related constrained surrogates add PDE residuals, boundary losses, or conservation-inspired terms, but residual minimization should not be equated with CFD-grade physical fidelity unless diagnostics and coupled tests support it.
+
+Mesh-based graph neural networks and graph autoencoders address unstructured connectivity more directly. They can represent local mesh neighborhoods and variable resolution, but message-passing depth, graph construction, mesh-refinement sensitivity, and long-horizon stability must be tested. Geometry-conditioned surrogates use shape descriptors, signed-distance fields, implicit geometry encodings, or roughness/body parameters to condition predictions. Their key validation requirement is held-out geometry evaluation, not merely random snapshot splits within the same shapes.
+
+\begin{table}[t]
+\centering
+\caption{Method-family taxonomy. The limitation column is required to prevent architecture labels from becoming evidence substitutes.}
+\begin{tabular}{p{0.20\linewidth}p{0.25\linewidth}p{0.25\linewidth}p{0.20\linewidth}}
+\toprule
+Family & Strength & Validation axis & Limitation / TODO \\
+\midrule
+Regular-grid operators & fast field-to-field maps after training & regime and BC transfer on structured domains & geometry and mesh changes often TODO \\
+Physics-constrained operators & can include residual/BC penalties & residuals plus QoIs and coupled tests & residual weighting does not ensure fidelity \\
+Mesh graph surrogates & unstructured connectivity and local neighborhoods & mesh refinement, graph construction, rollout drift & stability and scalability TODO \\
+Geometry-conditioned models & shape-dependent prediction & held-out geometry and boundary tests & random splits are insufficient \\
+Hybrid CFD--ML workflows & targeted solver/ROM/design support & runtime, coupling stability, uncertainty & deployment evidence usually TODO \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Validation Axes and Failure Modes}
+The central validation failure in this trend is claiming geometry or regime transfer without testing the claimed axis. A random snapshot split can measure interpolation within one dataset; it does not prove transfer across Reynolds number, Mach number, boundary condition, geometry, or mesh. Review papers should therefore separate interpolation performance from extrapolation or deployment claims.
+
+\begin{table}[t]
+\centering
+\caption{Validation checklist for CFD surrogate review papers. Each axis maps a claim to the evidence required before that claim is allowed.}
+\begin{tabular}{p{0.20\linewidth}p{0.34\linewidth}p{0.34\linewidth}}
+\toprule
+Claim type & Required evidence & Limitation if absent \\
+\midrule
+Geometry transfer & held-out bodies or shape families & call it in-geometry interpolation \\
+Mesh independence & mesh-refinement and cross-mesh tests & call it mesh-specific performance \\
+Physical fidelity & spectra, forces, residuals, wall shear, heat flux, or conservation diagnostics & avoid ``physically consistent'' language \\
+Deployment or speed & hardware, runtime, memory, batch size, coupling overhead & mark runtime/deployment TODO \\
+Uncertainty/trust & calibration, intervals, OOD detection, failure cases & report deterministic surrogate only \\
+Long-horizon prediction & rollout drift and stability diagnostics & limit to one-step or short-horizon use \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Reproducibility Requirements}
+CFD surrogate papers need both numerical and ML reproducibility. Numerical reproducibility requires governing equations, nondimensional groups, geometry/domain definitions, BC/IC, mesh type and resolution, solver settings, time integration, and data-generation scripts where possible. ML reproducibility requires train/validation/test construction, normalization, architecture, optimizer, seeds, training budget, hardware, and code/data access. Review manuscripts should record whether each cited work reports these items rather than treating all benchmark results as comparable.
+
+\section{Evidence-Linked Figure Plan}
+\begin{figure}[t]
+\centering
+\fbox{\parbox{0.88\linewidth}{\centering Placeholder: workflow map connecting CFD tasks to ML insertion points: reconstruction, forecasting, ROM, closure, sensing, design support, and hybrid acceleration.}}
+\caption{Trend/workflow map. The figure supports the review's claim that CFD-AI methods should be classified by workflow role before architecture family.}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\fbox{\parbox{0.88\linewidth}{\centering Placeholder: matrix with rows for geometry change, mesh change, BC change, Reynolds-number change, and columns for neural operators, graph surrogates, geometry-conditioned models, and hybrid workflows.}}
+\caption{Geometry-and-mesh generalization matrix. The figure supports the claim that validation axes, not architecture names, determine whether transfer has been demonstrated.}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\fbox{\parbox{0.88\linewidth}{\centering Placeholder: validation funnel from visual fields to metrics, QoIs, physical diagnostics, uncertainty, runtime, and coupled deployment tests.}}
+\caption{Validation funnel. The figure supports the review's argument that visual field agreement is an early check, not deployment evidence.}
+\end{figure}
+
+\section{Reviewer Traps and Safer Rewrites}
+\begin{table}[t]
+\centering
+\caption{Common review-paper overclaims and safer rewrites.}
+\begin{tabular}{p{0.28\linewidth}p{0.30\linewidth}p{0.30\linewidth}}
+\toprule
+Trap phrase & Why risky & Safer rewrite \\
+\midrule
+Geometry-generalizable surrogate & Requires held-out geometry tests & evaluated on the supplied geometry split; geometry transfer TODO \\
+Physically consistent prediction & Needs diagnostics, not only loss terms & includes residual/force/spectrum diagnostics where reported \\
+Real-time CFD & Needs hardware and coupling evidence & low-latency inference reported only when runtime is stated \\
+State-of-the-art & Needs same-data comparison & outperforms named baselines under the reported split \\
+Solved complex CFD & Unsupported field-wide claim & improves selected surrogate tasks under stated regimes \\
+Mesh-independent & Needs cross-mesh/refinement tests & tested on the reported mesh; mesh transfer TODO \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Research Agenda}
+A concrete agenda follows from the validation gaps. First, geometry-transfer benchmarks should hold out entire shape families, not only snapshots. Second, mesh-awareness claims should include mesh-refinement and cross-mesh tests. Third, physics-constrained surrogates should report physical diagnostics and coupled-solver behavior, not only residual loss values. Fourth, review tables should record solver/data provenance and reproducibility status. Fifth, deployment-oriented papers should report hardware, runtime, memory, uncertainty, and failure detection.
+
+\section{Conclusion}
+Geometry-aware neural operators and mesh-based graph surrogates are a credible response to the limits of regular-grid CFD surrogate benchmarks. The trend should not be judged by architecture novelty alone. A reviewer-safe assessment asks where the model enters the CFD workflow, which validation axis is claimed, and whether the evidence covers geometry, mesh, boundary conditions, physical diagnostics, uncertainty, and reproducibility. Until those tests are supplied, broad claims about deployment, physical fidelity, and engineering generality remain TODOs.
+
+\begin{thebibliography}{9}
+\bibitem{brunton2020mlfluid} TODO: verified entry for machine-learning-for-fluid-mechanics workflow taxonomy.
+\bibitem{vinuesa2022enhancing} TODO: verified entry for enhancing CFD with machine learning opportunity map.
+\bibitem{brunton2021workflow} TODO: verified entry for ML workflow staging in fluid mechanics.
+\bibitem{vinuesa2023experiments} TODO: verified entry for ML and experimental-fluid-mechanics perspective.
+\bibitem{maulik2023graph} TODO: verified entry for mesh/graph surrogate or graph-autoencoder CFD reference.
+\end{thebibliography}
+\end{document}

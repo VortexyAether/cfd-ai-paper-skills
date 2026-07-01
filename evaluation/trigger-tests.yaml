@@ -1,0 +1,30 @@
+- id: abstract_overclaim
+  prompt: "Rewrite this CFD-AI abstract so it stops overclaiming and maps claims to evidence."
+  expected_skill: scientific-journal-writing
+  eval_task: evaluation/tasks/fukami-super-resolution-reconstruction.md
+
+- id: wake_reviewer_attack
+  prompt: "Review our cylinder wake model and tell us what CFD reviewers will attack."
+  expected_skill: cfd-ml-paper-reviewer
+  eval_task: evaluation/tasks/lee-cylinder-wake-reviewer-attack.md
+
+- id: mesh_bc_reproducibility
+  prompt: "Audit the mesh, boundary conditions, solver settings, split, and compute for reproducibility."
+  expected_skill: cfd-reproducibility-checker
+  eval_task: evaluation/tasks/lee-cylinder-wake-reviewer-attack.md
+
+- id: uncertainty_experiment_audit
+  prompt: "Our turbulence surrogate is trustworthy; audit the baselines, UQ, calibration, and stress tests."
+  expected_skill: sciml-experiment-auditor
+  eval_task: evaluation/tasks/maulik-experiment-matrix.md
+
+- id: taxonomy_not_citation_dump
+  prompt: "Turn these CFD-AI citations into a field taxonomy and gap paragraph."
+  expected_skill: related-work-cartographer
+  eval_task: evaluation/tasks/brunton-taxonomy-reconstruction.md
+
+- id: figure_story
+  prompt: "Plan the result figures for a spatio-temporal super-resolution paper."
+  expected_skill: figure-and-result-storytelling
+  eval_task: evaluation/tasks/fukami-super-resolution-reconstruction.md
+

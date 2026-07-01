@@ -1,0 +1,69 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{hyperref}
+
+\title{Scoped Super-Resolution of Two-Dimensional Vorticity Fields from Coarsely Sampled CFD Snapshots}
+\author{Sample Skill-Guided Output}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+High-resolution flow-field data are often unavailable at inference time because dense simulations and measurements remain expensive. We study a scoped super-resolution task: reconstructing high-resolution vorticity fields from spatially downsampled snapshots for a circular-cylinder wake at $Re_D=100$ and two-dimensional homogeneous decaying turbulence. A convolutional reconstruction model maps coarse vorticity inputs at downsampling factors $r=4$ and $r=8$ to high-resolution targets and is compared with bicubic interpolation and a small U-Net baseline on fixed train/test splits. For in-regime test snapshots at $r=4$, the model reduces relative $L_2$ error by 22\% compared with bicubic interpolation and better preserves the high-wavenumber trend of the vorticity spectrum. The claim is limited: reliability decreases for an unseen $Re_D=300$ wake and near sharp shear-layer extrema, and conservation-residual, runtime, three-dimensional, and experimental-PIV tests remain TODOs.
+\end{abstract}
+
+\section{Introduction}
+Super-resolution is useful in fluid mechanics when the available vorticity or velocity field is coarser than the structures required for analysis. In CFD and experimental workflows, this can occur when storage, sensor density, or simulation cost prevents dense sampling of the target field. The scientific question is therefore not whether a neural network can make a flow image look sharper, but whether a reconstruction model recovers flow quantities and diagnostics under stated physical and numerical conditions.
+
+This sample manuscript considers two controlled cases: a two-dimensional incompressible cylinder wake at $Re_D=100$ and two-dimensional homogeneous decaying turbulence. The ML component is restricted to reconstruction from downsampled vorticity snapshots. It does not replace the governing equations, infer a turbulence closure, or claim validity for three-dimensional turbulent flows.
+
+The contributions are calibrated to the available evidence:
+\begin{enumerate}
+    \item We formulate vorticity super-resolution as a low-resolution-to-high-resolution reconstruction problem for two stated two-dimensional flow cases.
+    \item We compare the convolutional model with bicubic interpolation and a small U-Net baseline using the same train/test split and relative $L_2$ error.
+    \item We evaluate whether improved pointwise error is accompanied by a vorticity-spectrum trend and vorticity-PDF agreement, rather than relying only on visual similarity.
+    \item We identify failure boundaries for unseen Reynolds-number transfer and sharp shear-layer extrema.
+\end{enumerate}
+
+\section{Method Sketch}
+Let $\omega^{HR}(\mathbf{x},t)$ be a high-resolution vorticity snapshot and let $D_r(\cdot)$ denote spatial downsampling by factor $r\in\{4,8\}$. The model receives
+\begin{equation}
+    \omega^{LR}_r = D_r\left(\omega^{HR}\right)
+\end{equation}
+and predicts
+\begin{equation}
+    \hat{\omega}^{HR}=f_\theta(\omega^{LR}_r).
+\end{equation}
+Training minimizes a reconstruction loss,
+\begin{equation}
+    \mathcal{L}_{rec}=\frac{\|\hat{\omega}^{HR}-\omega^{HR}\|_2^2}{\|\omega^{HR}\|_2^2},
+\end{equation}
+with identical train/validation/test partitions used for bicubic interpolation, the U-Net baseline, and the proposed model. The manuscript should report boundary conditions, grid resolution, time-step or snapshot spacing, optimizer settings, seed handling, and data availability before submission; these details are marked as TODOs in this sample because they were not provided in the prompt.
+
+\section{Result and Limitation Paragraph}
+For in-regime $r=4$ test snapshots, the proposed model reduces relative $L_2$ error by 22\% compared with bicubic interpolation. This supports a narrow accuracy claim for the tested two-dimensional cases. The spectral comparison further suggests that the learned reconstruction better preserves high-wavenumber vorticity content than bicubic interpolation, while vorticity-PDF agreement provides a basic statistical check on the reconstructed field distribution. These diagnostics are more reviewer-safe than a visual claim of ``physical consistency,'' but they are not sufficient for a full physics claim: conservation or Navier--Stokes residual audits are still missing.
+
+The observed degradation for an unseen $Re_D=300$ wake and near sharp shear-layer extrema defines the current generalization boundary. Accordingly, the method should be described as in-regime vorticity super-resolution for selected two-dimensional flows, not as a general CFD accelerator or real-time turbulence model. Runtime benchmarks, memory use, three-dimensional turbulence tests, and experimental-PIV validation remain required before making efficiency or deployment claims.
+
+\section{Claim--Evidence Check}
+\begin{center}
+\begin{tabular}{p{0.25\linewidth}p{0.31\linewidth}p{0.28\linewidth}}
+\toprule
+Claim & Current evidence & Status \\
+\midrule
+Improves in-regime reconstruction & 22\% lower relative $L_2$ error than bicubic at $r=4$ & Supported with scope limit \\
+Preserves selected flow statistics & Better high-wavenumber spectral trend and vorticity-PDF agreement & Partial; needs exact plots and uncertainty \\
+Generalizes broadly & Unseen $Re_D=300$ degrades & Not supported; report as limitation \\
+Physically consistent & No residual or conservation audit supplied & TODO, do not claim \\
+Efficient or real-time & No runtime/hardware data supplied & TODO, do not claim \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{Conclusion}
+The evidence supports a constrained manuscript seed: convolutional reconstruction can improve vorticity super-resolution for the tested two-dimensional regimes when evaluated against interpolation and U-Net baselines. The next version should add exact numerical setup details, residual diagnostics, uncertainty across seeds, and a failure-case figure before stronger claims are made.
+
+\end{document}

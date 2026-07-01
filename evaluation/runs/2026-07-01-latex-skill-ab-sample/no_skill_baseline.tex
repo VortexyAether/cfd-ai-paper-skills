@@ -1,0 +1,42 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{hyperref}
+
+\title{A Deep Learning Framework for Accurate CFD Super-Resolution}
+\author{Sample Baseline Output}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Computational fluid dynamics generates large amounts of data, but high-resolution simulations are expensive. We propose a novel deep learning framework that accurately reconstructs turbulent flow fields from low-resolution inputs. The model is robust, efficient, and physically consistent, and it achieves superior performance compared with traditional approaches. Experiments on cylinder wake and turbulence data demonstrate that the method can recover complex flow structures and has strong potential for real-time CFD applications.
+\end{abstract}
+
+\section{Introduction}
+CFD is important for many engineering applications, including aerodynamics, energy systems, and industrial design. However, high-fidelity CFD is computationally expensive and difficult to use in real time. Recent advances in artificial intelligence have made it possible to learn mappings from low-resolution simulation data to high-resolution fields. These methods can significantly improve the efficiency of simulation pipelines and provide accurate results with less computational cost.
+
+In this paper, we introduce a deep neural network for CFD super-resolution. The method learns hidden flow patterns from training data and predicts high-resolution vorticity fields from downsampled snapshots. The proposed framework is general and can be applied to different flow regimes. Our contributions are as follows: (i) a new AI-based CFD reconstruction method, (ii) improved accuracy over conventional interpolation, and (iii) physically meaningful predictions for turbulent flows.
+
+\section{Method}
+Let $\omega_{LR}$ denote a low-resolution vorticity field and $\omega_{HR}$ the corresponding high-resolution target. We train a convolutional neural network $f_\theta$ to reconstruct the high-resolution field,
+\begin{equation}
+    \hat{\omega}_{HR}=f_\theta(\omega_{LR}).
+\end{equation}
+The model is optimized using a mean-squared-error loss,
+\begin{equation}
+    \mathcal{L}=\|\hat{\omega}_{HR}-\omega_{HR}\|_2^2.
+\end{equation}
+The network is trained on CFD data from a cylinder wake and homogeneous turbulence. Bicubic interpolation and a U-Net are used for comparison.
+
+\section{Results and Discussion}
+The proposed method outperforms baseline approaches and reconstructs fine-scale vortical structures. At a downsampling factor of $r=4$, the model reduces relative error by 22\% compared with bicubic interpolation. The reconstructed fields are visually close to the reference solution, showing that the network captures complex turbulent dynamics. These results demonstrate the robustness and generalizability of the method for CFD super-resolution.
+
+The framework can be extended to more complex flows and may enable real-time CFD analysis. Future work will apply the method to three-dimensional turbulence and experimental measurements.
+
+\section{Conclusion}
+We presented a novel AI framework for CFD super-resolution. The method accurately reconstructs high-resolution vorticity fields from low-resolution inputs and improves over traditional interpolation. The results show that deep learning is a promising tool for accelerating CFD workflows.
+
+\end{document}

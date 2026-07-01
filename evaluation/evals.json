@@ -1,0 +1,31 @@
+{
+  "package": "cfd-ai-paper-skills",
+  "version": "0.4.0",
+  "evals": [
+    {
+      "id": "fukami-super-resolution-reconstruction",
+      "task": "evaluation/tasks/fukami-super-resolution-reconstruction.md",
+      "scorecard": "evaluation/scorecards/cfd-ai-skill-scorecard.md"
+    },
+    {
+      "id": "brunton-taxonomy-reconstruction",
+      "task": "evaluation/tasks/brunton-taxonomy-reconstruction.md",
+      "scorecard": "evaluation/scorecards/cfd-ai-skill-scorecard.md"
+    },
+    {
+      "id": "lee-cylinder-wake-reviewer-attack",
+      "task": "evaluation/tasks/lee-cylinder-wake-reviewer-attack.md",
+      "scorecard": "evaluation/scorecards/cfd-ai-skill-scorecard.md"
+    },
+    {
+      "id": "maulik-experiment-matrix",
+      "task": "evaluation/tasks/maulik-experiment-matrix.md",
+      "scorecard": "evaluation/scorecards/cfd-ai-skill-scorecard.md"
+    },
+    {
+      "id": "vinuesa-related-work-positioning",
+      "task": "evaluation/tasks/vinuesa-related-work-positioning.md",
+      "scorecard": "evaluation/scorecards/cfd-ai-skill-scorecard.md"
+    }
+  ]
+}

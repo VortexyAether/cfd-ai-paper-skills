@@ -1,0 +1,97 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\title{Geometry-Aware Neural Operators and Mesh-Based Graph Surrogates for CFD}
+\author{No-skill review baseline sample}
+\date{}
+\emergencystretch=2em
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Artificial intelligence is rapidly transforming computational fluid dynamics by enabling fast and accurate prediction of complex flows. Neural operators and graph neural networks provide state-of-the-art tools for learning flow maps across geometries and meshes. This review surveys geometry-aware neural operators, mesh-based graph surrogates, physics-informed models, and hybrid CFD-ML workflows. These approaches are robust, physically consistent, and promising for real-time CFD applications. We discuss their advantages, limitations, and future directions, showing that AI-based surrogates will play an important role in next-generation engineering simulation.
+\end{abstract}
+
+\section{Introduction}
+CFD is a central tool for engineering analysis, but it is computationally expensive for complex geometries and turbulent flows. Deep learning has emerged as a powerful solution because neural networks can learn nonlinear mappings from simulation data and make fast predictions. Neural operators are especially attractive because they learn operators between function spaces, while graph neural networks can work with mesh data and complex geometries.
+
+The field is moving from simple regular-grid benchmarks toward geometry-aware and mesh-aware models. This transition is important because engineering flows involve complex bodies, unstructured meshes, variable boundary conditions, and many Reynolds numbers. Geometry-aware neural operators and mesh-based graph surrogates can generalize across these cases and therefore provide a pathway toward real-time simulation and optimization.
+
+\section{Taxonomy of Methods}
+The main methods in this area include neural operators, physics-informed neural operators, graph neural networks, geometry-conditioned surrogates, and hybrid CFD-ML workflows. Neural operators such as FNO learn mappings from input fields to output fields. Physics-informed models incorporate PDE residuals or boundary losses. Graph neural networks operate directly on mesh connectivity. Geometry-conditioned surrogates include airfoil or body descriptors. Hybrid methods combine CFD solvers with machine learning acceleration.
+
+\begin{table}[t]
+\centering
+\caption{Representative method families for AI-based CFD surrogates.}
+\begin{tabular}{lll}
+\toprule
+Family & Strength & Limitation \\
+\midrule
+Neural operators & Fast prediction & Need training data \\
+Physics-informed operators & Physically consistent & Hard to tune \\
+Graph surrogates & Complex meshes & Expensive training \\
+Geometry-conditioned models & Generalizable & Need many geometries \\
+Hybrid CFD-ML & Practical deployment & Coupling complexity \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Validation and Failure Modes}
+Validation is important for CFD-AI. Models should be tested on accuracy, speed, physical consistency, and robustness. Good validation includes relative error, visualization, force coefficients, spectra, and generalization to new geometries. Random splits are useful for evaluating performance, while held-out geometries can test generalization.
+
+\begin{table}[t]
+\centering
+\caption{Validation checklist for CFD surrogate models.}
+\begin{tabular}{lll}
+\toprule
+Axis & Metric & Desired result \\
+\midrule
+Accuracy & Relative error & Low \\
+Physics & Residual or force error & Low \\
+Generalization & New geometry error & Low \\
+Speed & Runtime & Real-time \\
+Robustness & Noise and OOD tests & Stable \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Reproducibility}
+Reproducibility requires reporting datasets, model architectures, solvers, and training details. Papers should include boundary conditions, mesh resolution, loss functions, and hardware. Code and data should be released when possible.
+
+\section{Figures}
+\begin{figure}[t]
+\centering
+\fbox{\parbox{0.85\linewidth}{Placeholder: trend map of neural operators, graph networks, and hybrid CFD-ML.}}
+\caption{A trend map showing the growth of AI methods for CFD.}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\fbox{\parbox{0.85\linewidth}{Placeholder: geometry and mesh generalization matrix.}}
+\caption{Generalization across meshes and geometries is a key goal for future CFD-AI models.}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\fbox{\parbox{0.85\linewidth}{Placeholder: validation funnel from visual fields to deployment.}}
+\caption{Validation should move from visual checks to deployment-ready CFD models.}
+\end{figure}
+
+\section{Reviewer Traps}
+Common concerns include lack of generalization, insufficient physics, missing real-time benchmarks, and limited comparisons. These can be addressed by adding more datasets, stronger baselines, and better physical losses.
+
+\section{Research Agenda}
+Future work should develop more robust neural operators, improve graph learning on unstructured meshes, integrate physics more strongly, and build real-time digital twins for engineering design. Combining CFD solvers with neural surrogates will enable fast optimization and control.
+
+\section{Conclusion}
+Geometry-aware neural operators and mesh-based graph surrogates are transforming CFD by enabling fast and accurate predictions on complex geometries. Although challenges remain, these methods are likely to become standard tools for scientific computing and engineering simulation.
+
+\begin{thebibliography}{9}
+\bibitem{brunton2020mlfluid} TODO: Machine learning for fluid mechanics review.
+\bibitem{vinuesa2022enhancing} TODO: Enhancing CFD with machine learning review.
+\bibitem{maulik2023gnn} TODO: Mesh graph surrogate reference.
+\end{thebibliography}
+\end{document}

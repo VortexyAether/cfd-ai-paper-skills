@@ -1,0 +1,95 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\title{A Residual Deep Learning Framework for High-Resolution CFD Super-Resolution}
+\author{No-skill baseline sample}
+\date{}
+\begin{document}
+\maketitle
+\begin{abstract}
+High-resolution CFD simulations are expensive, motivating data-driven methods that can reconstruct detailed flow fields from low-resolution data. We propose a residual convolutional neural network with multiscale skip connections for super-resolving two-dimensional wake and turbulence simulations. The model is robust, generalizable, and physically consistent across different flow regimes. It outperforms bicubic interpolation and a U-Net baseline, reducing error by 22\% and 9\% respectively for the cylinder wake case. These results demonstrate that deep learning can accelerate CFD analysis and provide accurate high-resolution predictions for future real-time engineering workflows.
+\end{abstract}
+
+\section{Introduction}
+Computational fluid dynamics is widely used in science and engineering, but high-resolution simulations are costly. Artificial intelligence provides a powerful way to overcome this limitation by learning hidden flow structures from data. Super-resolution methods are especially promising because they can transform coarse simulation snapshots into high-resolution fields without running expensive solvers.
+
+This paper introduces a residual convolutional reconstruction model for CFD super-resolution. The model is evaluated on a circular-cylinder wake and homogeneous decaying turbulence. Compared with conventional interpolation and U-Net architectures, the proposed model achieves better accuracy and captures complex turbulent structures. The main contributions are: (i) a novel residual CNN framework for CFD, (ii) strong performance on multiple flow cases, and (iii) physically meaningful high-resolution predictions that may support real-time CFD acceleration.
+
+\section{Related Work}
+Machine learning has been widely applied to CFD acceleration, turbulence modeling, flow prediction, and scientific computing. Prior work on super-resolution has shown that neural networks can improve spatial resolution, while other studies use neural operators, PINNs, and reduced-order models for simulation and control. Our work extends these approaches by using a residual multiscale CNN for accurate vorticity reconstruction.
+
+\section{Method}
+Let $\omega_{LR}$ be the low-resolution vorticity field and $\omega_{HR}$ be the high-resolution target. The proposed network $f_\theta$ predicts
+\begin{equation}
+\hat{\omega}_{HR}=f_\theta(\omega_{LR}).
+\end{equation}
+The model is trained with normalized $L_2$ loss,
+\begin{equation}
+\mathcal{L}=\frac{\|\hat{\omega}_{HR}-\omega_{HR}\|_2^2}{\|\omega_{HR}\|_2^2}.
+\end{equation}
+The dataset includes a two-dimensional cylinder wake at $Re_D=100$ and homogeneous decaying turbulence. Low-resolution inputs are generated with downsampling factors $r=4$ and $r=8$. Bicubic interpolation and a small U-Net are used as baselines. Training, validation, and test sets are split by time index.
+
+\begin{table}[t]
+\centering
+\caption{Baseline comparison matrix. The proposed model is compared with traditional interpolation and a U-Net baseline.}
+\begin{tabular}{lll}
+\toprule
+Method & Role & Expected behavior \\
+\midrule
+Bicubic & Classical baseline & Smooth interpolation \\
+U-Net & Learned baseline & Strong neural reconstruction \\
+Residual CNN & Proposed & Accurate and physically consistent reconstruction \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Results}
+The proposed model improves reconstruction accuracy for the cylinder wake. At $r=4$, it reduces relative $L_2$ error by 22\% compared with bicubic interpolation and by 9\% compared with the U-Net baseline. At $r=8$, it continues to outperform bicubic interpolation. The model also preserves high-wavenumber content in decaying turbulence better than bicubic interpolation and improves vorticity-PDF agreement.
+
+\begin{figure}[t]
+\centering
+\fbox{\parbox{0.88\linewidth}{Placeholder: reference, low-resolution, predicted, and error fields for cylinder wake.}}
+\caption{The proposed method reconstructs detailed wake structures and demonstrates physically meaningful super-resolution.}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\fbox{\parbox{0.88\linewidth}{Placeholder: energy/vorticity spectrum comparison for decaying turbulence.}}
+\caption{The spectrum shows that the neural model captures turbulent high-wavenumber structure more effectively than interpolation.}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\fbox{\parbox{0.88\linewidth}{Placeholder: Reynolds-number generalization test from $Re_D=100$ to $Re_D=300$.}}
+\caption{The model remains useful when applied to a different Reynolds number, although additional work is needed.}
+\end{figure}
+
+\section{Claim--Evidence Summary}
+\begin{center}
+\begin{tabular}{p{0.25\linewidth}p{0.35\linewidth}p{0.25\linewidth}}
+\toprule
+Claim & Evidence & Status \\
+\midrule
+Accurate reconstruction & 22\% lower error than bicubic and 9\% lower than U-Net & Supported \\
+Physical consistency & Better spectra and vorticity PDF & Supported \\
+Generalizable CFD model & Cylinder wake and turbulence tests & Supported \\
+Real-time acceleration & Neural inference avoids CFD solves & Promising \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{Reviewer Risks}
+Reviewers may ask for more datasets, more Reynolds numbers, and comparisons with additional neural networks. They may also request runtime benchmarks and applications to three-dimensional flows. However, the present results already show strong potential for broad CFD acceleration.
+
+\section{Conclusion}
+We presented a residual deep learning framework for CFD super-resolution. The method improves accuracy over bicubic interpolation and a U-Net baseline, captures turbulent flow structures, and shows promise for robust and real-time CFD workflows. Future work will extend the approach to three-dimensional turbulence and experimental data.
+
+\begin{thebibliography}{9}
+\bibitem{fukami2019superresolution} TODO: Super-resolution reconstruction reference.
+\bibitem{brunton2020mlfluid} TODO: Machine learning for fluid mechanics reference.
+\bibitem{vinuesa2022enhancing} TODO: ML-enhanced CFD perspective reference.
+\end{thebibliography}
+\end{document}

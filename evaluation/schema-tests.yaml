@@ -1,0 +1,35 @@
+- id: scientific_writing_schema
+  skill: scientific-journal-writing
+  template: templates/claim-evidence-map.md
+  rubric: rubrics/claim-evidence-rubric.md
+  eval_task: evaluation/tasks/fukami-super-resolution-reconstruction.md
+  gold_paper: references/gold-papers/fukami-2021-spatiotemporal-super-resolution-jfm.md
+
+- id: reviewer_schema
+  skill: cfd-ml-paper-reviewer
+  template: templates/reviewer-report.md
+  rubric: rubrics/cfd-reproducibility-rubric.md
+  eval_task: evaluation/tasks/lee-cylinder-wake-reviewer-attack.md
+  gold_paper: references/gold-papers/lee-2021-cnn-wake-analysis-pof.md
+
+- id: experiment_auditor_schema
+  skill: sciml-experiment-auditor
+  template: templates/experiment-plan.md
+  rubric: rubrics/sciml-experiment-rubric.md
+  eval_task: evaluation/tasks/maulik-experiment-matrix.md
+  gold_paper: references/gold-papers/maulik-2021-rom-advection-poF.md
+
+- id: figure_schema
+  skill: figure-and-result-storytelling
+  template: templates/experiment-plan.md
+  rubric: rubrics/figure-evidence-rubric.md
+  eval_task: evaluation/tasks/fukami-super-resolution-reconstruction.md
+  gold_paper: references/gold-papers/fukami-2019-super-resolution-jfm.md
+
+- id: related_work_schema
+  skill: related-work-cartographer
+  template: templates/claim-evidence-map.md
+  rubric: rubrics/skill-quality-rubric.md
+  eval_task: evaluation/tasks/brunton-taxonomy-reconstruction.md
+  gold_paper: references/gold-papers/brunton-2016-sindy-pnas.md
+

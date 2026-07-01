@@ -1,0 +1,27 @@
+# Local agent/runtime state
+.omo/
+.tars/
+
+# Python
+__pycache__/
+*.py[cod]
+.tmp_pycache/
+.venv/
+venv/
+
+# macOS / editor
+.DS_Store
+*.swp
+*.swo
+
+# LaTeX transient sidecars
+*.aux
+*.log
+*.out
+*.toc
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.xdv
+
+# Keep generated PDFs and dist artifacts intentionally.

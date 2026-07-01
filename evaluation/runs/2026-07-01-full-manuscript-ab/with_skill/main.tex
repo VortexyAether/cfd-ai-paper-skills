@@ -1,0 +1,125 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\title{Regime-Scoped Super-Resolution of Two-Dimensional Wake and Decaying-Turbulence Vorticity Fields}
+\author{Skill-guided CFD-AI manuscript seed}
+\date{}
+\emergencystretch=2em
+\begin{document}
+\maketitle
+\begin{abstract}
+High-resolution vorticity fields are often unavailable at inference time because dense CFD snapshots are expensive to generate, store, or measure. We study a bounded super-resolution problem: reconstructing high-resolution scalar vorticity from spatially downsampled two-dimensional incompressible flow snapshots. A residual convolutional reconstruction model with multiscale skip paths maps coarse inputs at downsampling factors $r=4$ and $r=8$ to high-resolution vorticity fields and is evaluated against bicubic interpolation and a small U-Net baseline. For in-regime circular-cylinder wake snapshots at $Re_D=100$ and $r=4$, the model reduces relative $L_2$ vorticity error by 22\% compared with bicubic interpolation and by 9\% compared with the U-Net baseline. For two-dimensional decaying turbulence, it better preserves the qualitative high-wavenumber trend of the vorticity spectrum and improves vorticity-PDF agreement relative to bicubic interpolation. The claim is limited to the supplied two-dimensional regimes: $Re_D=300$ stress-test snapshots show increased error and smoothed shear-layer extrema, and conservation-residual, runtime, three-dimensional-flow, and experimental-PIV evidence remain TODOs.
+\end{abstract}
+
+\section{Introduction}
+Super-resolution in CFD is useful when the available flow field is coarser than the structures needed for analysis. This occurs in simulation archives, sparse measurements, and parameter sweeps where storing or generating high-resolution snapshots is costly. The relevant question is not whether a neural network can sharpen a flow image, but whether it recovers stated flow quantities under defined regimes, baselines, and diagnostics.
+
+This manuscript seed studies scalar-vorticity reconstruction for two controlled two-dimensional incompressible cases: a circular-cylinder wake at $Re_D=100$ and homogeneous decaying turbulence. The machine-learning component is restricted to mapping downsampled vorticity fields to high-resolution vorticity targets. It is not presented as a turbulence closure, a replacement for the governing equations, or a deployable CFD accelerator.
+
+The contributions are scoped to the evidence packet:
+\begin{enumerate}
+    \item We formulate vorticity super-resolution as a reconstruction task with spatial downsampling factors $r=4$ and $r=8$.
+    \item We compare a residual convolutional model with multiscale skip paths against bicubic interpolation and a small U-Net baseline.
+    \item We evaluate pointwise reconstruction error together with vorticity-spectrum trends and vorticity-PDF agreement.
+    \item We report the observed stress-test limitation at $Re_D=300$, where error increases and shear-layer extrema are smoothed.
+\end{enumerate}
+
+\section{Related Work and Positioning}
+ML-for-CFD methods enter different workflow roles: reconstruction from incomplete fields, surrogate modeling for fast state prediction, closure modeling, reduced-order modeling, experimental sensing, control, and scientific discovery \cite{fukami2019superresolution,brunton2020mlfluid,vinuesa2022enhancing}. This work belongs to the reconstruction role. It uses a learned mapping after CFD data have already been generated; it does not modify the numerical solver or infer a closure law. The closest methodological pattern is flow-field super-resolution, where low-resolution velocity or vorticity snapshots are mapped to high-resolution targets and judged against interpolation or reconstruction baselines. TODO: replace placeholder citations with verified bibliography entries and exact prior-art contrasts before submission.
+
+\section{Methods}
+\subsection{Problem Definition}
+Let $\omega^{HR}(\mathbf{x},t)$ denote a high-resolution scalar vorticity field. A downsampling operator $D_r(\cdot)$ produces the low-resolution input
+\begin{equation}
+    \omega^{LR}_r = D_r\left(\omega^{HR}\right), \qquad r \in \{4,8\}.
+\end{equation}
+The reconstruction model predicts
+\begin{equation}
+    \hat{\omega}^{HR} = f_\theta\left(\omega^{LR}_r\right),
+\end{equation}
+where $f_\theta$ is a residual convolutional network with multiscale skip paths.
+
+\subsection{Training Objective}
+The supplied objective is normalized $L_2$ reconstruction loss on vorticity,
+\begin{equation}
+    \mathcal{L}_{rec}=\frac{\|\hat{\omega}^{HR}-\omega^{HR}\|_2^2}{\|\omega^{HR}\|_2^2}.
+\end{equation}
+No conservation, Navier--Stokes residual, or force-based term is provided; therefore no residual-correctness claim is made.
+
+\subsection{Cases, Baselines, and Missing Reproducibility Details}
+\begin{table}[t]
+\centering
+\caption{Evaluation matrix. The table separates supplied evidence from TODO reproducibility details.}
+\begin{tabular}{p{0.22\linewidth}p{0.32\linewidth}p{0.34\linewidth}}
+\toprule
+Item & Supplied evidence & TODO before submission \\
+\midrule
+Wake case & 2D incompressible cylinder wake, $Re_D=100$ & domain, BC/IC, grid, solver, time step, CFL \\
+Stress test & $Re_D=300$ wake snapshots & split construction and whether training excludes this regime \\
+Turbulence case & 2D homogeneous decaying turbulence & forcing/initial spectrum, grid, snapshot cadence \\
+Downsampling & spatial $r=4$ and $r=8$ & exact operator and anti-aliasing details \\
+Baselines & bicubic interpolation; small U-Net & U-Net depth, parameters, training budget \\
+Training split & separated by time index & exact counts, seeds, normalization, optimizer \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Results}
+\subsection{In-Regime Wake Reconstruction}
+For $Re_D=100$ cylinder-wake test snapshots at $r=4$, the residual convolutional model reduces relative $L_2$ vorticity error by 22\% compared with bicubic interpolation and by 9\% compared with the small U-Net baseline. This supports a bounded accuracy claim for the provided in-regime wake test only. At $r=8$, the model still improves over bicubic interpolation, but the performance gap to U-Net is smaller; the exact value is TODO and should not be invented.
+
+\begin{figure}[t]
+\centering
+\fbox{\parbox{0.88\linewidth}{\centering Placeholder panels: high-resolution reference, downsampled input, bicubic output, U-Net output, residual-CNN output, and error field for $Re_D=100$, $r=4$.}}
+\caption{Planned wake-reconstruction figure. This figure would support the in-regime accuracy claim only if panels use aligned coordinates, the same color scale, and report relative $L_2$ error for each method.}
+\end{figure}
+
+\subsection{Turbulence Diagnostics}
+For two-dimensional decaying turbulence, the residual convolutional model better preserves the qualitative high-wavenumber trend of the vorticity spectrum than bicubic interpolation. Vorticity-PDF agreement also improves relative to bicubic interpolation. These are useful statistical diagnostics, but they are not sufficient to claim conservation or full physical validity because no residual audit is supplied.
+
+\begin{figure}[t]
+\centering
+\fbox{\parbox{0.88\linewidth}{\centering Placeholder: vorticity spectrum and vorticity-PDF curves for reference, bicubic, U-Net, and residual CNN.}}
+\caption{Planned diagnostic figure. The claim supported is limited to spectral-trend and PDF agreement for the supplied 2D turbulence snapshots; exact spectral-error or PDF-distance values are TODO.}
+\end{figure}
+
+\subsection{Stress-Test Limitation}
+The $Re_D=300$ wake snapshots are used only as an out-of-regime stress test. Error increases and shear-layer extrema are visibly smoothed. This result should be reported as a limitation and failure boundary, not as evidence of broad Reynolds-number transfer.
+
+\begin{figure}[t]
+\centering
+\fbox{\parbox{0.88\linewidth}{\centering Placeholder: $Re_D=300$ reference/prediction/error panels emphasizing smoothed shear-layer extrema.}}
+\caption{Planned stress-test figure. This figure supports the limitation statement that the model degrades outside the supplied $Re_D=100$ regime.}
+\end{figure}
+
+\section{Claim--Evidence Table}
+\begin{center}
+\begin{tabular}{p{0.26\linewidth}p{0.38\linewidth}p{0.24\linewidth}}
+\toprule
+Claim & Evidence & Status \\
+\midrule
+Improves in-regime wake reconstruction & 22\% lower relative $L_2$ error than bicubic and 9\% lower than U-Net at $Re_D=100$, $r=4$ & Supported with scope limit \\
+Improves over bicubic at $r=8$ & Direction supplied; exact value missing & Partial; numeric TODO \\
+Preserves selected turbulence statistics & Qualitative high-wavenumber spectral trend and improved vorticity-PDF agreement & Partial; exact metrics TODO \\
+Broad Reynolds-number transfer & $Re_D=300$ increases error and smooths extrema & Not supported \\
+Conservation or residual correctness & No residual audit supplied & TODO; do not claim \\
+Runtime or deployment readiness & No hardware/runtime evidence supplied & TODO; do not claim \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{Reviewer-Risk Paragraph}
+A strict reviewer could attack this seed on at least six points: (i) BC/IC, grid, solver, time-step, CFL, and snapshot cadence are missing; (ii) train/validation/test counts and leakage controls are unspecified; (iii) the U-Net baseline lacks architecture and training-budget details; (iv) spectral and PDF diagnostics are qualitative because exact values are not supplied; (v) no conservation or Navier--Stokes residual check supports a stronger physics claim; and (vi) the $Re_D=300$ stress test shows degradation, so Reynolds-number transfer must remain a limitation.
+
+\section{Conclusion}
+The supplied evidence supports a cautious manuscript seed: a residual convolutional model can improve scalar-vorticity reconstruction for the stated two-dimensional in-regime cases compared with bicubic interpolation and a small U-Net baseline. The strongest quantitative result is the $r=4$, $Re_D=100$ wake comparison, with 22\% lower relative $L_2$ error than bicubic interpolation and 9\% lower error than U-Net. Claims about conservation, runtime, three-dimensional turbulence, experimental PIV, or deployment remain TODOs until direct evidence is added.
+
+\begin{thebibliography}{9}
+\bibitem{fukami2019superresolution} TODO: verified entry for flow-field super-resolution reference.
+\bibitem{brunton2020mlfluid} TODO: verified entry for ML-for-fluid-mechanics taxonomy reference.
+\bibitem{vinuesa2022enhancing} TODO: verified entry for ML-enhanced CFD perspective reference.
+\end{thebibliography}
+\end{document}

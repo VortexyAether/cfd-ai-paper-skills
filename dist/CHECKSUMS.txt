@@ -1,0 +1,3 @@
+e43ac7e8fd87ad904617bd1eacabf6de9c6832fa7d9013802459ffc94518bfc5  dist/cfd-ai-paper-skills-v0.5.tar.gz
+91b617f65cdfa4ecf5192606153ffaf543948dd8f060d73366846e02a22040b8  dist/MANIFEST.md
+c603577cebc2548dedc6622209740abd64d7feb7b7c80f655c2ca27ef8722337  dist/INSTALL.md
